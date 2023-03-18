@@ -1,0 +1,25 @@
+﻿
+@{
+    ViewBag.Title = "GetPersonForm";
+}
+
+<h2>GetPersonForm</h2>
+
+<form action="/Learning/createPerson" method="post">
+    <label for="rut">Rut</label>
+    <input type="text" name="rut" />
+
+    <label for="name">Name</label>
+    <input type="text" name="name" />
+
+    <label for="fecha_nacimiento">Fecha de Nacimiento</label>
+    <input type="datetime" name="fecha_nacimiento" />
+
+    <label for="email">Email</label>
+    <input type="text" name="email" />
+
+    <label for="direccion">Dirección</label>
+    <input type="text" name="direccion" />
+
+    <input type="submit" name="submit" />
+</form>
