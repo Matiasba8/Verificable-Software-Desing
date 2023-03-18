@@ -1,0 +1,61 @@
+﻿
+@{
+    ViewBag.Title = "index";
+}
+
+<h2>Información General</h2>
+<div class="d-flex">
+    <label>N° de Atención</label>
+    <div id="ticket-number" class="d-inline-flex">N° de Atención</div>
+</div>
+
+<h2>Información de la Escritura</h2>
+<div class="d-flex">
+    <label>CNE</label>
+    <select id="cne-select" name="cnelist" form="cneform">
+        <option value="buy-and-sell">Compraventa</option>
+        <option value="patrimonial-regularization">Regularización de Patrimonio</option>
+    </select>
+</div>
+
+
+
+<h2>Información de la Propiedad Enajenada</h2>
+<div class="d-flex">
+    <label>Comuna</label>
+    <select id="comune-select" name="comune-select" form="comune-select">
+        <option value="comune-1">Comuna 1</option>
+        <option value="comune-2">Comuna 2</option>
+    </select>
+
+    <label class="square-label">Manzana</label>
+    <div id="square-input"> Manzana Input</div>
+
+    <label class="predio-label">Predio</label>
+    <div id="predio-input"> Predio Input</div>
+
+</div>
+
+<h2>Información de los Enajenantes o Causantes</h2>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Rut</th>
+            <th scope="col">% Derechos</th>
+            <th scope="col">% Derechos no Acreditados</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <th scope="row"></th>
+            <td><input type="text"></td>
+            <td><input type="text"></td>
+            <td><input type="text"></td>
+        </tr>
+
+    </tbody>
+</table>
+
+
+

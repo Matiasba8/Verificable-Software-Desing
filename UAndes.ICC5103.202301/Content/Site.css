@@ -28,3 +28,21 @@ textarea {
     background-color: #777;
     border-color: #fff
 }
+
+/* Bootstrap*/
+
+.d-flex{
+    display: flex !important;
+}
+
+
+/* Enajenación y bienes raices INDEX */
+#ticket-number,
+#cne-select,
+#comune-select,
+#square-input,
+.square-label,
+.predio-label,
+#predio-input {
+    margin-left: 16px;
+}
