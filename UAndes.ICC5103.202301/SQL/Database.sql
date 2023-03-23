@@ -1,7 +1,7 @@
-﻿Create Database InscripcionesBrDb
+﻿Create Database InscripcionesBrDbGrupo06
 GO
 
-USE [InscripcionesBrDb]
+USE [InscripcionesBrDbGrupo06]
 GO
 
 CREATE TABLE [dbo].[Persona](
@@ -17,7 +17,7 @@ CREATE TABLE [dbo].[Persona](
 GO
 
 
-USE [InscripcionesBrDb]
+USE [InscripcionesBrDbGrupo06]
 GO
 SET IDENTITY_INSERT [dbo].[Persona] ON 
 GO

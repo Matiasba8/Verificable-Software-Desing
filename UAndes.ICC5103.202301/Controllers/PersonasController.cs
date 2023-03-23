@@ -13,7 +13,7 @@ namespace UAndes.ICC5103._202301.Controllers
 {
     public class PersonasController : Controller
     {
-        private InscripcionesBrDbEntities db = new InscripcionesBrDbEntities();
+        private InscripcionesBrDbGrupo06Entities db = new InscripcionesBrDbGrupo06Entities();
 
         // GET: Personas
         public async Task<ActionResult> Index()

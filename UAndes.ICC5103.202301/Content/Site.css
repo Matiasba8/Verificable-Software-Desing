@@ -35,8 +35,14 @@ textarea {
     display: flex !important;
 }
 
+.ms-3 {
+    margin-left: 16px;
+}
 
 /* Enajenación y bienes raices INDEX */
+
+
+
 #ticket-number,
 #cne-select,
 #comune-select,

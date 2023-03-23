@@ -1,4 +1,4 @@
-﻿// La generación de código T4 está habilitada para el modelo 'C:\Users\Matia\Downloads\UAndes.ICC5103.202301-master\UAndes.ICC5103.202301\Models\InscripcionesBrDbModel.edmx'. 
+﻿// La generación de código T4 está habilitada para el modelo 'C:\Users\Matia\Downloads\UAndes.ICC5103.202301-master\UAndes.ICC5103.202301\Models\InscripcionesBrDbEntities.edmx'. 
 // Para habilitar la generación de código heredada, cambie el valor de la propiedad del diseñador 'Estrategia de generación de código'
 // por 'ObjectContext heredado'. Esta propiedad está disponible en la ventana Propiedades cuando se abre
 // el modelo en el diseñador.

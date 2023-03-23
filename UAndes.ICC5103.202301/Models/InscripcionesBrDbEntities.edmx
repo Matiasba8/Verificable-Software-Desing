@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="InscripcionesBrDbModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="InscripcionesBrDbGrupo06Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="Persona">
           <Key>
             <PropertyRef Name="Id" />
@@ -16,14 +16,13 @@
           <Property Name="Email" Type="nchar" MaxLength="50" Nullable="false" />
           <Property Name="Dirección" Type="nchar" MaxLength="50" />
         </EntityType>
-        <EntityContainer Name="InscripcionesBrDbModelStoreContainer">
+        <EntityContainer Name="InscripcionesBrDbGrupo06ModelStoreContainer">
           <EntitySet Name="Persona" EntityType="Self.Persona" Schema="dbo" store:Type="Tables" />
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
-      <Schema Namespace="InscripcionesBrDbModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+      <Schema Namespace="InscripcionesBrDbGrupo06Model" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
         <EntityType Name="Persona">
           <Key>
             <PropertyRef Name="Id" />
@@ -35,7 +34,7 @@
           <Property Name="Email" Type="String" MaxLength="50" FixedLength="true" Unicode="true" Nullable="false" />
           <Property Name="Dirección" Type="String" MaxLength="50" FixedLength="true" Unicode="true" />
         </EntityType>
-        <EntityContainer Name="InscripcionesBrDbEntities" annotation:LazyLoadingEnabled="true">
+        <EntityContainer Name="InscripcionesBrDbGrupo06Entities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="Persona" EntityType="Self.Persona" />
         </EntityContainer>
       </Schema>
@@ -43,9 +42,9 @@
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
-        <EntityContainerMapping StorageEntityContainer="InscripcionesBrDbModelStoreContainer" CdmEntityContainer="InscripcionesBrDbEntities">
+        <EntityContainerMapping StorageEntityContainer="InscripcionesBrDbGrupo06ModelStoreContainer" CdmEntityContainer="InscripcionesBrDbGrupo06Entities">
           <EntitySetMapping Name="Persona">
-            <EntityTypeMapping TypeName="InscripcionesBrDbModel.Persona">
+            <EntityTypeMapping TypeName="InscripcionesBrDbGrupo06Model.Persona">
               <MappingFragment StoreEntitySet="Persona">
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="Rut" ColumnName="Rut" />
