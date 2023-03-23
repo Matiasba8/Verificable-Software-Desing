@@ -26,6 +26,35 @@ GO
 SET IDENTITY_INSERT [dbo].[Persona] OFF
 GO
 
+/* Multipropietario (por una extraña razón sale ue ya existe multipropietario y ya lo he intentado borrar varias veces sin exito, por esto es multipropietario1) */
+
+CREATE TABLE [dbo].[Multipropietario1](
+	[NumeroAtencion] [int] IDENTITY(1,1) NOT NULL,
+	[Comuna] [nvarchar](30) NOT NULL,
+	[Manzana] [nvarchar](50) NOT NULL,
+	[Predio] [nvarchar](30) NOT NULL,
+	[Fojas] [nvarchar](50) NOT NULL,
+	[ano_inscripcion] [date] NOT NULL,
+	[numero_de_inscripcion] [int] NOT NULL,
+ CONSTRAINT [Multipropietario] PRIMARY KEY CLUSTERED(
+	[NumeroAtencion] ASC
+))
+
+CREATE TABLE Enajenantes (
+    [Id] INT PRIMARY KEY,
+    NumeroAtencion INT NOT NULL,
+    Rut NVARCHAR(10) NOT NULL,
+    Derechos DECIMAL(10,2) NOT NULL,
+    DerechosNoAcreditados DECIMAL(10,2) NOT NULL,
+    FOREIGN KEY (NumeroAtencion) REFERENCES Multipropietario1(NumeroAtencion)
+);
 
 
-
+CREATE TABLE Adquirientes (
+    [Id] INT PRIMARY KEY,
+    NumeroAtencion INT NOT NULL,
+    Rut NVARCHAR(10) NOT NULL,
+    Derechos DECIMAL(10,2) NOT NULL,
+    DerechosNoAcreditados DECIMAL(10,2) NOT NULL,
+    FOREIGN KEY (NumeroAtencion) REFERENCES Multipropietario1(NumeroAtencion)
+);

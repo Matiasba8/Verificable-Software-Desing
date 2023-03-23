@@ -1,0 +1,255 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="InscripcionesBrDbGrupo06Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Adquirientes">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="NumeroAtencion" Type="int" Nullable="false" />
+          <Property Name="Rut" Type="nvarchar" MaxLength="10" Nullable="false" />
+          <Property Name="Derechos" Type="decimal" Precision="10" Scale="2" Nullable="false" />
+          <Property Name="DerechosNoAcreditados" Type="decimal" Precision="10" Scale="2" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Enajenantes">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="NumeroAtencion" Type="int" Nullable="false" />
+          <Property Name="Rut" Type="nvarchar" MaxLength="10" Nullable="false" />
+          <Property Name="Derechos" Type="decimal" Precision="10" Scale="2" Nullable="false" />
+          <Property Name="DerechosNoAcreditados" Type="decimal" Precision="10" Scale="2" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Multipropietario1">
+          <Key>
+            <PropertyRef Name="NumeroAtencion" />
+          </Key>
+          <Property Name="NumeroAtencion" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Comuna" Type="nvarchar" MaxLength="30" Nullable="false" />
+          <Property Name="Manzana" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Predio" Type="nvarchar" MaxLength="30" Nullable="false" />
+          <Property Name="Fojas" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="ano_inscripcion" Type="date" Nullable="false" />
+          <Property Name="numero_de_inscripcion" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Persona">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Rut" Type="nvarchar" MaxLength="10" />
+          <Property Name="Nombre" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="FechaNacimiento" Type="date" Nullable="false" />
+          <Property Name="Email" Type="nchar" MaxLength="50" Nullable="false" />
+          <Property Name="Dirección" Type="nchar" MaxLength="50" />
+        </EntityType>
+        <Association Name="FK__Adquirien__Numer__2B3F6F97">
+          <End Role="Multipropietario1" Type="Self.Multipropietario1" Multiplicity="1" />
+          <End Role="Adquirientes" Type="Self.Adquirientes" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Multipropietario1">
+              <PropertyRef Name="NumeroAtencion" />
+            </Principal>
+            <Dependent Role="Adquirientes">
+              <PropertyRef Name="NumeroAtencion" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Enajenant__Numer__286302EC">
+          <End Role="Multipropietario1" Type="Self.Multipropietario1" Multiplicity="1" />
+          <End Role="Enajenantes" Type="Self.Enajenantes" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Multipropietario1">
+              <PropertyRef Name="NumeroAtencion" />
+            </Principal>
+            <Dependent Role="Enajenantes">
+              <PropertyRef Name="NumeroAtencion" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="InscripcionesBrDbGrupo06ModelStoreContainer">
+          <EntitySet Name="Adquirientes" EntityType="Self.Adquirientes" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Enajenantes" EntityType="Self.Enajenantes" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Multipropietario1" EntityType="Self.Multipropietario1" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Persona" EntityType="Self.Persona" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__Adquirien__Numer__2B3F6F97" Association="Self.FK__Adquirien__Numer__2B3F6F97">
+            <End Role="Multipropietario1" EntitySet="Multipropietario1" />
+            <End Role="Adquirientes" EntitySet="Adquirientes" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Enajenant__Numer__286302EC" Association="Self.FK__Enajenant__Numer__286302EC">
+            <End Role="Multipropietario1" EntitySet="Multipropietario1" />
+            <End Role="Enajenantes" EntitySet="Enajenantes" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="InscripcionesBrDbGrupo06Model" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Adquirientes">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="NumeroAtencion" Type="Int32" Nullable="false" />
+          <Property Name="Rut" Type="String" MaxLength="10" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Derechos" Type="Decimal" Precision="10" Scale="2" Nullable="false" />
+          <Property Name="DerechosNoAcreditados" Type="Decimal" Precision="10" Scale="2" Nullable="false" />
+          <NavigationProperty Name="Multipropietario1" Relationship="Self.FK__Adquirien__Numer__2B3F6F97" FromRole="Adquirientes" ToRole="Multipropietario1" />
+        </EntityType>
+        <EntityType Name="Enajenantes">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="NumeroAtencion" Type="Int32" Nullable="false" />
+          <Property Name="Rut" Type="String" MaxLength="10" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Derechos" Type="Decimal" Precision="10" Scale="2" Nullable="false" />
+          <Property Name="DerechosNoAcreditados" Type="Decimal" Precision="10" Scale="2" Nullable="false" />
+          <NavigationProperty Name="Multipropietario1" Relationship="Self.FK__Enajenant__Numer__286302EC" FromRole="Enajenantes" ToRole="Multipropietario1" />
+        </EntityType>
+        <EntityType Name="Multipropietario1">
+          <Key>
+            <PropertyRef Name="NumeroAtencion" />
+          </Key>
+          <Property Name="NumeroAtencion" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Comuna" Type="String" MaxLength="30" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Manzana" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Predio" Type="String" MaxLength="30" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Fojas" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="ano_inscripcion" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="numero_de_inscripcion" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Adquirientes" Relationship="Self.FK__Adquirien__Numer__2B3F6F97" FromRole="Multipropietario1" ToRole="Adquirientes" />
+          <NavigationProperty Name="Enajenantes" Relationship="Self.FK__Enajenant__Numer__286302EC" FromRole="Multipropietario1" ToRole="Enajenantes" />
+        </EntityType>
+        <EntityType Name="Persona">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Rut" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="Nombre" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="FechaNacimiento" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="Email" Type="String" MaxLength="50" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="Dirección" Type="String" MaxLength="50" FixedLength="true" Unicode="true" />
+        </EntityType>
+        <Association Name="FK__Adquirien__Numer__2B3F6F97">
+          <End Role="Multipropietario1" Type="Self.Multipropietario1" Multiplicity="1" />
+          <End Role="Adquirientes" Type="Self.Adquirientes" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Multipropietario1">
+              <PropertyRef Name="NumeroAtencion" />
+            </Principal>
+            <Dependent Role="Adquirientes">
+              <PropertyRef Name="NumeroAtencion" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Enajenant__Numer__286302EC">
+          <End Role="Multipropietario1" Type="Self.Multipropietario1" Multiplicity="1" />
+          <End Role="Enajenantes" Type="Self.Enajenantes" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Multipropietario1">
+              <PropertyRef Name="NumeroAtencion" />
+            </Principal>
+            <Dependent Role="Enajenantes">
+              <PropertyRef Name="NumeroAtencion" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="InscripcionesBrDbGrupo06Entities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Adquirientes" EntityType="Self.Adquirientes" />
+          <EntitySet Name="Enajenantes" EntityType="Self.Enajenantes" />
+          <EntitySet Name="Multipropietario1" EntityType="Self.Multipropietario1" />
+          <EntitySet Name="Persona" EntityType="Self.Persona" />
+          <AssociationSet Name="FK__Adquirien__Numer__2B3F6F97" Association="Self.FK__Adquirien__Numer__2B3F6F97">
+            <End Role="Multipropietario1" EntitySet="Multipropietario1" />
+            <End Role="Adquirientes" EntitySet="Adquirientes" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Enajenant__Numer__286302EC" Association="Self.FK__Enajenant__Numer__286302EC">
+            <End Role="Multipropietario1" EntitySet="Multipropietario1" />
+            <End Role="Enajenantes" EntitySet="Enajenantes" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="InscripcionesBrDbGrupo06ModelStoreContainer" CdmEntityContainer="InscripcionesBrDbGrupo06Entities">
+          <EntitySetMapping Name="Adquirientes">
+            <EntityTypeMapping TypeName="InscripcionesBrDbGrupo06Model.Adquirientes">
+              <MappingFragment StoreEntitySet="Adquirientes">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="NumeroAtencion" ColumnName="NumeroAtencion" />
+                <ScalarProperty Name="Rut" ColumnName="Rut" />
+                <ScalarProperty Name="Derechos" ColumnName="Derechos" />
+                <ScalarProperty Name="DerechosNoAcreditados" ColumnName="DerechosNoAcreditados" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Enajenantes">
+            <EntityTypeMapping TypeName="InscripcionesBrDbGrupo06Model.Enajenantes">
+              <MappingFragment StoreEntitySet="Enajenantes">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="NumeroAtencion" ColumnName="NumeroAtencion" />
+                <ScalarProperty Name="Rut" ColumnName="Rut" />
+                <ScalarProperty Name="Derechos" ColumnName="Derechos" />
+                <ScalarProperty Name="DerechosNoAcreditados" ColumnName="DerechosNoAcreditados" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Multipropietario1">
+            <EntityTypeMapping TypeName="InscripcionesBrDbGrupo06Model.Multipropietario1">
+              <MappingFragment StoreEntitySet="Multipropietario1">
+                <ScalarProperty Name="NumeroAtencion" ColumnName="NumeroAtencion" />
+                <ScalarProperty Name="Comuna" ColumnName="Comuna" />
+                <ScalarProperty Name="Manzana" ColumnName="Manzana" />
+                <ScalarProperty Name="Predio" ColumnName="Predio" />
+                <ScalarProperty Name="Fojas" ColumnName="Fojas" />
+                <ScalarProperty Name="ano_inscripcion" ColumnName="ano_inscripcion" />
+                <ScalarProperty Name="numero_de_inscripcion" ColumnName="numero_de_inscripcion" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Persona">
+            <EntityTypeMapping TypeName="InscripcionesBrDbGrupo06Model.Persona">
+              <MappingFragment StoreEntitySet="Persona">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Rut" ColumnName="Rut" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="FechaNacimiento" ColumnName="FechaNacimiento" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Dirección" ColumnName="Dirección" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Ninguno" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
