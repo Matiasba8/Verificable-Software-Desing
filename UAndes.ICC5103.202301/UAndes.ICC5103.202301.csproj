@@ -390,16 +390,22 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Controllers\AdquirentesController.cs" />
+    <Compile Include="Controllers\EnajenantesController.cs" />
+    <Compile Include="Controllers\FormulariosController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
-    <Compile Include="Controllers\MultipropietarioController.cs" />
+    <Compile Include="Controllers\MultipropietariosController.cs" />
     <Compile Include="Controllers\PersonasController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Models\Adquirientes.cs">
+    <Compile Include="Models\AdquirenteSet.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\Enajenantes.cs">
+    <Compile Include="Models\EnajenanteSet.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\FormularioSet.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Model1.Context.cs">
@@ -417,7 +423,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Model1.edmx</DependentUpon>
     </Compile>
-    <Compile Include="Models\Multipropietario1.cs">
+    <Compile Include="Models\MultipropietarioSet.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Persona.cs">
@@ -485,11 +491,19 @@
     <Content Include="Views\Personas\Details.cshtml" />
     <Content Include="Views\Personas\Edit.cshtml" />
     <Content Include="Views\Personas\Index.cshtml" />
-    <Content Include="Views\Multipropietario\Create.cshtml" />
-    <Content Include="Views\Multipropietario\Delete.cshtml" />
-    <Content Include="Views\Multipropietario\Details.cshtml" />
-    <Content Include="Views\Multipropietario\Edit.cshtml" />
-    <Content Include="Views\Multipropietario\Index.cshtml" />
+    <Content Include="Views\Multipropietarios\Create.cshtml" />
+    <Content Include="Views\Multipropietarios\Delete.cshtml" />
+    <Content Include="Views\Multipropietarios\Details.cshtml" />
+    <Content Include="Views\Multipropietarios\Edit.cshtml" />
+    <Content Include="Views\Multipropietarios\Index.cshtml" />
+    <Content Include="Views\Formularios\Create.cshtml" />
+    <Content Include="Views\Formularios\Delete.cshtml" />
+    <Content Include="Views\Formularios\Details.cshtml" />
+    <Content Include="Views\Formularios\Edit.cshtml" />
+    <Content Include="Views\Formularios\Index.cshtml" />
+    <Content Include="Views\Formularios\New.cshtml" />
+    <Content Include="Views\Adquirentes\Index.cshtml" />
+    <Content Include="Views\Enajenantes\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -58,3 +58,12 @@ CREATE TABLE Adquirientes (
     DerechosNoAcreditados DECIMAL(10,2) NOT NULL,
     FOREIGN KEY (NumeroAtencion) REFERENCES Multipropietario1(NumeroAtencion)
 );
+
+CREATE TABLE InscripcionesEnajenaciones (
+    [Id] INT PRIMARY KEY,
+    NumeroAtencion INT NOT NULL,
+    Rut NVARCHAR(10) NOT NULL,
+    Derechos DECIMAL(10,2) NOT NULL,
+    DerechosNoAcreditados DECIMAL(10,2) NOT NULL,
+    FOREIGN KEY (NumeroAtencion) REFERENCES Multipropietario1(NumeroAtencion)
+);

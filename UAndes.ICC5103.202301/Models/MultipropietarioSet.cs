@@ -12,12 +12,16 @@ namespace UAndes.ICC5103._202301.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class Persona
+    public partial class MultipropietarioSet
     {
-        public int RUT { get; set; }
-        public string Nombre { get; set; }
-        public System.DateTime FechaNacimiento { get; set; }
-        public string Email { get; set; }
-        public string Dirección { get; set; }
+        public int Id { get; set; }
+        public string RUT { get; set; }
+        public decimal PorcentajeDerechos { get; set; }
+        public string Fojas { get; set; }
+        public long NumeroInscripcion { get; set; }
+        public System.DateTime FechaInscripcion { get; set; }
+        public string AñoVigenciaInicial { get; set; }
+        public string AñoVigenciaFinal { get; set; }
+        public string ComunaManzanaPredio { get; set; }
     }
 }

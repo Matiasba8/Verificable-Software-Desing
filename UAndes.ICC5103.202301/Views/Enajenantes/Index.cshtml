@@ -1,0 +1,45 @@
+﻿@model IEnumerable<UAndes.ICC5103._202301.Models.EnajenanteSet>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.PorcentajeDerechos)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DerechosNoAcreditados)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FormularioSet.CNE)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.PorcentajeDerechos)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.DerechosNoAcreditados)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.FormularioSet.CNE)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.RUT }) |
+            @Html.ActionLink("Details", "Details", new { id=item.RUT }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.RUT })
+        </td>
+    </tr>
+}
+
+</table>

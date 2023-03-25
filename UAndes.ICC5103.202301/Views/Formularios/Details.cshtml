@@ -1,4 +1,4 @@
-﻿@model UAndes.ICC5103._202301.Models.Multipropietario1
+﻿@model UAndes.ICC5103._202301.Models.FormularioSet
 
 @{
     ViewBag.Title = "Details";
@@ -7,9 +7,17 @@
 <h2>Details</h2>
 
 <div>
-    <h4>Multipropietario1</h4>
+    <h4>FormularioSet</h4>
     <hr />
     <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.CNE)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CNE)
+        </dd>
+
         <dt>
             @Html.DisplayNameFor(model => model.Comuna)
         </dt>
@@ -43,19 +51,19 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.ano_inscripcion)
+            @Html.DisplayNameFor(model => model.FechaInscripcion)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.ano_inscripcion)
+            @Html.DisplayFor(model => model.FechaInscripcion)
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.numero_de_inscripcion)
+            @Html.DisplayNameFor(model => model.NumeroInscripcion)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.numero_de_inscripcion)
+            @Html.DisplayFor(model => model.NumeroInscripcion)
         </dd>
 
     </dl>

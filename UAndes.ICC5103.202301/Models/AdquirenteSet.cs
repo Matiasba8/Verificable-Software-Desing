@@ -12,12 +12,13 @@ namespace UAndes.ICC5103._202301.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class Persona
+    public partial class AdquirenteSet
     {
-        public int RUT { get; set; }
-        public string Nombre { get; set; }
-        public System.DateTime FechaNacimiento { get; set; }
-        public string Email { get; set; }
-        public string Dirección { get; set; }
+        public string RUT { get; set; }
+        public decimal PorcentajeDerechos { get; set; }
+        public string DerechosNoAcreditados { get; set; }
+        public int FormularioSetNumeroAtencion { get; set; }
+    
+        public virtual FormularioSet FormularioSet { get; set; }
     }
 }
