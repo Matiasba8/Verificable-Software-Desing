@@ -6,6 +6,7 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.Script.Serialization;
 using UAndes.ICC5103._202301.Models;
 
 namespace UAndes.ICC5103._202301.Controllers
@@ -48,17 +49,30 @@ namespace UAndes.ICC5103._202301.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(int numeroAtencion, string rut, )
+        public ActionResult Create(int numeroAtencion, string rut, decimal porcentajeDerechos, string derechosNoAcreditados)
         {
+
+            AdquirenteSet newAdquirienteSet = new AdquirenteSet();
+            newAdquirienteSet.FormularioSetNumeroAtencion = numeroAtencion;
+            newAdquirienteSet.RUT = rut;
+            newAdquirienteSet.PorcentajeDerechos = porcentajeDerechos;
+            newAdquirienteSet.DerechosNoAcreditados = derechosNoAcreditados;
+
+
             if (ModelState.IsValid)
             {
-                db.AdquirenteSet.Add(adquirenteSet);
+                db.AdquirenteSet.Add(newAdquirienteSet);
                 db.SaveChanges();
-                return RedirectToAction("Index");
             }
 
-            ViewBag.FormularioSetNumeroAtencion = new SelectList(db.FormularioSet, "NumeroAtencion", "CNE", adquirenteSet.FormularioSetNumeroAtencion);
-            return View(adquirenteSet);
+
+            // Serializamos el objeto a formato JSON
+            var serializer = new JavaScriptSerializer();
+            var objetoJson = serializer.Serialize(newAdquirienteSet);
+
+            // Renderizamos el archivo JavaScript y le pasamos el objeto
+            var script = $"miFuncion({objetoJson});";
+            return JavaScript(script);
         }
 
         // GET: Adquirentes/Edit/5
