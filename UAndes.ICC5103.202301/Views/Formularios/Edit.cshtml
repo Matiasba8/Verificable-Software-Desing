@@ -9,7 +9,7 @@
 @using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
-    
+
     <div class="form-horizontal">
         <h4>FormularioSet</h4>
         <hr />
@@ -92,16 +92,39 @@
     </thead>
     <tbody>
 
-        @if (!(ViewBag.adquirientes == null))
+       
+        @foreach (var adquiriente in ViewBag.adquirientes)
         {
-            foreach (var adquiriente in ViewBag.adquirientes)
-            {
-                <tr>
-                    <td>@adquiriente.RUT</td>
-                    <td>@adquiriente.PorcentajeDerechos</td>
-                    <td>@adquiriente.DerechosNoAcreditados</td>
-                </tr>
-            }
+            <tr>
+                <td>@adquiriente.RUT</td>
+                <td>@adquiriente.PorcentajeDerechos</td>
+                <td>@adquiriente.DerechosNoAcreditados</td>
+            </tr>
+        }
+
+    </tbody>
+</table>
+
+
+<h2>Enajenantes</h2>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th scope="col">Rut</th>
+            <th scope="col">Porcentaje Derechos</th>
+            <th scope="col">Porcentaje de derechos no acreditados</th>
+        </tr>
+    </thead>
+    <tbody>
+
+        @foreach (var enajenante in ViewBag.enajenates)
+        {
+            <tr>
+                <td>@enajenante.RUT</td>
+                <td>@enajenante.PorcentajeDerechos</td>
+                <td>@enajenante.DerechosNoAcreditados</td>
+            </tr>
         }
 
     </tbody>

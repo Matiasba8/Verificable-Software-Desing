@@ -67,6 +67,7 @@ namespace UAndes.ICC5103._202301.Controllers
             }
             FormularioSet formularioSet = db.FormularioSet.Find(id);
             var adquirentes = db.AdquirenteSet.Where(adquiSet => adquiSet.FormularioSetNumeroAtencion == id);
+            var enajenantes = db.EnajenanteSet.Where(enajenanteSet => enajenanteSet.FormularioNumeroAtencion == id);
 
             if (formularioSet == null)
             {
@@ -74,6 +75,7 @@ namespace UAndes.ICC5103._202301.Controllers
             }
 
             ViewBag.adquirientes = adquirentes;
+            ViewBag.adquirientes = enajenantes;
             return View(formularioSet);
         }
 
@@ -88,7 +90,9 @@ namespace UAndes.ICC5103._202301.Controllers
             {
                 db.Entry(formularioSet).State = EntityState.Modified;
                 var adquirentes = db.AdquirenteSet.Where(adquiSet => adquiSet.FormularioSetNumeroAtencion == formularioSet.NumeroAtencion);
+                var enajenantes = db.EnajenanteSet.Where(enajenanteSet => enajenanteSet.FormularioNumeroAtencion == formularioSet.NumeroAtencion);
                 ViewBag.adquirientes = adquirentes;
+                ViewBag.enajenantes = enajenantes;
                 db.SaveChanges();
                 //return RedirectToAction("Index");
             }
