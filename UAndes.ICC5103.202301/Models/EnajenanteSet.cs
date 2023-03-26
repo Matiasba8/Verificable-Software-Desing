@@ -15,9 +15,9 @@ namespace UAndes.ICC5103._202301.Models
     public partial class EnajenanteSet
     {
         public string RUT { get; set; }
-        public decimal PorcentajeDerechos { get; set; }
+        public Nullable<decimal> PorcentajeDerechos { get; set; }
         public string DerechosNoAcreditados { get; set; }
-        public int FormularioNumeroAtencion { get; set; }
+        public int FormularioSetNumeroAtencion { get; set; }
     
         public virtual FormularioSet FormularioSet { get; set; }
     }

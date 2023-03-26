@@ -74,20 +74,37 @@
     </div>
 
     <div class="form-group">
-        @Html.LabelFor(model => model.NumeroInscripcion, htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.EditorFor(model => model.NumeroInscripcion, new { htmlAttributes = new { @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.NumeroInscripcion, "", new { @class = "text-danger" })
-        </div>
-    </div>
-
-    <div class="form-group">
         <div class="col-md-offset-2 col-md-10">
             <input type="submit" value="Create" class="btn btn-default" />
         </div>
     </div>
 </div>
 }
+
+<h2>
+    Adquirentes
+</h2>
+<table class="table">
+    <thead>
+        <tr>
+            <th scope="col">RUT</th>
+            <th scope="col">Porcentaje de Derechos</th>
+            <th scope="col">Derechos No Acreditados</th>
+        </tr>
+    </thead>
+    <tbody>
+        @if(ViewBag.adquirentes != null){
+            foreach (var adquirente in ViewBag.adquirentes)
+            {
+            <tr>
+                <td>@adquirente.RUT</td>
+                <td>@adquirente.PorcentajeDerechos</td>
+                <td>@adquirente.DerechosNoAcreditados</td>
+            </tr>
+            }
+        }
+    </tbody>
+</table>
 
 @using (Html.BeginForm("Create", "Adquirentes", FormMethod.Post))
 {
@@ -107,6 +124,33 @@
 <button type="submit">Create</button>
 }
 
+
+<h2>
+    Enajenantes
+</h2>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th scope="col">RUT</th>
+            <th scope="col">Porcentaje de Derechos</th>
+            <th scope="col">Derechos No Acreditados</th>
+        </tr>
+    </thead>
+    <tbody>
+        @if(ViewBag.enajenantes != null){
+            foreach (var enajenante in ViewBag.enajenantes)
+            {
+                <tr>
+                    <td>@enajenante.RUT</td>
+                    <td>@enajenante.PorcentajeDerechos</td>
+                    <td>@enajenante.DerechosNoAcreditados</td>
+                </tr>
+            }
+        }
+    </tbody>
+</table>
+
 @using (Html.BeginForm("Create", "Enajenantes", FormMethod.Post))
 {
 @Html.AntiForgeryToken()
@@ -124,7 +168,6 @@
 
 <button type="submit">Create</button>
 }
-
 
 <div>
     @Html.ActionLink("Back to List", "Index")

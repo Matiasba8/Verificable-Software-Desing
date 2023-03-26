@@ -48,17 +48,20 @@ namespace UAndes.ICC5103._202301.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "RUT,PorcentajeDerechos,DerechosNoAcreditados,FormularioNumeroAtencion")] EnajenanteSet enajenanteSet)
+        public ActionResult Create(int NumeroAtencion, string rut, decimal porcentajeDerechos, string derechosNoAcreditados)
         {
+            EnajenanteSet enajenanteSet = new EnajenanteSet();
+            enajenanteSet.FormularioSetNumeroAtencion = NumeroAtencion;
+            enajenanteSet.RUT = rut;
+            enajenanteSet.PorcentajeDerechos = porcentajeDerechos;
+            enajenanteSet.DerechosNoAcreditados = derechosNoAcreditados;
+
             if (ModelState.IsValid)
             {
                 db.EnajenanteSet.Add(enajenanteSet);
                 db.SaveChanges();
-                return RedirectToAction("Index");
             }
-
-            ViewBag.FormularioNumeroAtencion = new SelectList(db.FormularioSet, "NumeroAtencion", "CNE", enajenanteSet.FormularioNumeroAtencion);
-            return View(enajenanteSet);
+            return RedirectToAction("Edit", "Formularios", new { id = enajenanteSet.FormularioSetNumeroAtencion });
         }
 
         // GET: Enajenantes/Edit/5
@@ -73,7 +76,7 @@ namespace UAndes.ICC5103._202301.Controllers
             {
                 return HttpNotFound();
             }
-            ViewBag.FormularioNumeroAtencion = new SelectList(db.FormularioSet, "NumeroAtencion", "CNE", enajenanteSet.FormularioNumeroAtencion);
+            ViewBag.FormularioNumeroAtencion = new SelectList(db.FormularioSet, "NumeroAtencion", "CNE", enajenanteSet.FormularioSetNumeroAtencion);
             return View(enajenanteSet);
         }
 
@@ -90,7 +93,7 @@ namespace UAndes.ICC5103._202301.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            ViewBag.FormularioNumeroAtencion = new SelectList(db.FormularioSet, "NumeroAtencion", "CNE", enajenanteSet.FormularioNumeroAtencion);
+            ViewBag.FormularioNumeroAtencion = new SelectList(db.FormularioSet, "NumeroAtencion", "CNE", enajenanteSet.FormularioSetNumeroAtencion);
             return View(enajenanteSet);
         }
 

@@ -8,127 +8,166 @@
 
 @using (Html.BeginForm())
 {
-    @Html.AntiForgeryToken()
+@Html.AntiForgeryToken()
 
-    <div class="form-horizontal">
-        <h4>FormularioSet</h4>
-        <hr />
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        @Html.HiddenFor(model => model.NumeroAtencion)
+<div class="form-horizontal">
+    <h4>FormularioSet</h4>
+    <hr />
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    @Html.HiddenFor(model => model.NumeroAtencion)
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.CNE, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.CNE, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.CNE, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.Comuna, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Comuna, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Comuna, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.Manzana, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Manzana, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Manzana, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.Predio, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Predio, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Predio, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.Fojas, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Fojas, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Fojas, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.FechaInscripcion, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.FechaInscripcion, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.FechaInscripcion, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.NumeroInscripcion, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.NumeroInscripcion, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.NumeroInscripcion, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Save" class="btn btn-default" />
-            </div>
+    <div class="form-group">
+        @Html.LabelFor(model => model.CNE, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.CNE, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.CNE, "", new { @class = "text-danger" })
         </div>
     </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.Comuna, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.Comuna, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.Comuna, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.Manzana, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.Manzana, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.Manzana, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.Predio, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.Predio, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.Predio, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.Fojas, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.Fojas, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.Fojas, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.FechaInscripcion, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.FechaInscripcion, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.FechaInscripcion, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.NumeroInscripcion, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.NumeroInscripcion, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.NumeroInscripcion, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" value="Save" class="btn btn-default" />
+        </div>
+    </div>
+</div>
 }
 
-<h2>Adquirientes</h2>
+
+<h2>
+    Adquirentes
+</h2>
+<table class="table">
+    <thead>
+        <tr>
+            <th scope="col">RUT</th>
+            <th scope="col">Porcentaje de Derechos</th>
+            <th scope="col">Derechos No Acreditados</th>
+        </tr>
+    </thead>
+    <tbody>
+        @if(ViewBag.adquirentes != null){
+            foreach (var adquirente in ViewBag.adquirentes)
+            {
+        <tr>
+            <td>@adquirente.RUT</td>
+            <td>@adquirente.PorcentajeDerechos</td>
+            <td>@adquirente.DerechosNoAcreditados</td>
+        </tr>
+            }
+        }
+    </tbody>
+</table>
+
+@using (Html.BeginForm("Create", "Adquirentes", FormMethod.Post))
+{
+@Html.AntiForgeryToken()
+
+<label for="rut">RUT:</label>
+<input type="text" id="rut" name="rut" />
+
+<label for="porcentajeDerechos">Porcentaje de Derechos:</label>
+<input type="text" id="porcentajeDerechos" name="porcentajeDerechos" />
+
+<label for="derechosNoAcreditados">Derechos No Acreditados:</label>
+<input type="text" id="derechosNoAcreditados" name="derechosNoAcreditados" />
+
+@Html.HiddenFor(model => model.NumeroAtencion)
+
+<button type="submit">Create</button>
+}
+
+
+<h2>
+    Enajenantes
+</h2>
 
 <table class="table">
     <thead>
         <tr>
-            <th scope="col">Rut</th>
-            <th scope="col">Porcentaje Derechos</th>
-            <th scope="col">Porcentaje de derechos no acreditados</th>
+            <th scope="col">RUT</th>
+            <th scope="col">Porcentaje de Derechos</th>
+            <th scope="col">Derechos No Acreditados</th>
         </tr>
     </thead>
     <tbody>
-
-       
-        @foreach (var adquiriente in ViewBag.adquirientes)
-        {
-            <tr>
-                <td>@adquiriente.RUT</td>
-                <td>@adquiriente.PorcentajeDerechos</td>
-                <td>@adquiriente.DerechosNoAcreditados</td>
-            </tr>
-        }
-
-    </tbody>
-</table>
-
-
-<h2>Enajenantes</h2>
-
-<table class="table">
-    <thead>
+        @if(ViewBag.enajenantes != null){
+            foreach (var enajenante in ViewBag.enajenantes)
+            {
         <tr>
-            <th scope="col">Rut</th>
-            <th scope="col">Porcentaje Derechos</th>
-            <th scope="col">Porcentaje de derechos no acreditados</th>
+            <td>@enajenante.RUT</td>
+            <td>@enajenante.PorcentajeDerechos</td>
+            <td>@enajenante.DerechosNoAcreditados</td>
         </tr>
-    </thead>
-    <tbody>
-
-        @foreach (var enajenante in ViewBag.enajenates)
-        {
-            <tr>
-                <td>@enajenante.RUT</td>
-                <td>@enajenante.PorcentajeDerechos</td>
-                <td>@enajenante.DerechosNoAcreditados</td>
-            </tr>
+            }
         }
-
     </tbody>
 </table>
+
+@using (Html.BeginForm("Create", "Enajenantes", FormMethod.Post))
+{
+@Html.AntiForgeryToken()
+
+<label for="rut">RUT:</label>
+<input type="text" id="rut" name="rut" />
+
+<label for="porcentajeDerechos">Porcentaje de Derechos:</label>
+<input type="text" id="porcentajeDerechos" name="porcentajeDerechos" />
+
+<label for="derechosNoAcreditados">Derechos No Acreditados:</label>
+<input type="text" id="derechosNoAcreditados" name="derechosNoAcreditados" />
+
+@Html.HiddenFor(model => model.NumeroAtencion)
+
+<button type="submit">Create</button>
+}
 
 <div>
     @Html.ActionLink("Back to List", "Index")

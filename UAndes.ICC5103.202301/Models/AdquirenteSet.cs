@@ -15,7 +15,7 @@ namespace UAndes.ICC5103._202301.Models
     public partial class AdquirenteSet
     {
         public string RUT { get; set; }
-        public decimal PorcentajeDerechos { get; set; }
+        public Nullable<decimal> PorcentajeDerechos { get; set; }
         public string DerechosNoAcreditados { get; set; }
         public int FormularioSetNumeroAtencion { get; set; }
     

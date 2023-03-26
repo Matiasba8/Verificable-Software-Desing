@@ -16,10 +16,10 @@ namespace UAndes.ICC5103._202301.Models
     {
         public int Id { get; set; }
         public string RUT { get; set; }
-        public decimal PorcentajeDerechos { get; set; }
+        public Nullable<decimal> PorcentajeDerechos { get; set; }
         public string Fojas { get; set; }
-        public long NumeroInscripcion { get; set; }
-        public System.DateTime FechaInscripcion { get; set; }
+        public Nullable<long> NumeroInscripcion { get; set; }
+        public Nullable<System.DateTime> FechaInscripcion { get; set; }
         public string AñoVigenciaInicial { get; set; }
         public string AñoVigenciaFinal { get; set; }
         public string ComunaManzanaPredio { get; set; }

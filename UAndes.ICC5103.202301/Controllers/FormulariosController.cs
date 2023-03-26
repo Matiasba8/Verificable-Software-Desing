@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
+using System.Diagnostics;
 using System.Linq;
 using System.Net;
 using System.Web;
@@ -38,24 +39,35 @@ namespace UAndes.ICC5103._202301.Controllers
         // POST: Formularios/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
-        public ActionResult New()
+        public ActionResult New(int? Id)
         {
-            FormularioSet formularioSet = new FormularioSet();
-            formularioSet.CNE = "";
-            formularioSet.Comuna = "";
-            formularioSet.Manzana = "";
-            formularioSet.Predio = "";
-            formularioSet.Fojas = "";
-            formularioSet.FechaInscripcion = new DateTime(2023, 1, 1);
-            formularioSet.NumeroInscripcion = 0;
-
-            if (ModelState.IsValid)
+            if (Id != null)
             {
-                db.FormularioSet.Add(formularioSet);
-                db.SaveChanges();
-            }
+                FormularioSet formularioSet = db.FormularioSet.Find(Id);
 
-            return View(formularioSet);
+                ViewBag.adquirentes = db.AdquirenteSet.Where(adquirente => adquirente.FormularioSetNumeroAtencion == Id);
+                ViewBag.enajenantes = db.EnajenanteSet.Where(enajenante => enajenante.FormularioSetNumeroAtencion == Id);
+                return View(formularioSet);
+            }
+            else
+            {
+                FormularioSet formularioSet = new FormularioSet();
+                formularioSet.CNE = "";
+                formularioSet.Comuna = "";
+                formularioSet.Manzana = "";
+                formularioSet.Predio = "";
+                formularioSet.Fojas = "";
+                formularioSet.FechaInscripcion = new DateTime(2023, 1, 1);
+                formularioSet.NumeroInscripcion = 0;
+
+                if (ModelState.IsValid)
+                {
+                    db.FormularioSet.Add(formularioSet);
+                    db.SaveChanges();
+                }
+
+                return View(formularioSet);
+            }
         }
 
         // GET: Formularios/Edit/5
@@ -67,15 +79,15 @@ namespace UAndes.ICC5103._202301.Controllers
             }
             FormularioSet formularioSet = db.FormularioSet.Find(id);
             var adquirentes = db.AdquirenteSet.Where(adquiSet => adquiSet.FormularioSetNumeroAtencion == id);
-            var enajenantes = db.EnajenanteSet.Where(enajenanteSet => enajenanteSet.FormularioNumeroAtencion == id);
+            var enajenantes = db.EnajenanteSet.Where(enajenanteSet => enajenanteSet.FormularioSetNumeroAtencion == id);
 
             if (formularioSet == null)
             {
                 return HttpNotFound();
             }
 
-            ViewBag.adquirientes = adquirentes;
-            ViewBag.adquirientes = enajenantes;
+            ViewBag.adquirentes = adquirentes;
+            ViewBag.enajenantes = enajenantes;
             return View(formularioSet);
         }
 
@@ -90,8 +102,8 @@ namespace UAndes.ICC5103._202301.Controllers
             {
                 db.Entry(formularioSet).State = EntityState.Modified;
                 var adquirentes = db.AdquirenteSet.Where(adquiSet => adquiSet.FormularioSetNumeroAtencion == formularioSet.NumeroAtencion);
-                var enajenantes = db.EnajenanteSet.Where(enajenanteSet => enajenanteSet.FormularioNumeroAtencion == formularioSet.NumeroAtencion);
-                ViewBag.adquirientes = adquirentes;
+                var enajenantes = db.EnajenanteSet.Where(enajenanteSet => enajenanteSet.FormularioSetNumeroAtencion == formularioSet.NumeroAtencion);
+                ViewBag.adquirentes = adquirentes;
                 ViewBag.enajenantes = enajenantes;
                 db.SaveChanges();
                 //return RedirectToAction("Index");
@@ -117,7 +129,7 @@ namespace UAndes.ICC5103._202301.Controllers
         // POST: Formularios/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(int id)
+        public ActionResult DeleteConfirmed(int? id)
         {
             FormularioSet formularioSet = db.FormularioSet.Find(id);
             db.FormularioSet.Remove(formularioSet);

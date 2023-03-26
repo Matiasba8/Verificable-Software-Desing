@@ -16,7 +16,7 @@ namespace UAndes.ICC5103._202301.Models
     {
         public int RUT { get; set; }
         public string Nombre { get; set; }
-        public System.DateTime FechaNacimiento { get; set; }
+        public Nullable<System.DateTime> FechaNacimiento { get; set; }
         public string Email { get; set; }
         public string Dirección { get; set; }
     }

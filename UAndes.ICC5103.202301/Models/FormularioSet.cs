@@ -27,8 +27,8 @@ namespace UAndes.ICC5103._202301.Models
         public string Manzana { get; set; }
         public string Predio { get; set; }
         public string Fojas { get; set; }
-        public System.DateTime FechaInscripcion { get; set; }
-        public long NumeroInscripcion { get; set; }
+        public Nullable<System.DateTime> FechaInscripcion { get; set; }
+        public Nullable<long> NumeroInscripcion { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<AdquirenteSet> AdquirenteSet { get; set; }

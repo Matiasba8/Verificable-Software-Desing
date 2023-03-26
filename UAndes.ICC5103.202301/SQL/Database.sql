@@ -50,7 +50,7 @@ CREATE TABLE Enajenantes (
 );
 
 
-CREATE TABLE Adquirientes (
+CREATE TABLE Adquirentes (
     [Id] INT PRIMARY KEY,
     NumeroAtencion INT NOT NULL,
     Rut NVARCHAR(10) NOT NULL,
