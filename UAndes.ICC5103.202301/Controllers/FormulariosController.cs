@@ -66,10 +66,14 @@ namespace UAndes.ICC5103._202301.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             FormularioSet formularioSet = db.FormularioSet.Find(id);
+            var adquirentes = db.AdquirenteSet.Where(adquiSet => adquiSet.FormularioSetNumeroAtencion == id);
+
             if (formularioSet == null)
             {
                 return HttpNotFound();
             }
+
+            ViewBag.adquirientes = adquirentes;
             return View(formularioSet);
         }
 
@@ -83,6 +87,8 @@ namespace UAndes.ICC5103._202301.Controllers
             if (ModelState.IsValid)
             {
                 db.Entry(formularioSet).State = EntityState.Modified;
+                var adquirentes = db.AdquirenteSet.Where(adquiSet => adquiSet.FormularioSetNumeroAtencion == formularioSet.NumeroAtencion);
+                ViewBag.adquirientes = adquirentes;
                 db.SaveChanges();
                 //return RedirectToAction("Index");
             }

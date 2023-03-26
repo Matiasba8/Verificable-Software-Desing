@@ -80,6 +80,33 @@
     </div>
 }
 
+<h2>Adquirientes</h2>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th scope="col">Rut</th>
+            <th scope="col">Porcentaje Derechos</th>
+            <th scope="col">Porcentaje de derechos no acreditados</th>
+        </tr>
+    </thead>
+    <tbody>
+
+        @if (!(ViewBag.adquirientes == null))
+        {
+            foreach (var adquiriente in ViewBag.adquirientes)
+            {
+                <tr>
+                    <td>@adquiriente.RUT</td>
+                    <td>@adquiriente.PorcentajeDerechos</td>
+                    <td>@adquiriente.DerechosNoAcreditados</td>
+                </tr>
+            }
+        }
+
+    </tbody>
+</table>
+
 <div>
     @Html.ActionLink("Back to List", "Index")
 </div>
