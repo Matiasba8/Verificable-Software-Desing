@@ -436,6 +436,7 @@
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Database\InitialQuery.txt" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
@@ -491,12 +492,7 @@
     <Content Include="Views\Personas\Details.cshtml" />
     <Content Include="Views\Personas\Edit.cshtml" />
     <Content Include="Views\Personas\Index.cshtml" />
-    <Content Include="Views\Multipropietarios\Create.cshtml" />
-    <Content Include="Views\Multipropietarios\Delete.cshtml" />
-    <Content Include="Views\Multipropietarios\Details.cshtml" />
-    <Content Include="Views\Multipropietarios\Edit.cshtml" />
     <Content Include="Views\Multipropietarios\Index.cshtml" />
-    <Content Include="Views\Formularios\Create.cshtml" />
     <Content Include="Views\Formularios\Delete.cshtml" />
     <Content Include="Views\Formularios\Details.cshtml" />
     <Content Include="Views\Formularios\Edit.cshtml" />
@@ -504,6 +500,11 @@
     <Content Include="Views\Formularios\New.cshtml" />
     <Content Include="Views\Adquirentes\Index.cshtml" />
     <Content Include="Views\Enajenantes\Index.cshtml" />
+    <Content Include="Views\Multipropietarios\Create.cshtml" />
+    <Content Include="Views\Multipropietarios\Delete.cshtml" />
+    <Content Include="Views\Multipropietarios\Details.cshtml" />
+    <Content Include="Views\Multipropietarios\Edit.cshtml" />
+    <Content Include="Views\Multipropietarios\SearchResult.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

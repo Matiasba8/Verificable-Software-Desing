@@ -46,9 +46,11 @@
           <Property Name="Fojas" Type="nvarchar(max)" />
           <Property Name="NumeroInscripcion" Type="bigint" />
           <Property Name="FechaInscripcion" Type="datetime" />
-          <Property Name="AñoVigenciaInicial" Type="nvarchar(max)" />
-          <Property Name="AñoVigenciaFinal" Type="nvarchar(max)" />
-          <Property Name="ComunaManzanaPredio" Type="nvarchar(max)" />
+          <Property Name="AñoVigenciaInicial" Type="datetime" />
+          <Property Name="AñoVigenciaFinal" Type="datetime" />
+          <Property Name="Comuna" Type="nvarchar(max)" />
+          <Property Name="Manzana" Type="nvarchar(max)" />
+          <Property Name="Predio" Type="nvarchar(max)" />
         </EntityType>
         <EntityType Name="Persona">
           <Key>
@@ -88,30 +90,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_FormularioEnajenante">
-          <End Role="FormularioSet" Type="Self.FormularioSet" Multiplicity="1" />
-          <End Role="EnajenanteSet" Type="Self.EnajenanteSet" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="FormularioSet">
-              <PropertyRef Name="NumeroAtencion" />
-            </Principal>
-            <Dependent Role="EnajenanteSet">
-              <PropertyRef Name="FormularioSetNumeroAtencion" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_FormularioSetAdquirenteSet">
-          <End Role="FormularioSet" Type="Self.FormularioSet" Multiplicity="1" />
-          <End Role="AdquirenteSet" Type="Self.AdquirenteSet" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="FormularioSet">
-              <PropertyRef Name="NumeroAtencion" />
-            </Principal>
-            <Dependent Role="AdquirenteSet">
-              <PropertyRef Name="FormularioSetNumeroAtencion" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <EntityContainer Name="InscripcionesBrDbGrupo06ModelStoreContainer">
           <EntitySet Name="AdquirenteSet" EntityType="Self.AdquirenteSet" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="EnajenanteSet" EntityType="Self.EnajenanteSet" Schema="dbo" store:Type="Tables" />
@@ -125,14 +103,6 @@
           <AssociationSet Name="FK_Enajenantes_Formularios" Association="Self.FK_Enajenantes_Formularios">
             <End Role="FormularioSet" EntitySet="FormularioSet" />
             <End Role="EnajenanteSet" EntitySet="EnajenanteSet" />
-          </AssociationSet>
-          <AssociationSet Name="FK_FormularioEnajenante" Association="Self.FK_FormularioEnajenante">
-            <End Role="FormularioSet" EntitySet="FormularioSet" />
-            <End Role="EnajenanteSet" EntitySet="EnajenanteSet" />
-          </AssociationSet>
-          <AssociationSet Name="FK_FormularioSetAdquirenteSet" Association="Self.FK_FormularioSetAdquirenteSet">
-            <End Role="FormularioSet" EntitySet="FormularioSet" />
-            <End Role="AdquirenteSet" EntitySet="AdquirenteSet" />
           </AssociationSet>
         </EntityContainer>
       </Schema></edmx:StorageModels>
@@ -199,9 +169,11 @@
           <Property Name="Fojas" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="NumeroInscripcion" Type="Int64" />
           <Property Name="FechaInscripcion" Type="DateTime" Precision="3" />
-          <Property Name="AñoVigenciaInicial" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="AñoVigenciaFinal" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="ComunaManzanaPredio" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="AñoVigenciaInicial" Type="DateTime" Precision="3" />
+          <Property Name="AñoVigenciaFinal" Type="DateTime" Precision="3" />
+          <Property Name="Comuna" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Manzana" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Predio" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="Persona">
           <Key>
@@ -284,7 +256,9 @@
           <EntitySetMapping Name="MultipropietarioSet">
             <EntityTypeMapping TypeName="InscripcionesBrDbGrupo06Model.MultipropietarioSet">
               <MappingFragment StoreEntitySet="MultipropietarioSet">
-                <ScalarProperty Name="ComunaManzanaPredio" ColumnName="ComunaManzanaPredio" />
+                <ScalarProperty Name="Predio" ColumnName="Predio" />
+                <ScalarProperty Name="Manzana" ColumnName="Manzana" />
+                <ScalarProperty Name="Comuna" ColumnName="Comuna" />
                 <ScalarProperty Name="AñoVigenciaFinal" ColumnName="AñoVigenciaFinal" />
                 <ScalarProperty Name="AñoVigenciaInicial" ColumnName="AñoVigenciaInicial" />
                 <ScalarProperty Name="FechaInscripcion" ColumnName="FechaInscripcion" />

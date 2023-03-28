@@ -20,8 +20,10 @@ namespace UAndes.ICC5103._202301.Models
         public string Fojas { get; set; }
         public Nullable<long> NumeroInscripcion { get; set; }
         public Nullable<System.DateTime> FechaInscripcion { get; set; }
-        public string AñoVigenciaInicial { get; set; }
-        public string AñoVigenciaFinal { get; set; }
-        public string ComunaManzanaPredio { get; set; }
+        public Nullable<System.DateTime> AñoVigenciaInicial { get; set; }
+        public Nullable<System.DateTime> AñoVigenciaFinal { get; set; }
+        public string Comuna { get; set; }
+        public string Manzana { get; set; }
+        public string Predio { get; set; }
     }
 }

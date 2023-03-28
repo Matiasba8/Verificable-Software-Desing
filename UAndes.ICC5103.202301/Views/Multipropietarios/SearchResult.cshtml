@@ -1,0 +1,55 @@
+﻿
+@{
+    ViewBag.Title = "SearchResult";
+}
+
+<h2>Resultados de búsqueda para Multipropietarios</h2>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th scope="col">RUT</th>
+            <th scope="col">Porcentaje de Derechos</th>
+            <th scope="col">Comuna</th>
+            <th scope="col">Manzana</th>
+            <th scope="col">Predio</th>
+            <th scope="col">Año de Vigencia Inicial</th>
+            <th scope="col">Año de Vigencia Final</th>
+            <th scope="col">Fojas</th>
+            <th scope="col">Numero de Inscripcion</th>
+            <th scope="col">Fecha de Inscripcion</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var multipropietario in ViewBag.queryMultipropietario)
+            {
+        <tr>
+            <td>@multipropietario.RUT</td>
+            <td>@multipropietario.PorcentajeDerechos</td>
+            <td>@multipropietario.Comuna</td>
+            <td>@multipropietario.Manzana</td>
+            <td>@multipropietario.Predio</td>
+            <td>@multipropietario.AñoVigenciaInicial</td>
+            <td>@multipropietario.AñoVigenciaFinal</td>
+            <td>@multipropietario.Fojas</td>
+            <td>@multipropietario.NumeroInscripcion</td>
+            <td>@multipropietario.FechaInscripcion</td>
+        </tr>
+            }
+        @foreach (var multipropietario in ViewBag.queryMultipropietarioNull)
+            {
+        <tr>
+            <td>@multipropietario.RUT</td>
+            <td>@multipropietario.PorcentajeDerechos</td>
+            <td>@multipropietario.Comuna</td>
+            <td>@multipropietario.Manzana</td>
+            <td>@multipropietario.Predio</td>
+            <td>@multipropietario.AñoVigenciaInicial</td>
+            <td>@multipropietario.AñoVigenciaFinal</td>
+            <td>@multipropietario.Fojas</td>
+            <td>@multipropietario.NumeroInscripcion</td>
+            <td>@multipropietario.FechaInscripcion</td>
+        </tr>
+            }
+    </tbody>
+</table>

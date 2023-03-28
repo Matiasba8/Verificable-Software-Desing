@@ -1,0 +1,188 @@
+﻿-- --------------------------------------------------
+-- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
+-- --------------------------------------------------
+-- Date Created: 03/27/2023 22:52:35
+-- Generated from EDMX file: C:\SoftwareVerificable\UAndes.ICC5103.202301\Models\Model1.edmx
+-- --------------------------------------------------
+
+Create Database InscripcionesBrDbGrupo06
+GO
+
+SET QUOTED_IDENTIFIER OFF;
+GO
+USE [InscripcionesBrDbGrupo06];
+GO
+IF SCHEMA_ID(N'dbo') IS NULL EXECUTE(N'CREATE SCHEMA [dbo]');
+GO
+
+-- --------------------------------------------------
+-- Dropping existing FOREIGN KEY constraints
+-- --------------------------------------------------
+
+IF OBJECT_ID(N'[dbo].[FK_Adquirentes_Formularios]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[AdquirenteSet] DROP CONSTRAINT [FK_Adquirentes_Formularios];
+GO
+IF OBJECT_ID(N'[dbo].[FK_Enajenantes_Formularios]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[EnajenanteSet] DROP CONSTRAINT [FK_Enajenantes_Formularios];
+GO
+
+-- --------------------------------------------------
+-- Dropping existing tables
+-- --------------------------------------------------
+
+IF OBJECT_ID(N'[dbo].[AdquirenteSet]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[AdquirenteSet];
+GO
+IF OBJECT_ID(N'[dbo].[EnajenanteSet]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[EnajenanteSet];
+GO
+IF OBJECT_ID(N'[dbo].[FormularioSet]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[FormularioSet];
+GO
+IF OBJECT_ID(N'[dbo].[MultipropietarioSet]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[MultipropietarioSet];
+GO
+IF OBJECT_ID(N'[dbo].[Persona]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[Persona];
+GO
+
+-- --------------------------------------------------
+-- Creating all tables
+-- --------------------------------------------------
+
+-- Creating table 'AdquirenteSet'
+CREATE TABLE [dbo].[AdquirenteSet] (
+    [RUT] nvarchar(450)  NOT NULL,
+    [PorcentajeDerechos] decimal(10,2)  NULL,
+    [DerechosNoAcreditados] nvarchar(max)  NULL,
+    [FormularioSetNumeroAtencion] int  NOT NULL
+);
+GO
+
+-- Creating table 'EnajenanteSet'
+CREATE TABLE [dbo].[EnajenanteSet] (
+    [RUT] nvarchar(450)  NOT NULL,
+    [PorcentajeDerechos] decimal(10,2)  NULL,
+    [DerechosNoAcreditados] nvarchar(max)  NULL,
+    [FormularioSetNumeroAtencion] int  NOT NULL
+);
+GO
+
+-- Creating table 'FormularioSet'
+CREATE TABLE [dbo].[FormularioSet] (
+    [NumeroAtencion] int IDENTITY(1,1) NOT NULL,
+    [CNE] nvarchar(max)  NULL,
+    [Comuna] nvarchar(max)  NULL,
+    [Manzana] nvarchar(max)  NULL,
+    [Predio] nvarchar(max)  NULL,
+    [Fojas] nvarchar(max)  NULL,
+    [FechaInscripcion] datetime  NULL,
+    [NumeroInscripcion] bigint  NULL
+);
+GO
+
+-- Creating table 'MultipropietarioSet'
+CREATE TABLE [dbo].[MultipropietarioSet] (
+    [Id] int IDENTITY(1,1) NOT NULL,
+    [RUT] nvarchar(max)  NULL,
+    [PorcentajeDerechos] decimal(18,0)  NULL,
+    [Fojas] nvarchar(max)  NULL,
+    [NumeroInscripcion] bigint  NULL,
+    [FechaInscripcion] datetime  NULL,
+    [AñoVigenciaInicial] datetime  NULL,
+    [AñoVigenciaFinal] datetime  NULL,
+    [Comuna] nvarchar(max)  NULL,
+    [Manzana] nvarchar(max)  NULL,
+    [Predio] nvarchar(max)  NULL
+);
+GO
+
+-- Creating table 'Persona'
+CREATE TABLE [dbo].[Persona] (
+    [RUT] int IDENTITY(1,1) NOT NULL,
+    [Nombre] nvarchar(50)  NULL,
+    [FechaNacimiento] datetime  NULL,
+    [Email] nchar(50)  NULL,
+    [Dirección] nchar(50)  NULL
+);
+GO
+
+-- --------------------------------------------------
+-- Creating all PRIMARY KEY constraints
+-- --------------------------------------------------
+
+-- Creating primary key on [RUT] in table 'AdquirenteSet'
+ALTER TABLE [dbo].[AdquirenteSet]
+ADD CONSTRAINT [PK_AdquirenteSet]
+    PRIMARY KEY CLUSTERED ([RUT] ASC);
+GO
+
+-- Creating primary key on [RUT] in table 'EnajenanteSet'
+ALTER TABLE [dbo].[EnajenanteSet]
+ADD CONSTRAINT [PK_EnajenanteSet]
+    PRIMARY KEY CLUSTERED ([RUT] ASC);
+GO
+
+-- Creating primary key on [NumeroAtencion] in table 'FormularioSet'
+ALTER TABLE [dbo].[FormularioSet]
+ADD CONSTRAINT [PK_FormularioSet]
+    PRIMARY KEY CLUSTERED ([NumeroAtencion] ASC);
+GO
+
+-- Creating primary key on [Id] in table 'MultipropietarioSet'
+ALTER TABLE [dbo].[MultipropietarioSet]
+ADD CONSTRAINT [PK_MultipropietarioSet]
+    PRIMARY KEY CLUSTERED ([Id] ASC);
+GO
+
+-- Creating primary key on [RUT] in table 'Persona'
+ALTER TABLE [dbo].[Persona]
+ADD CONSTRAINT [PK_Persona]
+    PRIMARY KEY CLUSTERED ([RUT] ASC);
+GO
+
+-- --------------------------------------------------
+-- Creating all FOREIGN KEY constraints
+-- --------------------------------------------------
+
+-- Creating foreign key on [FormularioSetNumeroAtencion] in table 'AdquirenteSet'
+ALTER TABLE [dbo].[AdquirenteSet]
+ADD CONSTRAINT [FK_Adquirentes_Formularios]
+    FOREIGN KEY ([FormularioSetNumeroAtencion])
+    REFERENCES [dbo].[FormularioSet]
+        ([NumeroAtencion])
+    ON DELETE CASCADE ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_Adquirentes_Formularios'
+CREATE INDEX [IX_FK_Adquirentes_Formularios]
+ON [dbo].[AdquirenteSet]
+    ([FormularioSetNumeroAtencion]);
+GO
+
+-- Creating foreign key on [FormularioSetNumeroAtencion] in table 'EnajenanteSet'
+ALTER TABLE [dbo].[EnajenanteSet]
+ADD CONSTRAINT [FK_Enajenantes_Formularios]
+    FOREIGN KEY ([FormularioSetNumeroAtencion])
+    REFERENCES [dbo].[FormularioSet]
+        ([NumeroAtencion])
+    ON DELETE CASCADE ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_Enajenantes_Formularios'
+CREATE INDEX [IX_FK_Enajenantes_Formularios]
+ON [dbo].[EnajenanteSet]
+    ([FormularioSetNumeroAtencion]);
+GO
+
+ALTER TABLE dbo.AdquirenteSet
+ADD CONSTRAINT FK_Adquirente_Drop
+FOREIGN KEY (FormularioSetNumeroAtencion)
+REFERENCES dbo.FormularioSet (NumeroAtencion)
+ON DELETE CASCADE;
+
+ALTER TABLE dbo.EnajenanteSet
+ADD CONSTRAINT FK_Enajenante_Drop
+FOREIGN KEY (FormularioSetNumeroAtencion)
+REFERENCES dbo.FormularioSet (NumeroAtencion)
+ON DELETE CASCADE;

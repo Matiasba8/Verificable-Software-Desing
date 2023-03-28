@@ -4,10 +4,10 @@
     ViewBag.Title = "Index";
 }
 
-<h2>Index</h2>
+<h2>Lista de Formularios</h2>
 
 <p>
-    @Html.ActionLink("Create New", "New")
+    @Html.ActionLink("Crear Nuevo Formulario", "New")
 </p>
 <table class="table">
     <tr>
@@ -27,10 +27,10 @@
             @Html.DisplayNameFor(model => model.Fojas)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.FechaInscripcion)
+            Fecha de Inscripcion
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.NumeroInscripcion)
+            Numero de Inscripcion
         </th>
         <th></th>
     </tr>
@@ -59,9 +59,9 @@
             @Html.DisplayFor(modelItem => item.NumeroInscripcion)
         </td>
         <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.NumeroAtencion }) |
-            @Html.ActionLink("Details", "Details", new { id=item.NumeroAtencion }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.NumeroAtencion })
+            @Html.ActionLink("Editar", "Edit", new { id=item.NumeroAtencion }) |
+            @Html.ActionLink("Detalles", "Details", new { id=item.NumeroAtencion }) |
+            @Html.ActionLink("Eliminar", "Delete", new { id=item.NumeroAtencion })
         </td>
     </tr>
 }

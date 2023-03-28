@@ -4,15 +4,15 @@
     ViewBag.Title = "Delete";
 }
 
-<h2>Delete</h2>
+<h2>Eliminar</h2>
 
-<h3>Are you sure you want to delete this?</h3>
+<h3>Confirmar la eliminacion?</h3>
 <div>
-    <h4>FormularioSet</h4>
+    <h4>Formulario</h4>
     <hr />
     <dl class="dl-horizontal">
         <dt>
-            @Html.DisplayNameFor(model => model.CNE)
+            CNE
         </dt>
 
         <dd>
@@ -20,7 +20,7 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.Comuna)
+            Comuna
         </dt>
 
         <dd>
@@ -28,7 +28,7 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.Manzana)
+            Manzana
         </dt>
 
         <dd>
@@ -36,7 +36,7 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.Predio)
+            Predio
         </dt>
 
         <dd>
@@ -44,7 +44,7 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.Fojas)
+            Fojas
         </dt>
 
         <dd>
@@ -52,7 +52,7 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.FechaInscripcion)
+            Fecha de Inscripcion
         </dt>
 
         <dd>
@@ -60,21 +60,20 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.NumeroInscripcion)
+            Numero de Inscripcion
         </dt>
 
         <dd>
             @Html.DisplayFor(model => model.NumeroInscripcion)
         </dd>
-
     </dl>
 
     @using (Html.BeginForm()) {
         @Html.AntiForgeryToken()
 
         <div class="form-actions no-color">
-            <input type="submit" value="Delete" class="btn btn-default" /> |
-            @Html.ActionLink("Back to List", "Index")
+            <input type="submit" value="Eliminar" class="btn btn-default" /> |
+            @Html.ActionLink("Volver al Listado", "Index")
         </div>
     }
 </div>
