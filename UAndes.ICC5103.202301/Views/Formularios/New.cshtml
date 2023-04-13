@@ -19,7 +19,7 @@
     <label>CNE</label>
     <div class="form-group">
         <div class="col-md-10">
-            @Html.EditorFor(model => model.CNE, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.EditorFor(model => model.CNE, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly", @Value = "Compraventa y Regularización de Patrimonio"  } })
             @Html.ValidationMessageFor(model => model.CNE, "", new { @class = "text-danger" })
         </div>
     </div>
@@ -100,11 +100,11 @@
         @if(ViewBag.adquirentes != null){
             foreach (var adquirente in ViewBag.adquirentes)
             {
-            <tr>
-                <td>@adquirente.RUT</td>
-                <td>@adquirente.PorcentajeDerechos</td>
-                <td>@adquirente.DerechosNoAcreditados</td>
-            </tr>
+        <tr>
+            <td>@adquirente.RUT</td>
+            <td>@adquirente.PorcentajeDerechos</td>
+            <td>@adquirente.DerechosNoAcreditados</td>
+        </tr>
             }
         }
     </tbody>
@@ -121,7 +121,7 @@
 <input type="text" id="porcentajeDerechos" name="porcentajeDerechos" />
 
 <label for="derechosNoAcreditados">Derechos No Acreditados:</label>
-<input type="text" id="derechosNoAcreditados" name="derechosNoAcreditados" />
+<input type="checkbox" id="derechosNoAcreditados" name="derechosNoAcreditados" />
 
 @Html.HiddenFor(model => model.NumeroAtencion)
 
@@ -145,11 +145,11 @@
         @if(ViewBag.enajenantes != null){
             foreach (var enajenante in ViewBag.enajenantes)
             {
-                <tr>
-                    <td>@enajenante.RUT</td>
-                    <td>@enajenante.PorcentajeDerechos</td>
-                    <td>@enajenante.DerechosNoAcreditados</td>
-                </tr>
+        <tr>
+            <td>@enajenante.RUT</td>
+            <td>@enajenante.PorcentajeDerechos</td>
+            <td>@enajenante.DerechosNoAcreditados</td>
+        </tr>
             }
         }
     </tbody>
@@ -166,7 +166,7 @@
 <input type="text" id="porcentajeDerechos" name="porcentajeDerechos" />
 
 <label for="derechosNoAcreditados">Derechos No Acreditados:</label>
-<input type="text" id="derechosNoAcreditados" name="derechosNoAcreditados" />
+<input type="checkbox" id="derechosNoAcreditados" name="derechosNoAcreditados" />
 
 @Html.HiddenFor(model => model.NumeroAtencion)
 

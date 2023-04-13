@@ -19,7 +19,7 @@
     <label>CNE</label>
     <div class="form-group">
         <div class="col-md-10">
-            @Html.EditorFor(model => model.CNE, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.EditorFor(model => model.CNE, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly", @Value = "Compraventa y Regularización de Patrimonio"  } })
             @Html.ValidationMessageFor(model => model.CNE, "", new { @class = "text-danger" })
         </div>
     </div>
@@ -117,7 +117,7 @@
 <input type="text" id="porcentajeDerechos" name="porcentajeDerechos" />
 
 <label for="derechosNoAcreditados">Derechos No Acreditados:</label>
-<input type="text" id="derechosNoAcreditados" name="derechosNoAcreditados" />
+<input type="checkbox" id="derechosNoAcreditados" name="derechosNoAcreditados" />
 
 @Html.HiddenFor(model => model.NumeroAtencion)
 
@@ -162,7 +162,7 @@
 <input type="text" id="porcentajeDerechos" name="porcentajeDerechos" />
 
 <label for="derechosNoAcreditados">Derechos No Acreditados:</label>
-<input type="text" id="derechosNoAcreditados" name="derechosNoAcreditados" />
+<input type="checkbox" id="derechosNoAcreditados" name="derechosNoAcreditados" />
 
 @Html.HiddenFor(model => model.NumeroAtencion)
 

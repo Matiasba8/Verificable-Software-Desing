@@ -48,7 +48,7 @@ namespace UAndes.ICC5103._202301.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(int NumeroAtencion, string rut, decimal porcentajeDerechos, string derechosNoAcreditados)
+        public ActionResult Create(int NumeroAtencion, string rut, decimal porcentajeDerechos, bool derechosNoAcreditados)
         {
             EnajenanteSet enajenanteSet = new EnajenanteSet();
             enajenanteSet.FormularioSetNumeroAtencion = NumeroAtencion;

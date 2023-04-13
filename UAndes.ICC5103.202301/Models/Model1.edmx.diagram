@@ -5,8 +5,8 @@
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
       <Diagram DiagramId="5a8ba329af6343378a0e2111e949338a" Name="Diagram1">
-        <EntityTypeShape EntityType="InscripcionesBrDbGrupo06Model.AdquirenteSet" Width="1.5" PointX="3" PointY="1" />
-        <EntityTypeShape EntityType="InscripcionesBrDbGrupo06Model.EnajenanteSet" Width="1.5" PointX="3" PointY="3.75" />
+        <EntityTypeShape EntityType="InscripcionesBrDbGrupo06Model.AdquirenteSet" Width="1.5" PointX="3" PointY="3.75" />
+        <EntityTypeShape EntityType="InscripcionesBrDbGrupo06Model.EnajenanteSet" Width="1.5" PointX="3" PointY="1" />
         <EntityTypeShape EntityType="InscripcionesBrDbGrupo06Model.FormularioSet" Width="1.5" PointX="0.75" PointY="2" />
         <EntityTypeShape EntityType="InscripcionesBrDbGrupo06Model.MultipropietarioSet" Width="1.5" PointX="5.75" PointY="0.75" />
         <EntityTypeShape EntityType="InscripcionesBrDbGrupo06Model.Persona" Width="1.5" PointX="5.75" PointY="4.75" />

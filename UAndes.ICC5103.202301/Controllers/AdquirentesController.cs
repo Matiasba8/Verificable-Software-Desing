@@ -50,20 +50,33 @@ namespace UAndes.ICC5103._202301.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(int NumeroAtencion, string rut, decimal porcentajeDerechos, string derechosNoAcreditados)
+        public ActionResult Create(int NumeroAtencion, string rut, string porcentajeDerechos, string derechosNoAcreditados)
         {
-            AdquirenteSet adquirenteSet = new AdquirenteSet();
-            adquirenteSet.FormularioSetNumeroAtencion = NumeroAtencion;
-            adquirenteSet.RUT = rut;
-            adquirenteSet.PorcentajeDerechos = porcentajeDerechos;
-            adquirenteSet.DerechosNoAcreditados = derechosNoAcreditados;
+            decimal porcDerechos;
+            bool derNoAcreditados = false;
 
-            if (ModelState.IsValid)
+            try
             {
-                db.AdquirenteSet.Add(adquirenteSet);
-                db.SaveChanges();
+                porcDerechos = Decimal.Parse(porcentajeDerechos);
+                if (derechosNoAcreditados == "on") { derNoAcreditados = true; }
+
+                AdquirenteSet adquirenteSet = new AdquirenteSet();
+                adquirenteSet.FormularioSetNumeroAtencion = NumeroAtencion;
+                adquirenteSet.RUT = rut;
+                adquirenteSet.PorcentajeDerechos = porcDerechos;
+                adquirenteSet.DerechosNoAcreditados = derNoAcreditados;
+
+                if (ModelState.IsValid)
+                {
+                    db.AdquirenteSet.Add(adquirenteSet);
+                    db.SaveChanges();
+                }
+                return RedirectToAction("Edit", "Formularios", new { id = adquirenteSet.FormularioSetNumeroAtencion });
             }
-            return RedirectToAction("Edit","Formularios", new {id = adquirenteSet.FormularioSetNumeroAtencion });
+            catch(FormatException)
+            {
+                return RedirectToAction("Edit", "Formularios", new { id = NumeroAtencion });
+            }
         }
 
         // GET: Adquirentes/Edit/5

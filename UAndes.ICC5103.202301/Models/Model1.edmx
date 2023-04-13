@@ -11,7 +11,7 @@
           </Key>
           <Property Name="RUT" Type="nvarchar" MaxLength="450" Nullable="false" />
           <Property Name="PorcentajeDerechos" Type="decimal" Precision="10" Scale="2" />
-          <Property Name="DerechosNoAcreditados" Type="nvarchar(max)" />
+          <Property Name="DerechosNoAcreditados" Type="bit" />
           <Property Name="FormularioSetNumeroAtencion" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="EnajenanteSet">
@@ -20,7 +20,7 @@
           </Key>
           <Property Name="RUT" Type="nvarchar" MaxLength="450" Nullable="false" />
           <Property Name="PorcentajeDerechos" Type="decimal" Precision="10" Scale="2" />
-          <Property Name="DerechosNoAcreditados" Type="nvarchar(max)" />
+          <Property Name="DerechosNoAcreditados" Type="bit" />
           <Property Name="FormularioSetNumeroAtencion" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="FormularioSet">
@@ -130,7 +130,7 @@
           </Key>
           <Property Name="RUT" Type="String" Nullable="false" MaxLength="450" FixedLength="false" Unicode="true" />
           <Property Name="PorcentajeDerechos" Type="Decimal" Precision="10" Scale="2" />
-          <Property Name="DerechosNoAcreditados" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="DerechosNoAcreditados" Type="Boolean" />
           <Property Name="FormularioSetNumeroAtencion" Type="Int32" Nullable="false" />
           <NavigationProperty Name="FormularioSet" Relationship="InscripcionesBrDbGrupo06Model.FK_Adquirentes_Formularios" FromRole="AdquirenteSet" ToRole="FormularioSet" />
         </EntityType>
@@ -140,7 +140,7 @@
           </Key>
           <Property Name="RUT" Type="String" Nullable="false" MaxLength="450" FixedLength="false" Unicode="true" />
           <Property Name="PorcentajeDerechos" Type="Decimal" Precision="10" Scale="2" />
-          <Property Name="DerechosNoAcreditados" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="DerechosNoAcreditados" Type="Boolean" />
           <Property Name="FormularioSetNumeroAtencion" Type="Int32" Nullable="false" />
           <NavigationProperty Name="FormularioSet" Relationship="InscripcionesBrDbGrupo06Model.FK_Enajenantes_Formularios" FromRole="EnajenanteSet" ToRole="FormularioSet" />
         </EntityType>
