@@ -41,6 +41,7 @@ namespace UAndes.ICC5103._202301.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         public ActionResult New(int? Id)
         {
+            ViewBag.Comunas = db.Comunas;
             if (Id != null)
             {
                 FormularioSet formularioSet = db.FormularioSet.Find(Id);
@@ -88,6 +89,8 @@ namespace UAndes.ICC5103._202301.Controllers
 
             ViewBag.adquirentes = adquirentes;
             ViewBag.enajenantes = enajenantes;
+            ViewBag.formularioSet = formularioSet;
+            ViewBag.Comunas = db.Comunas;
             return View(formularioSet);
         }
 
@@ -97,14 +100,21 @@ namespace UAndes.ICC5103._202301.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "NumeroAtencion,CNE,Comuna,Manzana,Predio,Fojas,FechaInscripcion,NumeroInscripcion")] FormularioSet formularioSet)
-        {
+        {   
             if (ModelState.IsValid)
             {
+
+                Debug.WriteLine(formularioSet.Comuna);
+
                 db.Entry(formularioSet).State = EntityState.Modified;
                 var adquirentes = db.AdquirenteSet.Where(adquiSet => adquiSet.FormularioSetNumeroAtencion == formularioSet.NumeroAtencion);
                 var enajenantes = db.EnajenanteSet.Where(enajenanteSet => enajenanteSet.FormularioSetNumeroAtencion == formularioSet.NumeroAtencion);
+
                 ViewBag.adquirentes = adquirentes;
                 ViewBag.enajenantes = enajenantes;
+                ViewBag.formularioSet = formularioSet;
+                ViewBag.Comunas = db.Comunas;
+
                 db.SaveChanges();
                 //return RedirectToAction("Index");
             }

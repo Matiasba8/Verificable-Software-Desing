@@ -402,6 +402,9 @@
     <Compile Include="Models\AdquirenteSet.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\Comunas.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\EnajenanteSet.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>

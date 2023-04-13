@@ -54,7 +54,7 @@ GO
 CREATE TABLE [dbo].[AdquirenteSet] (
     [RUT] nvarchar(450)  NOT NULL,
     [PorcentajeDerechos] decimal(10,2)  NULL,
-    [DerechosNoAcreditados] nvarchar(max)  NULL,
+    [DerechosNoAcreditados] BIT NOT NULL DEFAULT 0,
     [FormularioSetNumeroAtencion] int  NOT NULL
 );
 GO
@@ -63,7 +63,7 @@ GO
 CREATE TABLE [dbo].[EnajenanteSet] (
     [RUT] nvarchar(450)  NOT NULL,
     [PorcentajeDerechos] decimal(10,2)  NULL,
-    [DerechosNoAcreditados] nvarchar(max)  NULL,
+    [DerechosNoAcreditados] BIT NOT NULL DEFAULT 0,
     [FormularioSetNumeroAtencion] int  NOT NULL
 );
 GO
@@ -175,14 +175,63 @@ ON [dbo].[EnajenanteSet]
     ([FormularioSetNumeroAtencion]);
 GO
 
-ALTER TABLE dbo.AdquirenteSet
-ADD CONSTRAINT FK_Adquirente_Drop
-FOREIGN KEY (FormularioSetNumeroAtencion)
-REFERENCES dbo.FormularioSet (NumeroAtencion)
-ON DELETE CASCADE;
+-- Comunas --
 
-ALTER TABLE dbo.EnajenanteSet
-ADD CONSTRAINT FK_Enajenante_Drop
-FOREIGN KEY (FormularioSetNumeroAtencion)
-REFERENCES dbo.FormularioSet (NumeroAtencion)
-ON DELETE CASCADE;
+CREATE TABLE Comunas (
+    id INT IDENTITY(1,1) PRIMARY KEY,
+    nombre VARCHAR(50) NOT NULL
+);
+
+
+INSERT INTO Comunas (nombre) VALUES ('Alhué');
+INSERT INTO Comunas (nombre) VALUES ('Buin');
+INSERT INTO Comunas (nombre) VALUES ('Calera de Tango');
+INSERT INTO Comunas (nombre) VALUES ('Cerrillos');
+INSERT INTO Comunas (nombre) VALUES ('Cerro Navia');
+INSERT INTO Comunas (nombre) VALUES ('Colina');
+INSERT INTO Comunas (nombre) VALUES ('Conchalí');
+INSERT INTO Comunas (nombre) VALUES ('Curacaví');
+INSERT INTO Comunas (nombre) VALUES ('El Bosque');
+INSERT INTO Comunas (nombre) VALUES ('El Monte');
+INSERT INTO Comunas (nombre) VALUES ('Estación Central');
+INSERT INTO Comunas (nombre) VALUES ('Huechuraba');
+INSERT INTO Comunas (nombre) VALUES ('Independencia');
+INSERT INTO Comunas (nombre) VALUES ('Isla de Maipo');
+INSERT INTO Comunas (nombre) VALUES ('La Cisterna');
+INSERT INTO Comunas (nombre) VALUES ('La Florida');
+INSERT INTO Comunas (nombre) VALUES ('La Granja');
+INSERT INTO Comunas (nombre) VALUES ('Lampa');
+INSERT INTO Comunas (nombre) VALUES ('La Pintana');
+INSERT INTO Comunas (nombre) VALUES ('La Reina');
+INSERT INTO Comunas (nombre) VALUES ('Las Condes');
+INSERT INTO Comunas (nombre) VALUES ('Lo Barnechea');
+INSERT INTO Comunas (nombre) VALUES ('Lo Espejo');
+INSERT INTO Comunas (nombre) VALUES ('Lo Prado');
+INSERT INTO Comunas (nombre) VALUES ('Macul');
+INSERT INTO Comunas (nombre) VALUES ('Maipú');
+INSERT INTO Comunas (nombre) VALUES ('María Pinto');
+INSERT INTO Comunas (nombre) VALUES ('Melipilla');
+INSERT INTO Comunas (nombre) VALUES ('Ñuñoa');
+INSERT INTO Comunas (nombre) VALUES ('Padre Hurtado');
+INSERT INTO Comunas (nombre) VALUES ('Paine');
+INSERT INTO Comunas (nombre) VALUES ('Pedro Aguirre Cerda');
+INSERT INTO Comunas (nombre) VALUES ('Peñaflor');
+INSERT INTO Comunas (nombre) VALUES ('Peñalolén');
+INSERT INTO Comunas (nombre) VALUES ('Pirque');
+INSERT INTO Comunas (nombre) VALUES ('Providencia');
+INSERT INTO Comunas (nombre) VALUES ('Pudahuel');
+INSERT INTO Comunas (nombre) VALUES ('Puente Alto');
+INSERT INTO Comunas (nombre) VALUES ('Quilicura');
+INSERT INTO Comunas (nombre) VALUES ('Quinta Normal');
+INSERT INTO Comunas (nombre) VALUES ('Recoleta');
+INSERT INTO Comunas (nombre) VALUES ('Renca');
+INSERT INTO Comunas (nombre) VALUES ('San Bernardo');
+INSERT INTO Comunas (nombre) VALUES ('San Joaquín');
+INSERT INTO Comunas (nombre) VALUES ('San José de Maipo');
+INSERT INTO Comunas (nombre) VALUES ('San Miguel');
+INSERT INTO Comunas (nombre) VALUES ('San Pedro');
+INSERT INTO Comunas (nombre) VALUES ('San Ramón');
+INSERT INTO Comunas (nombre) VALUES ('Santiago');
+INSERT INTO Comunas (nombre) VALUES ('Talagante');
+INSERT INTO Comunas (nombre) VALUES ('Tiltil');
+INSERT INTO Comunas (nombre) VALUES ('Vitacura');

@@ -4,15 +4,22 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-    <Schema Namespace="InscripcionesBrDbGrupo06Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+      <Schema Namespace="InscripcionesBrDbGrupo06Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="AdquirenteSet">
           <Key>
             <PropertyRef Name="RUT" />
           </Key>
           <Property Name="RUT" Type="nvarchar" MaxLength="450" Nullable="false" />
           <Property Name="PorcentajeDerechos" Type="decimal" Precision="10" Scale="2" />
-          <Property Name="DerechosNoAcreditados" Type="bit" />
+          <Property Name="DerechosNoAcreditados" Type="bit" Nullable="false" />
           <Property Name="FormularioSetNumeroAtencion" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Comunas">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="nombre" Type="varchar" MaxLength="50" Nullable="false" />
         </EntityType>
         <EntityType Name="EnajenanteSet">
           <Key>
@@ -20,7 +27,7 @@
           </Key>
           <Property Name="RUT" Type="nvarchar" MaxLength="450" Nullable="false" />
           <Property Name="PorcentajeDerechos" Type="decimal" Precision="10" Scale="2" />
-          <Property Name="DerechosNoAcreditados" Type="bit" />
+          <Property Name="DerechosNoAcreditados" Type="bit" Nullable="false" />
           <Property Name="FormularioSetNumeroAtencion" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="FormularioSet">
@@ -92,6 +99,7 @@
         </Association>
         <EntityContainer Name="InscripcionesBrDbGrupo06ModelStoreContainer">
           <EntitySet Name="AdquirenteSet" EntityType="Self.AdquirenteSet" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Comunas" EntityType="Self.Comunas" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="EnajenanteSet" EntityType="Self.EnajenanteSet" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="FormularioSet" EntityType="Self.FormularioSet" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="MultipropietarioSet" EntityType="Self.MultipropietarioSet" Schema="dbo" store:Type="Tables" />
@@ -105,44 +113,37 @@
             <End Role="EnajenanteSet" EntitySet="EnajenanteSet" />
           </AssociationSet>
         </EntityContainer>
-      </Schema></edmx:StorageModels>
+      </Schema>
+    </edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="InscripcionesBrDbGrupo06Model" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
-        <EntityContainer Name="InscripcionesBrDbGrupo06Entities" annotation:LazyLoadingEnabled="true">
-          <EntitySet Name="AdquirenteSet" EntityType="InscripcionesBrDbGrupo06Model.AdquirenteSet" />
-          <EntitySet Name="EnajenanteSet" EntityType="InscripcionesBrDbGrupo06Model.EnajenanteSet" />
-          <EntitySet Name="FormularioSet" EntityType="InscripcionesBrDbGrupo06Model.FormularioSet" />
-          <EntitySet Name="MultipropietarioSet" EntityType="InscripcionesBrDbGrupo06Model.MultipropietarioSet" />
-          <EntitySet Name="Persona" EntityType="InscripcionesBrDbGrupo06Model.Persona" />
-          <AssociationSet Name="FK_Adquirentes_Formularios" Association="InscripcionesBrDbGrupo06Model.FK_Adquirentes_Formularios">
-            <End Role="FormularioSet" EntitySet="FormularioSet" />
-            <End Role="AdquirenteSet" EntitySet="AdquirenteSet" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Enajenantes_Formularios" Association="InscripcionesBrDbGrupo06Model.FK_Enajenantes_Formularios">
-            <End Role="FormularioSet" EntitySet="FormularioSet" />
-            <End Role="EnajenanteSet" EntitySet="EnajenanteSet" />
-          </AssociationSet>
-        </EntityContainer>
         <EntityType Name="AdquirenteSet">
           <Key>
             <PropertyRef Name="RUT" />
           </Key>
-          <Property Name="RUT" Type="String" Nullable="false" MaxLength="450" FixedLength="false" Unicode="true" />
+          <Property Name="RUT" Type="String" MaxLength="450" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="PorcentajeDerechos" Type="Decimal" Precision="10" Scale="2" />
-          <Property Name="DerechosNoAcreditados" Type="Boolean" />
+          <Property Name="DerechosNoAcreditados" Type="Boolean" Nullable="false" />
           <Property Name="FormularioSetNumeroAtencion" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="FormularioSet" Relationship="InscripcionesBrDbGrupo06Model.FK_Adquirentes_Formularios" FromRole="AdquirenteSet" ToRole="FormularioSet" />
+          <NavigationProperty Name="FormularioSet" Relationship="Self.FK_Adquirentes_Formularios" FromRole="AdquirenteSet" ToRole="FormularioSet" />
+        </EntityType>
+        <EntityType Name="Comunas">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="nombre" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
         </EntityType>
         <EntityType Name="EnajenanteSet">
           <Key>
             <PropertyRef Name="RUT" />
           </Key>
-          <Property Name="RUT" Type="String" Nullable="false" MaxLength="450" FixedLength="false" Unicode="true" />
+          <Property Name="RUT" Type="String" MaxLength="450" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="PorcentajeDerechos" Type="Decimal" Precision="10" Scale="2" />
-          <Property Name="DerechosNoAcreditados" Type="Boolean" />
+          <Property Name="DerechosNoAcreditados" Type="Boolean" Nullable="false" />
           <Property Name="FormularioSetNumeroAtencion" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="FormularioSet" Relationship="InscripcionesBrDbGrupo06Model.FK_Enajenantes_Formularios" FromRole="EnajenanteSet" ToRole="FormularioSet" />
+          <NavigationProperty Name="FormularioSet" Relationship="Self.FK_Enajenantes_Formularios" FromRole="EnajenanteSet" ToRole="FormularioSet" />
         </EntityType>
         <EntityType Name="FormularioSet">
           <Key>
@@ -156,8 +157,8 @@
           <Property Name="Fojas" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="FechaInscripcion" Type="DateTime" Precision="3" />
           <Property Name="NumeroInscripcion" Type="Int64" />
-          <NavigationProperty Name="AdquirenteSet" Relationship="InscripcionesBrDbGrupo06Model.FK_Adquirentes_Formularios" FromRole="FormularioSet" ToRole="AdquirenteSet" />
-          <NavigationProperty Name="EnajenanteSet" Relationship="InscripcionesBrDbGrupo06Model.FK_Enajenantes_Formularios" FromRole="FormularioSet" ToRole="EnajenanteSet" />
+          <NavigationProperty Name="AdquirenteSet" Relationship="Self.FK_Adquirentes_Formularios" FromRole="FormularioSet" ToRole="AdquirenteSet" />
+          <NavigationProperty Name="EnajenanteSet" Relationship="Self.FK_Enajenantes_Formularios" FromRole="FormularioSet" ToRole="EnajenanteSet" />
         </EntityType>
         <EntityType Name="MultipropietarioSet">
           <Key>
@@ -186,10 +187,10 @@
           <Property Name="Dirección" Type="String" MaxLength="50" FixedLength="true" Unicode="true" />
         </EntityType>
         <Association Name="FK_Adquirentes_Formularios">
-          <End Type="InscripcionesBrDbGrupo06Model.FormularioSet" Role="FormularioSet" Multiplicity="1">
+          <End Role="FormularioSet" Type="Self.FormularioSet" Multiplicity="1">
             <OnDelete Action="Cascade" />
           </End>
-          <End Type="InscripcionesBrDbGrupo06Model.AdquirenteSet" Role="AdquirenteSet" Multiplicity="*" />
+          <End Role="AdquirenteSet" Type="Self.AdquirenteSet" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="FormularioSet">
               <PropertyRef Name="NumeroAtencion" />
@@ -200,10 +201,10 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_Enajenantes_Formularios">
-          <End Type="InscripcionesBrDbGrupo06Model.FormularioSet" Role="FormularioSet" Multiplicity="1">
+          <End Role="FormularioSet" Type="Self.FormularioSet" Multiplicity="1">
             <OnDelete Action="Cascade" />
           </End>
-          <End Type="InscripcionesBrDbGrupo06Model.EnajenanteSet" Role="EnajenanteSet" Multiplicity="*" />
+          <End Role="EnajenanteSet" Type="Self.EnajenanteSet" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="FormularioSet">
               <PropertyRef Name="NumeroAtencion" />
@@ -213,7 +214,23 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        </Schema>
+        <EntityContainer Name="InscripcionesBrDbGrupo06Entities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="AdquirenteSet" EntityType="Self.AdquirenteSet" />
+          <EntitySet Name="Comunas" EntityType="Self.Comunas" />
+          <EntitySet Name="EnajenanteSet" EntityType="Self.EnajenanteSet" />
+          <EntitySet Name="FormularioSet" EntityType="Self.FormularioSet" />
+          <EntitySet Name="MultipropietarioSet" EntityType="Self.MultipropietarioSet" />
+          <EntitySet Name="Persona" EntityType="Self.Persona" />
+          <AssociationSet Name="FK_Adquirentes_Formularios" Association="Self.FK_Adquirentes_Formularios">
+            <End Role="FormularioSet" EntitySet="FormularioSet" />
+            <End Role="AdquirenteSet" EntitySet="AdquirenteSet" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Enajenantes_Formularios" Association="Self.FK_Enajenantes_Formularios">
+            <End Role="FormularioSet" EntitySet="FormularioSet" />
+            <End Role="EnajenanteSet" EntitySet="EnajenanteSet" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
@@ -222,62 +239,70 @@
           <EntitySetMapping Name="AdquirenteSet">
             <EntityTypeMapping TypeName="InscripcionesBrDbGrupo06Model.AdquirenteSet">
               <MappingFragment StoreEntitySet="AdquirenteSet">
-                <ScalarProperty Name="FormularioSetNumeroAtencion" ColumnName="FormularioSetNumeroAtencion" />
-                <ScalarProperty Name="DerechosNoAcreditados" ColumnName="DerechosNoAcreditados" />
-                <ScalarProperty Name="PorcentajeDerechos" ColumnName="PorcentajeDerechos" />
                 <ScalarProperty Name="RUT" ColumnName="RUT" />
+                <ScalarProperty Name="PorcentajeDerechos" ColumnName="PorcentajeDerechos" />
+                <ScalarProperty Name="DerechosNoAcreditados" ColumnName="DerechosNoAcreditados" />
+                <ScalarProperty Name="FormularioSetNumeroAtencion" ColumnName="FormularioSetNumeroAtencion" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Comunas">
+            <EntityTypeMapping TypeName="InscripcionesBrDbGrupo06Model.Comunas">
+              <MappingFragment StoreEntitySet="Comunas">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="nombre" ColumnName="nombre" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="EnajenanteSet">
             <EntityTypeMapping TypeName="InscripcionesBrDbGrupo06Model.EnajenanteSet">
               <MappingFragment StoreEntitySet="EnajenanteSet">
-                <ScalarProperty Name="FormularioSetNumeroAtencion" ColumnName="FormularioSetNumeroAtencion" />
-                <ScalarProperty Name="DerechosNoAcreditados" ColumnName="DerechosNoAcreditados" />
-                <ScalarProperty Name="PorcentajeDerechos" ColumnName="PorcentajeDerechos" />
                 <ScalarProperty Name="RUT" ColumnName="RUT" />
+                <ScalarProperty Name="PorcentajeDerechos" ColumnName="PorcentajeDerechos" />
+                <ScalarProperty Name="DerechosNoAcreditados" ColumnName="DerechosNoAcreditados" />
+                <ScalarProperty Name="FormularioSetNumeroAtencion" ColumnName="FormularioSetNumeroAtencion" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="FormularioSet">
             <EntityTypeMapping TypeName="InscripcionesBrDbGrupo06Model.FormularioSet">
               <MappingFragment StoreEntitySet="FormularioSet">
-                <ScalarProperty Name="NumeroInscripcion" ColumnName="NumeroInscripcion" />
-                <ScalarProperty Name="FechaInscripcion" ColumnName="FechaInscripcion" />
-                <ScalarProperty Name="Fojas" ColumnName="Fojas" />
-                <ScalarProperty Name="Predio" ColumnName="Predio" />
-                <ScalarProperty Name="Manzana" ColumnName="Manzana" />
-                <ScalarProperty Name="Comuna" ColumnName="Comuna" />
-                <ScalarProperty Name="CNE" ColumnName="CNE" />
                 <ScalarProperty Name="NumeroAtencion" ColumnName="NumeroAtencion" />
+                <ScalarProperty Name="CNE" ColumnName="CNE" />
+                <ScalarProperty Name="Comuna" ColumnName="Comuna" />
+                <ScalarProperty Name="Manzana" ColumnName="Manzana" />
+                <ScalarProperty Name="Predio" ColumnName="Predio" />
+                <ScalarProperty Name="Fojas" ColumnName="Fojas" />
+                <ScalarProperty Name="FechaInscripcion" ColumnName="FechaInscripcion" />
+                <ScalarProperty Name="NumeroInscripcion" ColumnName="NumeroInscripcion" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="MultipropietarioSet">
             <EntityTypeMapping TypeName="InscripcionesBrDbGrupo06Model.MultipropietarioSet">
               <MappingFragment StoreEntitySet="MultipropietarioSet">
-                <ScalarProperty Name="Predio" ColumnName="Predio" />
-                <ScalarProperty Name="Manzana" ColumnName="Manzana" />
-                <ScalarProperty Name="Comuna" ColumnName="Comuna" />
-                <ScalarProperty Name="AñoVigenciaFinal" ColumnName="AñoVigenciaFinal" />
-                <ScalarProperty Name="AñoVigenciaInicial" ColumnName="AñoVigenciaInicial" />
-                <ScalarProperty Name="FechaInscripcion" ColumnName="FechaInscripcion" />
-                <ScalarProperty Name="NumeroInscripcion" ColumnName="NumeroInscripcion" />
-                <ScalarProperty Name="Fojas" ColumnName="Fojas" />
-                <ScalarProperty Name="PorcentajeDerechos" ColumnName="PorcentajeDerechos" />
-                <ScalarProperty Name="RUT" ColumnName="RUT" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="RUT" ColumnName="RUT" />
+                <ScalarProperty Name="PorcentajeDerechos" ColumnName="PorcentajeDerechos" />
+                <ScalarProperty Name="Fojas" ColumnName="Fojas" />
+                <ScalarProperty Name="NumeroInscripcion" ColumnName="NumeroInscripcion" />
+                <ScalarProperty Name="FechaInscripcion" ColumnName="FechaInscripcion" />
+                <ScalarProperty Name="AñoVigenciaInicial" ColumnName="AñoVigenciaInicial" />
+                <ScalarProperty Name="AñoVigenciaFinal" ColumnName="AñoVigenciaFinal" />
+                <ScalarProperty Name="Comuna" ColumnName="Comuna" />
+                <ScalarProperty Name="Manzana" ColumnName="Manzana" />
+                <ScalarProperty Name="Predio" ColumnName="Predio" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Persona">
             <EntityTypeMapping TypeName="InscripcionesBrDbGrupo06Model.Persona">
               <MappingFragment StoreEntitySet="Persona">
-                <ScalarProperty Name="Dirección" ColumnName="Dirección" />
-                <ScalarProperty Name="Email" ColumnName="Email" />
-                <ScalarProperty Name="FechaNacimiento" ColumnName="FechaNacimiento" />
-                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
                 <ScalarProperty Name="RUT" ColumnName="RUT" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="FechaNacimiento" ColumnName="FechaNacimiento" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Dirección" ColumnName="Dirección" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
