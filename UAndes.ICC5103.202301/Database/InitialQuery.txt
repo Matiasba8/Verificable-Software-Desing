@@ -55,7 +55,8 @@ CREATE TABLE [dbo].[AdquirenteSet] (
     [RUT] nvarchar(450)  NOT NULL,
     [PorcentajeDerechos] decimal(10,2)  NULL,
     [DerechosNoAcreditados] BIT NOT NULL DEFAULT 0,
-    [FormularioSetNumeroAtencion] int  NOT NULL
+    [FormularioSetNumeroAtencion] int  NOT NULL,
+    [PorcentajeDisponible] decimal(10,2) NOT NULL DEFAULT 100.00
 );
 GO
 
