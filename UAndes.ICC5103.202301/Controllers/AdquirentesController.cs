@@ -52,25 +52,76 @@ namespace UAndes.ICC5103._202301.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create(int NumeroAtencion, string rut, string porcentajeDerechos, string derechosNoAcreditados)
         {
-            decimal porcDerechos;
-            bool derNoAcreditados = false;
+            decimal porcentajeDerechosParse;
+            bool derechosNoAcreditadosParse = false;
 
             try
             {
-                porcDerechos = Decimal.Parse(porcentajeDerechos);
-                if (derechosNoAcreditados == "on") { derNoAcreditados = true; }
+                porcentajeDerechosParse = Decimal.Parse(porcentajeDerechos);
+                if (derechosNoAcreditados == "on") { derechosNoAcreditadosParse = true; }
 
                 AdquirenteSet adquirenteSet = new AdquirenteSet();
                 adquirenteSet.FormularioSetNumeroAtencion = NumeroAtencion;
                 adquirenteSet.RUT = rut;
-                adquirenteSet.PorcentajeDerechos = porcDerechos;
-                adquirenteSet.DerechosNoAcreditados = derNoAcreditados;
+                if (derechosNoAcreditadosParse)
+                {
+                    adquirenteSet.PorcentajeDerechos = 0;
+                    Debug.WriteLine("PASÓ1");
+                }
+                else if (porcentajeDerechosParse > 0 && porcentajeDerechosParse <=100)
+                {
+                    adquirenteSet.PorcentajeDerechos = porcentajeDerechosParse;
+                    Debug.WriteLine("PASÓ2");
+                }
+                else
+                {
+                    Debug.WriteLine("NO PASÓ");
+                    return RedirectToAction("Edit", "Formularios", new { id = NumeroAtencion });
+                }
+                adquirenteSet.DerechosNoAcreditados = derechosNoAcreditadosParse;
+
+                
+                FormularioSet formularioSet = db.FormularioSet.Find(NumeroAtencion);
+                if (porcentajeDerechosParse >= 0 && (formularioSet.PorcentajeDisponible - porcentajeDerechosParse >= 0))
+                {
+                    Debug.WriteLine("PASÓ3");
+                    formularioSet.PorcentajeDisponible -= porcentajeDerechosParse;
+                }
+                else
+                {
+                    Debug.WriteLine("NO PASÓ 2");
+                    return RedirectToAction("Edit", "Formularios", new { id = NumeroAtencion });
+                }
+
+                MultipropietarioSet multipropietarioSet = new MultipropietarioSet();
+                multipropietarioSet.RUT = rut;
+                multipropietarioSet.PorcentajeDerechos = porcentajeDerechosParse;
+                multipropietarioSet.Fojas = formularioSet.Fojas;
+                multipropietarioSet.NumeroInscripcion = formularioSet.NumeroInscripcion;
+                multipropietarioSet.FechaInscripcion = formularioSet.FechaInscripcion;
+                if (formularioSet.FechaInscripcion <= new DateTime(2019, 1, 1))
+                {
+                    multipropietarioSet.AñoVigenciaInicial = new DateTime(2019, 1, 1);
+                }
+                else
+                {
+                    multipropietarioSet.AñoVigenciaInicial = formularioSet.FechaInscripcion;
+                }
+                multipropietarioSet.AñoVigenciaFinal = null;
+                multipropietarioSet.Comuna = formularioSet.Comuna;
+                multipropietarioSet.Manzana = formularioSet.Manzana;
+                multipropietarioSet.Predio = formularioSet.Predio;
+
 
                 if (ModelState.IsValid)
                 {
+                    Debug.WriteLine("PASÓ FINAL");
+                    db.Entry(formularioSet).State = EntityState.Modified;
                     db.AdquirenteSet.Add(adquirenteSet);
+                    db.MultipropietarioSet.Add(multipropietarioSet);
                     db.SaveChanges();
                 }
+
                 return RedirectToAction("Edit", "Formularios", new { id = adquirenteSet.FormularioSetNumeroAtencion });
             }
             catch(FormatException)

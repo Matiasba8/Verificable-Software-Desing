@@ -10,7 +10,7 @@
             <PropertyRef Name="RUT" />
           </Key>
           <Property Name="RUT" Type="nvarchar" MaxLength="450" Nullable="false" />
-          <Property Name="PorcentajeDerechos" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="PorcentajeDerechos" Type="decimal" Precision="10" Scale="3" />
           <Property Name="DerechosNoAcreditados" Type="bit" Nullable="false" />
           <Property Name="FormularioSetNumeroAtencion" Type="int" Nullable="false" />
         </EntityType>
@@ -26,7 +26,7 @@
             <PropertyRef Name="RUT" />
           </Key>
           <Property Name="RUT" Type="nvarchar" MaxLength="450" Nullable="false" />
-          <Property Name="PorcentajeDerechos" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="PorcentajeDerechos" Type="decimal" Precision="10" Scale="3" />
           <Property Name="DerechosNoAcreditados" Type="bit" Nullable="false" />
           <Property Name="FormularioSetNumeroAtencion" Type="int" Nullable="false" />
         </EntityType>
@@ -42,6 +42,7 @@
           <Property Name="Fojas" Type="nvarchar(max)" />
           <Property Name="FechaInscripcion" Type="datetime" />
           <Property Name="NumeroInscripcion" Type="bigint" />
+          <Property Name="PorcentajeDisponible" Type="decimal" Precision="10" Scale="3" />
         </EntityType>
         <EntityType Name="MultipropietarioSet">
           <Key>
@@ -49,7 +50,7 @@
           </Key>
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="RUT" Type="nvarchar(max)" />
-          <Property Name="PorcentajeDerechos" Type="decimal" Precision="18" Scale="0" />
+          <Property Name="PorcentajeDerechos" Type="decimal" Precision="10" Scale="3" />
           <Property Name="Fojas" Type="nvarchar(max)" />
           <Property Name="NumeroInscripcion" Type="bigint" />
           <Property Name="FechaInscripcion" Type="datetime" />
@@ -138,7 +139,7 @@
             <PropertyRef Name="RUT" />
           </Key>
           <Property Name="RUT" Type="String" Nullable="false" MaxLength="450" FixedLength="false" Unicode="true" />
-          <Property Name="PorcentajeDerechos" Type="Decimal" Precision="10" Scale="2" />
+          <Property Name="PorcentajeDerechos" Type="Decimal" Precision="10" Scale="3" />
           <Property Name="DerechosNoAcreditados" Type="Boolean" Nullable="false" />
           <Property Name="FormularioSetNumeroAtencion" Type="Int32" Nullable="false" />
           <NavigationProperty Name="FormularioSet" Relationship="InscripcionesBrDbGrupo06Model.FK_Adquirentes_Formularios" FromRole="AdquirenteSet" ToRole="FormularioSet" />
@@ -155,7 +156,7 @@
             <PropertyRef Name="RUT" />
           </Key>
           <Property Name="RUT" Type="String" Nullable="false" MaxLength="450" FixedLength="false" Unicode="true" />
-          <Property Name="PorcentajeDerechos" Type="Decimal" Precision="10" Scale="2" />
+          <Property Name="PorcentajeDerechos" Type="Decimal" Precision="10" Scale="3" />
           <Property Name="DerechosNoAcreditados" Type="Boolean" Nullable="false" />
           <Property Name="FormularioSetNumeroAtencion" Type="Int32" Nullable="false" />
           <NavigationProperty Name="FormularioSet" Relationship="InscripcionesBrDbGrupo06Model.FK_Enajenantes_Formularios" FromRole="EnajenanteSet" ToRole="FormularioSet" />
@@ -172,6 +173,7 @@
           <Property Name="Fojas" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="FechaInscripcion" Type="DateTime" Precision="3" />
           <Property Name="NumeroInscripcion" Type="Int64" />
+          <Property Name="PorcentajeDisponible" Type="Decimal" Precision="10" Scale="3" Nullable="true" DefaultValue="100" />
           <NavigationProperty Name="AdquirenteSet" Relationship="InscripcionesBrDbGrupo06Model.FK_Adquirentes_Formularios" FromRole="FormularioSet" ToRole="AdquirenteSet" />
           <NavigationProperty Name="EnajenanteSet" Relationship="InscripcionesBrDbGrupo06Model.FK_Enajenantes_Formularios" FromRole="FormularioSet" ToRole="EnajenanteSet" />
         </EntityType>
@@ -181,7 +183,7 @@
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="RUT" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="PorcentajeDerechos" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="PorcentajeDerechos" Type="Decimal" Precision="10" Scale="3" />
           <Property Name="Fojas" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="NumeroInscripcion" Type="Int64" />
           <Property Name="FechaInscripcion" Type="DateTime" Precision="3" />
@@ -229,7 +231,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-      </Schema>
+        </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
@@ -266,6 +268,7 @@
           <EntitySetMapping Name="FormularioSet">
             <EntityTypeMapping TypeName="InscripcionesBrDbGrupo06Model.FormularioSet">
               <MappingFragment StoreEntitySet="FormularioSet">
+                <ScalarProperty Name="PorcentajeDisponible" ColumnName="PorcentajeDisponible" />
                 <ScalarProperty Name="NumeroInscripcion" ColumnName="NumeroInscripcion" />
                 <ScalarProperty Name="FechaInscripcion" ColumnName="FechaInscripcion" />
                 <ScalarProperty Name="Fojas" ColumnName="Fojas" />

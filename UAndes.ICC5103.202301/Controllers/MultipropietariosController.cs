@@ -19,6 +19,7 @@ namespace UAndes.ICC5103._202301.Controllers
         // GET: Multipropietarios
         public ActionResult Index()
         {
+            ViewBag.Comunas = db.Comunas;
             return View(db.MultipropietarioSet.ToList());
         }
 
@@ -29,23 +30,27 @@ namespace UAndes.ICC5103._202301.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
+            
             MultipropietarioSet multipropietarioSet = db.MultipropietarioSet.Find(id);
             if (multipropietarioSet == null)
             {
                 return HttpNotFound();
             }
+            ViewBag.Comunas = db.Comunas;
             return View(multipropietarioSet);
         }
 
         // GET: Multipropietarios/Search/5
         public ActionResult Search()
         {
+            ViewBag.Comunas = db.Comunas;
             return View();
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Search(DateTime año, string comuna, string manzana, string predio)
         {
+            ViewBag.Comunas = db.Comunas;
             SearchData queryData = new SearchData(año, comuna, manzana, predio);
             string jsonConvertedData = JsonConvert.SerializeObject(queryData);
             return RedirectToAction("SearchResult", "Multipropietarios", new { año = queryData.año , comuna = queryData.comuna , manzana = queryData.manzana, predio = queryData.predio });
@@ -60,7 +65,7 @@ namespace UAndes.ICC5103._202301.Controllers
             //string comuna = queryData.comuna;
             //string manzana = queryData.manzana;
             //string predio = queryData.predio;
-
+            ViewBag.Comunas = db.Comunas;
             var queryMultipropietario = db.MultipropietarioSet.Where(multipropietario => multipropietario.AñoVigenciaInicial <= año && multipropietario.AñoVigenciaFinal >= año && multipropietario.Comuna == comuna && multipropietario.Manzana == manzana && multipropietario.Predio == predio);
             var queryMultipropietarioNull = db.MultipropietarioSet.Where(multipropietario => multipropietario.AñoVigenciaInicial <= año && (multipropietario.AñoVigenciaFinal == null || multipropietario.AñoVigenciaFinal < multipropietario.AñoVigenciaInicial) && multipropietario.Comuna == comuna && multipropietario.Manzana == manzana && multipropietario.Predio == predio);
 
@@ -83,6 +88,7 @@ namespace UAndes.ICC5103._202301.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "Id,RUT,PorcentajeDerechos,Fojas,NumeroInscripcion,FechaInscripcion,AñoVigenciaInicial,AñoVigenciaFinal,Comuna,Manzana,Predio")] MultipropietarioSet multipropietarioSet)
         {
+            ViewBag.Comunas = db.Comunas;
             if (ModelState.IsValid)
             {
                 db.MultipropietarioSet.Add(multipropietarioSet);
