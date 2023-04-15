@@ -68,6 +68,59 @@
 
     </dl>
 </div>
+
+<!--
+<h4>
+    Enajenantes
+</h4>
+<table class="table">
+    <thead>
+        <tr>
+            <th scope="col">RUT</th>
+            <th scope="col">Porcentaje de Derechos</th>
+            <th scope="col">Derechos No Acreditados</th>
+        </tr>
+    </thead>
+    <tbody>
+        @if(ViewBag.enajenantes != null){
+            foreach (var enajenante in ViewBag.enajenantes)
+            {
+        <tr>
+            <td>@enajenante.RUT</td>
+            <td>@enajenante.PorcentajeDerechos</td>
+            <td>@enajenante.DerechosNoAcreditados</td>
+        </tr>
+            }
+        }
+    </tbody>
+</table>
+-->
+
+<h4>
+    Adquirentes
+</h4>
+<table class="table">
+    <thead>
+        <tr>
+            <th scope="col">RUT</th>
+            <th scope="col">Porcentaje de Derechos</th>
+            <th scope="col">Derechos No Acreditados</th>
+        </tr>
+    </thead>
+    <tbody>
+        @if(ViewBag.adquirentes != null){
+            foreach (var adquirente in ViewBag.adquirentes)
+            {
+        <tr>
+            <td>@adquirente.RUT</td>
+            <td>@adquirente.PorcentajeDerechos</td>
+            <td>@adquirente.DerechosNoAcreditados</td>
+        </tr>
+            }
+        }
+    </tbody>
+</table>
+
 <p>
     @Html.ActionLink("Editar", "Edit", new { id = Model.NumeroAtencion }) |
     @Html.ActionLink("Volver al Listado", "Index")

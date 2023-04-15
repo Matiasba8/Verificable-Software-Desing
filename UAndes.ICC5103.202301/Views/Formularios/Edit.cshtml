@@ -19,7 +19,7 @@
     <label>CNE</label>
     <div class="form-group">
         <div class="col-md-10">
-            @Html.EditorFor(model => model.CNE, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly", @Value = "Compraventa y Regularización de Patrimonio"  } })
+            @Html.EditorFor(model => model.CNE, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly", @Value = "Regularización de Patrimonio"  } })
             @Html.ValidationMessageFor(model => model.CNE, "", new { @class = "text-danger" })
         </div>
     </div>
@@ -30,7 +30,7 @@
             <select name="comuna">
                 @foreach (var comuna in ViewBag.Comunas)
                 {
-                    <option value="@comuna.nombre" @{ if (ViewBag.formularioSet.Comuna == comuna.nombre) { <text> selected</text> } }>@comuna.nombre</option>
+                <option value="@comuna.nombre" @{ if (ViewBag.formularioSet.Comuna == comuna.nombre) { <text> selected</text> } }>@comuna.nombre</option>
                 }
             </select>
         </div>
@@ -118,7 +118,7 @@
 <input type="text" id="rut" name="rut" />
 
 <label for="porcentajeDerechos">Porcentaje de Derechos:</label>
-<input type="text" id="porcentajeDerechos" name="porcentajeDerechos" />
+<input type="text" id="porcentajeDerechos" name="porcentajeDerechos" value="0" />
 
 <label for="derechosNoAcreditados">Derechos No Acreditados:</label>
 <input type="checkbox" id="derechosNoAcreditados" name="derechosNoAcreditados" />
@@ -128,7 +128,7 @@
 <button type="submit">Agregar</button>
 }
 
-
+<!--
 <h2>
     Enajenantes
 </h2>
@@ -163,7 +163,7 @@
 <input type="text" id="rut" name="rut" />
 
 <label for="porcentajeDerechos">Porcentaje de Derechos:</label>
-<input type="text" id="porcentajeDerechos" name="porcentajeDerechos" />
+<input type="text" id="porcentajeDerechos" name="porcentajeDerechos" value="0"/>
 
 <label for="derechosNoAcreditados">Derechos No Acreditados:</label>
 <input type="checkbox" id="derechosNoAcreditados" name="derechosNoAcreditados" />
@@ -173,6 +173,7 @@
 <button type="submit">Agregar</button>
 }
 
+    -->
 <div>
     @Html.ActionLink("Volver al Listado", "Index")
 </div>

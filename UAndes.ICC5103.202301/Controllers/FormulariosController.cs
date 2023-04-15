@@ -29,10 +29,16 @@ namespace UAndes.ICC5103._202301.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             FormularioSet formularioSet = db.FormularioSet.Find(id);
+            var adquirentes = db.AdquirenteSet.Where(adquiSet => adquiSet.FormularioSetNumeroAtencion == id);
+            var enajenantes = db.EnajenanteSet.Where(enajenanteSet => enajenanteSet.FormularioSetNumeroAtencion == id);
+
             if (formularioSet == null)
             {
                 return HttpNotFound();
             }
+
+            ViewBag.adquirentes = adquirentes;
+            ViewBag.enajenantes = enajenantes;
             return View(formularioSet);
         }
 
