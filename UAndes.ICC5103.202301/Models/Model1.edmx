@@ -7,12 +7,13 @@
     <Schema Namespace="InscripcionesBrDbGrupo06Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="AdquirenteSet">
           <Key>
-            <PropertyRef Name="RUT" />
+            <PropertyRef Name="Id" />
           </Key>
-          <Property Name="RUT" Type="nvarchar" MaxLength="450" Nullable="false" />
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="PorcentajeDerechos" Type="decimal" Precision="10" Scale="3" />
           <Property Name="DerechosNoAcreditados" Type="bit" Nullable="false" />
           <Property Name="FormularioSetNumeroAtencion" Type="int" Nullable="false" />
+          <Property Name="RUT" Type="nvarchar(max)" Nullable="false" />
         </EntityType>
         <EntityType Name="Comunas">
           <Key>
@@ -23,12 +24,13 @@
         </EntityType>
         <EntityType Name="EnajenanteSet">
           <Key>
-            <PropertyRef Name="RUT" />
+            <PropertyRef Name="Id" />
           </Key>
-          <Property Name="RUT" Type="nvarchar" MaxLength="450" Nullable="false" />
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="PorcentajeDerechos" Type="decimal" Precision="10" Scale="3" />
           <Property Name="DerechosNoAcreditados" Type="bit" Nullable="false" />
           <Property Name="FormularioSetNumeroAtencion" Type="int" Nullable="false" />
+          <Property Name="RUT" Type="nvarchar(max)" Nullable="false" />
         </EntityType>
         <EntityType Name="FormularioSet">
           <Key>
@@ -59,6 +61,8 @@
           <Property Name="Comuna" Type="nvarchar(max)" />
           <Property Name="Manzana" Type="nvarchar(max)" />
           <Property Name="Predio" Type="nvarchar(max)" />
+          <Property Name="FormularioNumeroAtencion" Type="int" Nullable="false" />
+          <Property Name="DerechosNoAcreditados" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="Persona">
           <Key>
@@ -136,12 +140,13 @@
         </EntityContainer>
         <EntityType Name="AdquirenteSet">
           <Key>
-            <PropertyRef Name="RUT" />
+            <PropertyRef Name="Id" />
           </Key>
-          <Property Name="RUT" Type="String" Nullable="false" MaxLength="450" FixedLength="false" Unicode="true" />
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="PorcentajeDerechos" Type="Decimal" Precision="10" Scale="3" />
           <Property Name="DerechosNoAcreditados" Type="Boolean" Nullable="false" />
           <Property Name="FormularioSetNumeroAtencion" Type="Int32" Nullable="false" />
+          <Property Name="RUT" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="FormularioSet" Relationship="InscripcionesBrDbGrupo06Model.FK_Adquirentes_Formularios" FromRole="AdquirenteSet" ToRole="FormularioSet" />
         </EntityType>
         <EntityType Name="Comunas">
@@ -153,12 +158,13 @@
         </EntityType>
         <EntityType Name="EnajenanteSet">
           <Key>
-            <PropertyRef Name="RUT" />
+            <PropertyRef Name="Id" />
           </Key>
-          <Property Name="RUT" Type="String" Nullable="false" MaxLength="450" FixedLength="false" Unicode="true" />
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="PorcentajeDerechos" Type="Decimal" Precision="10" Scale="3" />
           <Property Name="DerechosNoAcreditados" Type="Boolean" Nullable="false" />
           <Property Name="FormularioSetNumeroAtencion" Type="Int32" Nullable="false" />
+          <Property Name="RUT" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="FormularioSet" Relationship="InscripcionesBrDbGrupo06Model.FK_Enajenantes_Formularios" FromRole="EnajenanteSet" ToRole="FormularioSet" />
         </EntityType>
         <EntityType Name="FormularioSet">
@@ -173,7 +179,7 @@
           <Property Name="Fojas" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="FechaInscripcion" Type="DateTime" Precision="3" />
           <Property Name="NumeroInscripcion" Type="Int64" />
-          <Property Name="PorcentajeDisponible" Type="Decimal" Precision="10" Scale="3" Nullable="true" DefaultValue="100" />
+          <Property Name="PorcentajeDisponible" Type="Decimal" Precision="10" Scale="3" DefaultValue="100" />
           <NavigationProperty Name="AdquirenteSet" Relationship="InscripcionesBrDbGrupo06Model.FK_Adquirentes_Formularios" FromRole="FormularioSet" ToRole="AdquirenteSet" />
           <NavigationProperty Name="EnajenanteSet" Relationship="InscripcionesBrDbGrupo06Model.FK_Enajenantes_Formularios" FromRole="FormularioSet" ToRole="EnajenanteSet" />
         </EntityType>
@@ -192,6 +198,8 @@
           <Property Name="Comuna" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="Manzana" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="Predio" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="FormularioNumeroAtencion" Type="Int32" Nullable="false" />
+          <Property Name="DerechosNoAcreditados" Type="Boolean" Nullable="false" />
         </EntityType>
         <EntityType Name="Persona">
           <Key>
@@ -240,10 +248,11 @@
           <EntitySetMapping Name="AdquirenteSet">
             <EntityTypeMapping TypeName="InscripcionesBrDbGrupo06Model.AdquirenteSet">
               <MappingFragment StoreEntitySet="AdquirenteSet">
+                <ScalarProperty Name="RUT" ColumnName="RUT" />
                 <ScalarProperty Name="FormularioSetNumeroAtencion" ColumnName="FormularioSetNumeroAtencion" />
                 <ScalarProperty Name="DerechosNoAcreditados" ColumnName="DerechosNoAcreditados" />
                 <ScalarProperty Name="PorcentajeDerechos" ColumnName="PorcentajeDerechos" />
-                <ScalarProperty Name="RUT" ColumnName="RUT" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -258,10 +267,11 @@
           <EntitySetMapping Name="EnajenanteSet">
             <EntityTypeMapping TypeName="InscripcionesBrDbGrupo06Model.EnajenanteSet">
               <MappingFragment StoreEntitySet="EnajenanteSet">
+                <ScalarProperty Name="RUT" ColumnName="RUT" />
                 <ScalarProperty Name="FormularioSetNumeroAtencion" ColumnName="FormularioSetNumeroAtencion" />
                 <ScalarProperty Name="DerechosNoAcreditados" ColumnName="DerechosNoAcreditados" />
                 <ScalarProperty Name="PorcentajeDerechos" ColumnName="PorcentajeDerechos" />
-                <ScalarProperty Name="RUT" ColumnName="RUT" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -283,6 +293,8 @@
           <EntitySetMapping Name="MultipropietarioSet">
             <EntityTypeMapping TypeName="InscripcionesBrDbGrupo06Model.MultipropietarioSet">
               <MappingFragment StoreEntitySet="MultipropietarioSet">
+                <ScalarProperty Name="DerechosNoAcreditados" ColumnName="DerechosNoAcreditados" />
+                <ScalarProperty Name="FormularioNumeroAtencion" ColumnName="FormularioNumeroAtencion" />
                 <ScalarProperty Name="Predio" ColumnName="Predio" />
                 <ScalarProperty Name="Manzana" ColumnName="Manzana" />
                 <ScalarProperty Name="Comuna" ColumnName="Comuna" />

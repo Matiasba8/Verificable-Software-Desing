@@ -2,9 +2,11 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 04/15/2023 14:32:53
+-- Date Created: 04/16/2023 22:50:09
 -- Generated from EDMX file: C:\SoftwareVerificable\UAndes.ICC5103.202301\Models\Model1.edmx
 -- --------------------------------------------------
+Create Database InscripcionesBrDbGrupo06
+GO
 
 SET QUOTED_IDENTIFIER OFF;
 GO
@@ -53,10 +55,11 @@ GO
 
 -- Creating table 'AdquirenteSet'
 CREATE TABLE [dbo].[AdquirenteSet] (
-    [RUT] nvarchar(450)  NOT NULL,
+    [Id] int IDENTITY(1,1) NOT NULL,
     [PorcentajeDerechos] decimal(10,3)  NULL,
     [DerechosNoAcreditados] bit  NOT NULL,
-    [FormularioSetNumeroAtencion] int  NOT NULL
+    [FormularioSetNumeroAtencion] int  NOT NULL,
+    [RUT] nvarchar(max)  NOT NULL
 );
 GO
 
@@ -69,10 +72,11 @@ GO
 
 -- Creating table 'EnajenanteSet'
 CREATE TABLE [dbo].[EnajenanteSet] (
-    [RUT] nvarchar(450)  NOT NULL,
+    [Id] int IDENTITY(1,1) NOT NULL,
     [PorcentajeDerechos] decimal(10,3)  NULL,
     [DerechosNoAcreditados] bit  NOT NULL,
-    [FormularioSetNumeroAtencion] int  NOT NULL
+    [FormularioSetNumeroAtencion] int  NOT NULL,
+    [RUT] nvarchar(max)  NOT NULL
 );
 GO
 
@@ -102,7 +106,9 @@ CREATE TABLE [dbo].[MultipropietarioSet] (
     [AñoVigenciaFinal] datetime  NULL,
     [Comuna] nvarchar(max)  NULL,
     [Manzana] nvarchar(max)  NULL,
-    [Predio] nvarchar(max)  NULL
+    [Predio] nvarchar(max)  NULL,
+    [FormularioNumeroAtencion] int  NOT NULL,
+    [DerechosNoAcreditados] bit  NOT NULL
 );
 GO
 
@@ -120,10 +126,10 @@ GO
 -- Creating all PRIMARY KEY constraints
 -- --------------------------------------------------
 
--- Creating primary key on [RUT] in table 'AdquirenteSet'
+-- Creating primary key on [Id] in table 'AdquirenteSet'
 ALTER TABLE [dbo].[AdquirenteSet]
 ADD CONSTRAINT [PK_AdquirenteSet]
-    PRIMARY KEY CLUSTERED ([RUT] ASC);
+    PRIMARY KEY CLUSTERED ([Id] ASC);
 GO
 
 -- Creating primary key on [id] in table 'Comunas'
@@ -132,10 +138,10 @@ ADD CONSTRAINT [PK_Comunas]
     PRIMARY KEY CLUSTERED ([id] ASC);
 GO
 
--- Creating primary key on [RUT] in table 'EnajenanteSet'
+-- Creating primary key on [Id] in table 'EnajenanteSet'
 ALTER TABLE [dbo].[EnajenanteSet]
 ADD CONSTRAINT [PK_EnajenanteSet]
-    PRIMARY KEY CLUSTERED ([RUT] ASC);
+    PRIMARY KEY CLUSTERED ([Id] ASC);
 GO
 
 -- Creating primary key on [NumeroAtencion] in table 'FormularioSet'

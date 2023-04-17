@@ -25,5 +25,7 @@ namespace UAndes.ICC5103._202301.Models
         public string Comuna { get; set; }
         public string Manzana { get; set; }
         public string Predio { get; set; }
+        public int FormularioNumeroAtencion { get; set; }
+        public bool DerechosNoAcreditados { get; set; }
     }
 }

@@ -9,6 +9,7 @@ using System.Web;
 using System.Web.Mvc;
 using UAndes.ICC5103._202301.Models;
 using Newtonsoft.Json;
+using Microsoft.CodeAnalysis.CSharp;
 
 namespace UAndes.ICC5103._202301.Controllers
 {
@@ -48,12 +49,25 @@ namespace UAndes.ICC5103._202301.Controllers
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Search(DateTime año, string comuna, string manzana, string predio)
+        public ActionResult Search(string añoInput, string comuna, string manzana, string predio)
         {
-            ViewBag.Comunas = db.Comunas;
-            SearchData queryData = new SearchData(año, comuna, manzana, predio);
-            string jsonConvertedData = JsonConvert.SerializeObject(queryData);
-            return RedirectToAction("SearchResult", "Multipropietarios", new { año = queryData.año , comuna = queryData.comuna , manzana = queryData.manzana, predio = queryData.predio });
+            int añoParsed;
+            bool success = int.TryParse(añoInput, out añoParsed);
+            Debug.WriteLine(añoParsed);
+
+            if (success)
+            {
+                DateTime año = new DateTime(añoParsed, 1, 1);
+
+                ViewBag.Comunas = db.Comunas;
+                SearchData queryData = new SearchData(año, comuna, manzana, predio);
+                string jsonConvertedData = JsonConvert.SerializeObject(queryData);
+                return RedirectToAction("SearchResult", "Multipropietarios", new { año = queryData.año, comuna = queryData.comuna, manzana = queryData.manzana, predio = queryData.predio });
+            }
+            else
+            {
+                return RedirectToAction("Index");
+            }
         }
 
         // GET: Multipropietarios/Create
@@ -66,11 +80,32 @@ namespace UAndes.ICC5103._202301.Controllers
             //string manzana = queryData.manzana;
             //string predio = queryData.predio;
             ViewBag.Comunas = db.Comunas;
-            var queryMultipropietario = db.MultipropietarioSet.Where(multipropietario => multipropietario.AñoVigenciaInicial <= año && multipropietario.AñoVigenciaFinal >= año && multipropietario.Comuna == comuna && multipropietario.Manzana == manzana && multipropietario.Predio == predio);
-            var queryMultipropietarioNull = db.MultipropietarioSet.Where(multipropietario => multipropietario.AñoVigenciaInicial <= año && (multipropietario.AñoVigenciaFinal == null || multipropietario.AñoVigenciaFinal < multipropietario.AñoVigenciaInicial) && multipropietario.Comuna == comuna && multipropietario.Manzana == manzana && multipropietario.Predio == predio);
+            var queryMultipropietario = db.MultipropietarioSet.Where(multipropietario => (multipropietario.AñoVigenciaInicial.Value.Year <= año.Year && multipropietario.AñoVigenciaFinal.Value.Year >= año.Year && multipropietario.Comuna == comuna && multipropietario.Manzana == manzana && multipropietario.Predio == predio) || (multipropietario.AñoVigenciaInicial.Value.Year <= año.Year && multipropietario.AñoVigenciaFinal == null && multipropietario.Comuna == comuna && multipropietario.Manzana == manzana && multipropietario.Predio == predio));
+            
+            List<int> listaNumerosInscripcion = new List<int>();
+            foreach (MultipropietarioSet multipropietarioSet in queryMultipropietario)
+            {
+                if (listaNumerosInscripcion.Contains((int)multipropietarioSet.NumeroInscripcion)){}
+                else
+                {
+                    listaNumerosInscripcion.Add((int)multipropietarioSet.NumeroInscripcion);
+                }
+            }
 
-            ViewBag.queryMultipropietario = queryMultipropietario;
-            ViewBag.queryMultipropietarioNull = queryMultipropietarioNull;
+            listaNumerosInscripcion.Sort();
+
+            listaNumerosInscripcion.Reverse();
+
+            List<MultipropietarioSet> multipropietariosFinales = new List<MultipropietarioSet>();
+            foreach(MultipropietarioSet multipropietarioSet in queryMultipropietario)
+            {
+                if (multipropietarioSet.NumeroInscripcion == listaNumerosInscripcion.First())
+                {
+                    multipropietariosFinales.Add(multipropietarioSet);
+                }
+            }
+
+            ViewBag.queryMultipropietario = multipropietariosFinales;
             return View();
         }
 

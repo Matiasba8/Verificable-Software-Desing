@@ -42,7 +42,7 @@
         <label>Año</label>
         <div class="form-group">
             <div class="col-md-10">
-                <input type="text" id="año" name="año" />
+                <input type="text" id="añoInput" name="añoInput" />
             </div>
         </div>
 
@@ -114,10 +114,17 @@
                 @Html.DisplayFor(modelItem => item.FechaInscripcion)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.AñoVigenciaInicial)
+                @Html.DisplayFor(modelItem => item.AñoVigenciaInicial.Value.Year)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.AñoVigenciaFinal)
+                @if (item.AñoVigenciaFinal != null)
+                {
+                    @Html.DisplayFor(modelItem => item.AñoVigenciaFinal.Value.Year)
+                }
+                else
+                {
+                    @Html.DisplayFor(modelItem => item.AñoVigenciaFinal)
+                }
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Comuna)
@@ -128,11 +135,13 @@
             <td>
                 @Html.DisplayFor(modelItem => item.Predio)
             </td>
+            <!--
             <td>
-                @Html.ActionLink("Editar", "Edit", new { id = item.Id }) |
-                @Html.ActionLink("Detalles", "Details", new { id = item.Id }) |
-                @Html.ActionLink("Eliminar", "Delete", new { id = item.Id })
+                Html.ActionLink("Editar", "Edit", new { id = item.Id }) |
+                Html.ActionLink("Detalles", "Details", new { id = item.Id }) |
+                Html.ActionLink("Eliminar", "Delete", new { id = item.Id })
             </td>
+            -->
         </tr>
     }
 

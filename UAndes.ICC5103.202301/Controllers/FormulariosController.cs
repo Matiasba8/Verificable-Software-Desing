@@ -66,7 +66,7 @@ namespace UAndes.ICC5103._202301.Controllers
                 formularioSet.Fojas = "";
                 formularioSet.FechaInscripcion = new DateTime(2023, 1, 1);
                 formularioSet.NumeroInscripcion = 0;
-                formularioSet.PorcentajeDisponible = new Decimal(100.000);
+                formularioSet.PorcentajeDisponible = new Decimal(100);
 
                 if (ModelState.IsValid)
                 {
@@ -120,20 +120,7 @@ namespace UAndes.ICC5103._202301.Controllers
                 ViewBag.formularioSet = formularioSet;
                 ViewBag.Comunas = db.Comunas;
 
-                var formsPrevios = db.FormularioSet.Where(formsPreviosSet => formsPreviosSet.Comuna == formularioSet.Comuna && formsPreviosSet.Manzana == formularioSet.Manzana && formsPreviosSet.Predio == formularioSet.Predio);
-                if (formsPrevios.Any())
-                {
-                    if (formsPrevios.First<FormularioSet>() != null)
-                    {
-                        FormularioSet formPrevio = formsPrevios.First<FormularioSet>();
-                        var multipropietariosPrevios = db.MultipropietarioSet.Where(multipropietariosPreviosSet => multipropietariosPreviosSet.NumeroInscripcion == formPrevio.NumeroInscripcion);
-                        foreach (MultipropietarioSet multipropietario in multipropietariosPrevios)
-                        {
-                            multipropietario.AñoVigenciaFinal = new DateTime(formularioSet.FechaInscripcion.Value.Year - 1, 1, 1);
-                            db.Entry(multipropietario).State = EntityState.Modified;
-                        }
-                    }
-                }
+                
                 db.Entry(formularioSet).State = EntityState.Modified;
                 db.SaveChanges();
                 //return RedirectToAction("Index");

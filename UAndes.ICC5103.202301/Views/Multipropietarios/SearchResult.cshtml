@@ -22,34 +22,26 @@
     </thead>
     <tbody>
         @foreach (var multipropietario in ViewBag.queryMultipropietario)
-            {
-        <tr>
-            <td>@multipropietario.RUT</td>
-            <td>@multipropietario.PorcentajeDerechos</td>
-            <td>@multipropietario.Comuna</td>
-            <td>@multipropietario.Manzana</td>
-            <td>@multipropietario.Predio</td>
-            <td>@multipropietario.AñoVigenciaInicial</td>
-            <td>@multipropietario.AñoVigenciaFinal</td>
-            <td>@multipropietario.Fojas</td>
-            <td>@multipropietario.NumeroInscripcion</td>
-            <td>@multipropietario.FechaInscripcion</td>
-        </tr>
-            }
-        @foreach (var multipropietario in ViewBag.queryMultipropietarioNull)
-            {
-        <tr>
-            <td>@multipropietario.RUT</td>
-            <td>@multipropietario.PorcentajeDerechos</td>
-            <td>@multipropietario.Comuna</td>
-            <td>@multipropietario.Manzana</td>
-            <td>@multipropietario.Predio</td>
-            <td>@multipropietario.AñoVigenciaInicial</td>
-            <td>@multipropietario.AñoVigenciaFinal</td>
-            <td>@multipropietario.Fojas</td>
-            <td>@multipropietario.NumeroInscripcion</td>
-            <td>@multipropietario.FechaInscripcion</td>
-        </tr>
-            }
+        {
+            <tr>
+                <td>@multipropietario.RUT</td>
+                <td>@multipropietario.PorcentajeDerechos</td>
+                <td>@multipropietario.Comuna</td>
+                <td>@multipropietario.Manzana</td>
+                <td>@multipropietario.Predio</td>
+                <td>@multipropietario.AñoVigenciaInicial.Year</td>
+                @if (multipropietario.AñoVigenciaFinal != null)
+                {
+                    <td>@multipropietario.AñoVigenciaFinal.Year</td>
+                }
+                else
+                {
+                    <td>@multipropietario.AñoVigenciaFinal</td>
+                }
+                <td>@multipropietario.Fojas</td>
+                <td>@multipropietario.NumeroInscripcion</td>
+                <td>@multipropietario.FechaInscripcion</td>
+            </tr>
+        }
     </tbody>
 </table>
