@@ -1,4 +1,4 @@
-# Entrega 1 Grupo 6
+# Entrega 2 Grupo 6
 
 Matías Bustos
 Diego Christie
