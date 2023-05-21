@@ -14,6 +14,7 @@ namespace UAndes.ICC5103._202301.Controllers
 {
     public class AdquirentesController : Controller
     {
+        private DateTime _2019 = new DateTime(2019, 1, 1);
         private InscripcionesBrDbGrupo06Entities db = new InscripcionesBrDbGrupo06Entities();
 
         // GET: Adquirentes
@@ -50,7 +51,7 @@ namespace UAndes.ICC5103._202301.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(int NumeroAtencion, string rut, string porcentajeDerechos, string derechosNoAcreditados)
+        public ActionResult Create(int numeroAtencion, string rut, string porcentajeDerechos, string derechosNoAcreditados)
         {
             decimal porcentajeDerechosParse;
             bool derechosNoAcreditadosParse = false;
@@ -63,7 +64,7 @@ namespace UAndes.ICC5103._202301.Controllers
                 if (derechosNoAcreditados == "on") { derechosNoAcreditadosParse = true; }
 
                 AdquirenteSet adquirenteSet = new AdquirenteSet();
-                adquirenteSet.FormularioSetNumeroAtencion = NumeroAtencion;
+                adquirenteSet.FormularioSetNumeroAtencion = numeroAtencion;
                 adquirenteSet.RUT = rut;
                 if (derechosNoAcreditadosParse)
                 {
@@ -76,19 +77,19 @@ namespace UAndes.ICC5103._202301.Controllers
                 }
                 else
                 {
-                    return RedirectToAction("Edit", "Formularios", new { id = NumeroAtencion });
+                    return RedirectToAction("Edit", "Formularios", new { id = numeroAtencion });
                 }
                 adquirenteSet.DerechosNoAcreditados = derechosNoAcreditadosParse;
 
                 
-                FormularioSet formularioSet = db.FormularioSet.Find(NumeroAtencion);
+                FormularioSet formularioSet = db.FormularioSet.Find(numeroAtencion);
                 if (porcentajeDerechosParse >= 0 && (formularioSet.PorcentajeDisponible - porcentajeDerechosParse >= 0))
                 {
                     formularioSet.PorcentajeDisponible -= porcentajeDerechosParse;
                 }
                 else
                 {
-                    return RedirectToAction("Edit", "Formularios", new { id = NumeroAtencion });
+                    return RedirectToAction("Edit", "Formularios", new { id = numeroAtencion });
                 }
 
                 MultipropietarioSet multipropietarioSet = new MultipropietarioSet();
@@ -97,9 +98,9 @@ namespace UAndes.ICC5103._202301.Controllers
                 multipropietarioSet.Fojas = formularioSet.Fojas;
                 multipropietarioSet.NumeroInscripcion = formularioSet.NumeroInscripcion;
                 multipropietarioSet.FechaInscripcion = formularioSet.FechaInscripcion;
-                if (formularioSet.FechaInscripcion <= new DateTime(2019, 1, 1))
+                if (formularioSet.FechaInscripcion <= _2019)
                 {
-                    multipropietarioSet.AñoVigenciaInicial = new DateTime(2019, 1, 1);
+                    multipropietarioSet.AñoVigenciaInicial = _2019;
                 }
                 else
                 {
@@ -122,7 +123,12 @@ namespace UAndes.ICC5103._202301.Controllers
                     db.SaveChanges();
 
                     //CREACION Y AJUSTE DE MULTIPROPIETARIOS
-                    var multipropietariosPreviosQuery = db.MultipropietarioSet.Where(multipropietariosPreviosSet => multipropietariosPreviosSet.Comuna == formularioSet.Comuna && multipropietariosPreviosSet.Manzana == formularioSet.Manzana && multipropietariosPreviosSet.Predio == formularioSet.Predio);
+                    var multipropietariosPreviosQuery = 
+                        db.MultipropietarioSet.Where(multipropPreviosSet => 
+                                                     multipropPreviosSet.Comuna == formularioSet.Comuna &&
+                                                     multipropPreviosSet.Manzana == formularioSet.Manzana && 
+                                                     multipropPreviosSet.Predio == formularioSet.Predio);
+
                     if (multipropietariosPreviosQuery.Any())
                     {
                         List<MultipropietarioSet> multipropietariosPrevios = multipropietariosPreviosQuery.ToList();
@@ -223,7 +229,7 @@ namespace UAndes.ICC5103._202301.Controllers
             }
             catch(FormatException)
             {
-                return RedirectToAction("Edit", "Formularios", new { id = NumeroAtencion });
+                return RedirectToAction("Edit", "Formularios", new { id = numeroAtencion });
             }
         }
 
