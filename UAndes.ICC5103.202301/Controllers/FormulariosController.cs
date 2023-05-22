@@ -7,6 +7,7 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using System.Diagnostics;
 using UAndes.ICC5103._202301.Models;
 
 namespace UAndes.ICC5103._202301.Controllers
@@ -14,6 +15,7 @@ namespace UAndes.ICC5103._202301.Controllers
     public class FormulariosController : Controller
     {
         private InscripcionesBrDbGrupo06Entities db = new InscripcionesBrDbGrupo06Entities();
+        private List<String> cnes_disponibles = new List<String>{ "Compraventa", "Regularización de Patrimonio" };
 
         // GET: Formularios
         public ActionResult Index()
@@ -48,12 +50,14 @@ namespace UAndes.ICC5103._202301.Controllers
         public ActionResult New(int? Id)
         {
             ViewBag.Comunas = db.Comunas;
+            ViewBag.cnes_disponibles = cnes_disponibles;
             if (Id != null)
             {
                 FormularioSet formularioSet = db.FormularioSet.Find(Id);
 
                 ViewBag.adquirentes = db.AdquirenteSet.Where(adquirente => adquirente.FormularioSetNumeroAtencion == Id);
                 ViewBag.enajenantes = db.EnajenanteSet.Where(enajenante => enajenante.FormularioSetNumeroAtencion == Id);
+                ViewBag.FormularioSet = formularioSet;
                 return View(formularioSet);
             }
             else
@@ -71,6 +75,7 @@ namespace UAndes.ICC5103._202301.Controllers
                 if (ModelState.IsValid)
                 {
                     db.FormularioSet.Add(formularioSet);
+                    ViewBag.FormularioSet = formularioSet;
                     db.SaveChanges();
                 }
 
@@ -98,6 +103,9 @@ namespace UAndes.ICC5103._202301.Controllers
             ViewBag.enajenantes = enajenantes;
             ViewBag.formularioSet = formularioSet;
             ViewBag.Comunas = db.Comunas;
+            ViewBag.cnes_disponibles = cnes_disponibles;
+            ViewBag.CNE = formularioSet.CNE;
+
             return View(formularioSet);
         }
 
@@ -107,7 +115,8 @@ namespace UAndes.ICC5103._202301.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "NumeroAtencion,CNE,Comuna,Manzana,Predio,Fojas,FechaInscripcion,NumeroInscripcion")] FormularioSet formularioSet)
-        {   
+        {
+            ViewBag.cnes_disponibles = cnes_disponibles;
             if (ModelState.IsValid)
             {
 
@@ -119,8 +128,8 @@ namespace UAndes.ICC5103._202301.Controllers
                 ViewBag.enajenantes = enajenantes;
                 ViewBag.formularioSet = formularioSet;
                 ViewBag.Comunas = db.Comunas;
+                ViewBag.CNE = formularioSet.CNE;
 
-                
                 db.Entry(formularioSet).State = EntityState.Modified;
                 db.SaveChanges();
                 //return RedirectToAction("Index");

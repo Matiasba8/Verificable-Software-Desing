@@ -5,83 +5,87 @@
 }
 
 <h2>Datos de Formulario</h2>
-
+<input type="hidden" id="formularioId" name="formId" value="@ViewBag.FormularioSet.NumeroAtencion" />
 @using (Html.BeginForm())
 {
-@Html.AntiForgeryToken()
+    @Html.AntiForgeryToken()
 
-<div class="form-horizontal">
-    <h4>Formulario</h4>
-    <hr />
-    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-    @Html.HiddenFor(model => model.NumeroAtencion)
+    <div class="form-horizontal">
+        <h4>Formulario</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => model.NumeroAtencion)
 
-    <label>CNE</label>
-    <div class="form-group">
-        <div class="col-md-10">
-            @Html.EditorFor(model => model.CNE, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly", @Value = "Regularización de Patrimonio"  } })
-            @Html.ValidationMessageFor(model => model.CNE, "", new { @class = "text-danger" })
+        <label>CNE</label>
+        <div class="form-group">
+            <div class="col-md-10">
+                <select name="cne" id="cne-selector">
+                    @foreach (var cne in ViewBag.cnes_disponibles)
+                    {
+                        <option value="@cne" @{ if (ViewBag.formularioSet.CNE == cne) { <text> selected</text> } }>@cne</option>
+                    }
+                </select>
+            </div>
+        </div>
+
+        <label>Comuna</label>
+        <div class="form-group">
+            <div class="col-md-10">
+                <select name="comuna">
+                    @foreach (var comuna in ViewBag.Comunas)
+                    {
+                        <option value="@comuna.nombre" @{ if (ViewBag.formularioSet.Comuna == comuna.nombre) { <text> selected</text> } }>@comuna.nombre</option>
+                    }
+                </select>
+            </div>
+        </div>
+
+        <label>Manzana</label>
+        <div class="form-group">
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Manzana, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Manzana, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <label>Predio</label>
+        <div class="form-group">
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Predio, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Predio, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <label>Fojas</label>
+        <div class="form-group">
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Fojas, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Fojas, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <label>Fecha de Inscripcion</label>
+        <div class="form-group">
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.FechaInscripcion, new { htmlAttributes = new { @class = "form-control", @type = "date" } })
+                @Html.ValidationMessageFor(model => model.FechaInscripcion, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <label>Numero de Inscripcion</label>
+        <div class="form-group">
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.NumeroInscripcion, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.NumeroInscripcion, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Guardar" class="btn btn-default" />
+            </div>
         </div>
     </div>
-
-    <label>Comuna</label>
-    <div class="form-group">
-        <div class="col-md-10">
-            <select name="comuna">
-                @foreach (var comuna in ViewBag.Comunas)
-                {
-                <option value="@comuna.nombre" @{ if (ViewBag.formularioSet.Comuna == comuna.nombre) { <text> selected</text> } }>@comuna.nombre</option>
-                }
-            </select>
-        </div>
-    </div>
-
-    <label>Manzana</label>
-    <div class="form-group">
-        <div class="col-md-10">
-            @Html.EditorFor(model => model.Manzana, new { htmlAttributes = new { @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.Manzana, "", new { @class = "text-danger" })
-        </div>
-    </div>
-
-    <label>Predio</label>
-    <div class="form-group">
-        <div class="col-md-10">
-            @Html.EditorFor(model => model.Predio, new { htmlAttributes = new { @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.Predio, "", new { @class = "text-danger" })
-        </div>
-    </div>
-
-    <label>Fojas</label>
-    <div class="form-group">
-        <div class="col-md-10">
-            @Html.EditorFor(model => model.Fojas, new { htmlAttributes = new { @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.Fojas, "", new { @class = "text-danger" })
-        </div>
-    </div>
-
-    <label>Fecha de Inscripcion</label>
-    <div class="form-group">
-        <div class="col-md-10">
-            @Html.EditorFor(model => model.FechaInscripcion, new { htmlAttributes = new { @class = "form-control" , @type = "date"} })
-            @Html.ValidationMessageFor(model => model.FechaInscripcion, "", new { @class = "text-danger" })
-        </div>
-    </div>
-
-    <label>Numero de Inscripcion</label>
-    <div class="form-group">
-        <div class="col-md-10">
-            @Html.EditorFor(model => model.NumeroInscripcion, new { htmlAttributes = new { @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.NumeroInscripcion, "", new { @class = "text-danger" })
-        </div>
-    </div>
-
-    <div class="form-group">
-        <div class="col-md-offset-2 col-md-10">
-            <input type="submit" value="Guardar" class="btn btn-default" />
-        </div>
-    </div>
-</div>
 }
 
 
@@ -97,14 +101,15 @@
         </tr>
     </thead>
     <tbody>
-        @if(ViewBag.adquirentes != null){
+        @if (ViewBag.adquirentes != null)
+        {
             foreach (var adquirente in ViewBag.adquirentes)
             {
-        <tr>
-            <td>@adquirente.RUT</td>
-            <td>@adquirente.PorcentajeDerechos</td>
-            <td>@adquirente.DerechosNoAcreditados</td>
-        </tr>
+                <tr>
+                    <td>@adquirente.RUT</td>
+                    <td>@adquirente.PorcentajeDerechos</td>
+                    <td>@adquirente.DerechosNoAcreditados</td>
+                </tr>
             }
         }
     </tbody>
@@ -112,68 +117,75 @@
 
 @using (Html.BeginForm("Create", "Adquirentes", FormMethod.Post))
 {
-@Html.AntiForgeryToken()
+    @Html.AntiForgeryToken()
 
-<label for="rut">RUT:</label>
-<input type="text" id="rut" name="rut" />
+    <label for="rut">RUT:</label>
+    <input type="text" id="rut" name="rut" />
 
-<label for="porcentajeDerechos">Porcentaje de Derechos:</label>
-<input type="text" id="porcentajeDerechos" name="porcentajeDerechos" value="0" />
+    <label for="porcentajeDerechos">Porcentaje de Derechos:</label>
+    <input type="text" id="porcentajeDerechos" name="porcentajeDerechos" value="0" />
 
-<label for="derechosNoAcreditados">Derechos No Acreditados:</label>
-<input type="checkbox" id="derechosNoAcreditados" name="derechosNoAcreditados" />
+    <label for="derechosNoAcreditados">Derechos No Acreditados:</label>
+    <input type="checkbox" id="derechosNoAcreditados" name="derechosNoAcreditados" />
 
-@Html.HiddenFor(model => model.NumeroAtencion)
+    @Html.HiddenFor(model => model.NumeroAtencion)
 
-<button type="submit">Agregar</button>
+    <button type="submit">Agregar</button>
 }
 
-<!--
-<h2>
-    Enajenantes
-</h2>
+<div id="enajenantes">
 
-<table class="table">
-    <thead>
-        <tr>
-            <th scope="col">RUT</th>
-            <th scope="col">Porcentaje de Derechos</th>
-            <th scope="col">Derechos No Acreditados</th>
-        </tr>
-    </thead>
-    <tbody>
-        @if(ViewBag.enajenantes != null){
-            foreach (var enajenante in ViewBag.enajenantes)
-            {
-        <tr>
-            <td>@enajenante.RUT</td>
-            <td>@enajenante.PorcentajeDerechos</td>
-            <td>@enajenante.DerechosNoAcreditados</td>
-        </tr>
-            }
+    @if (ViewBag.CNE == "Compraventa")
+    {
+        <h2>
+            Enajenantes
+        </h2>
+
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">RUT</th>
+                    <th scope="col">Porcentaje de Derechos</th>
+                    <th scope="col">Derechos No Acreditados</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (ViewBag.enajenantes != null)
+                {
+                    foreach (var enajenante in ViewBag.enajenantes)
+                    {
+                        <tr>
+                            <td>@enajenante.RUT</td>
+                            <td>@enajenante.PorcentajeDerechos</td>
+                            <td>@enajenante.DerechosNoAcreditados</td>
+                        </tr>
+                    }
+                }
+            </tbody>
+        </table>
+
+
+        using (Html.BeginForm("Create", "Enajenantes", FormMethod.Post))
+        {
+            @Html.AntiForgeryToken()
+
+            <label for="rut">RUT:</label>
+            <input type="text" id="rut" name="rut" />
+
+            <label for="porcentajeDerechos">Porcentaje de Derechos:</label>
+            <input type="text" id="porcentajeDerechos" name="porcentajeDerechos" value="0" />
+
+            <label for="derechosNoAcreditados">Derechos No Acreditados:</label>
+            <input type="checkbox" id="derechosNoAcreditados" name="derechosNoAcreditados" />
+
+            @Html.HiddenFor(model => model.NumeroAtencion)
+
+            <button type="submit">Agregar</button>
         }
-    </tbody>
-</table>
 
-@using (Html.BeginForm("Create", "Enajenantes", FormMethod.Post))
-{
-@Html.AntiForgeryToken()
 
-<label for="rut">RUT:</label>
-<input type="text" id="rut" name="rut" />
-
-<label for="porcentajeDerechos">Porcentaje de Derechos:</label>
-<input type="text" id="porcentajeDerechos" name="porcentajeDerechos" value="0"/>
-
-<label for="derechosNoAcreditados">Derechos No Acreditados:</label>
-<input type="checkbox" id="derechosNoAcreditados" name="derechosNoAcreditados" />
-
-@Html.HiddenFor(model => model.NumeroAtencion)
-
-<button type="submit">Agregar</button>
-}
-
-    -->
+    }
+</div>
 <div>
     @Html.ActionLink("Volver al Listado", "Index")
 </div>
