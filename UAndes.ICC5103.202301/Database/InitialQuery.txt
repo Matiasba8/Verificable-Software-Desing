@@ -1,5 +1,4 @@
-﻿
--- --------------------------------------------------
+﻿-- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
 -- Date Created: 04/16/2023 22:50:09
@@ -44,9 +43,6 @@ IF OBJECT_ID(N'[dbo].[FormularioSet]', 'U') IS NOT NULL
 GO
 IF OBJECT_ID(N'[dbo].[MultipropietarioSet]', 'U') IS NOT NULL
     DROP TABLE [dbo].[MultipropietarioSet];
-GO
-IF OBJECT_ID(N'[dbo].[Persona]', 'U') IS NOT NULL
-    DROP TABLE [dbo].[Persona];
 GO
 
 -- --------------------------------------------------
@@ -112,16 +108,6 @@ CREATE TABLE [dbo].[MultipropietarioSet] (
 );
 GO
 
--- Creating table 'Persona'
-CREATE TABLE [dbo].[Persona] (
-    [RUT] int IDENTITY(1,1) NOT NULL,
-    [Nombre] nvarchar(50)  NULL,
-    [FechaNacimiento] datetime  NULL,
-    [Email] nchar(50)  NULL,
-    [Dirección] nchar(50)  NULL
-);
-GO
-
 -- --------------------------------------------------
 -- Creating all PRIMARY KEY constraints
 -- --------------------------------------------------
@@ -154,12 +140,6 @@ GO
 ALTER TABLE [dbo].[MultipropietarioSet]
 ADD CONSTRAINT [PK_MultipropietarioSet]
     PRIMARY KEY CLUSTERED ([Id] ASC);
-GO
-
--- Creating primary key on [RUT] in table 'Persona'
-ALTER TABLE [dbo].[Persona]
-ADD CONSTRAINT [PK_Persona]
-    PRIMARY KEY CLUSTERED ([RUT] ASC);
 GO
 
 -- --------------------------------------------------
@@ -199,7 +179,6 @@ GO
 -- --------------------------------------------------
 -- Script has ended
 -- --------------------------------------------------
-
 INSERT INTO Comunas (nombre) VALUES ('Alhué');
 INSERT INTO Comunas (nombre) VALUES ('Buin');
 INSERT INTO Comunas (nombre) VALUES ('Calera de Tango');

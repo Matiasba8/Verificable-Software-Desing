@@ -73,37 +73,45 @@ namespace UAndes.ICC5103._202301.Controllers
         // GET: Multipropietarios/Create
         public ActionResult SearchResult(DateTime año, string comuna, string manzana, string predio)
         {
-            //SearchData queryData = JsonConvert.DeserializeObject<SearchData>(jsonData);
-
-            //DateTime año = queryData.año;
-            //string comuna = queryData.comuna;
-            //string manzana = queryData.manzana;
-            //string predio = queryData.predio;
             ViewBag.Comunas = db.Comunas;
-            var queryMultipropietario = db.MultipropietarioSet.Where(multipropietario => (multipropietario.AñoVigenciaInicial.Value.Year <= año.Year && multipropietario.AñoVigenciaFinal.Value.Year >= año.Year && multipropietario.Comuna == comuna && multipropietario.Manzana == manzana && multipropietario.Predio == predio) || (multipropietario.AñoVigenciaInicial.Value.Year <= año.Year && multipropietario.AñoVigenciaFinal == null && multipropietario.Comuna == comuna && multipropietario.Manzana == manzana && multipropietario.Predio == predio));
+            var queryMultipropietario = db.MultipropietarioSet.Where
+                (multipropietario => (multipropietario.AñoVigenciaInicial.Value.Year <= año.Year && 
+                multipropietario.AñoVigenciaFinal.Value.Year >= año.Year && 
+                multipropietario.Comuna == comuna && 
+                multipropietario.Manzana == manzana && 
+                multipropietario.Predio == predio) || 
+                (multipropietario.AñoVigenciaInicial.Value.Year <= año.Year && 
+                multipropietario.AñoVigenciaFinal == null && 
+                multipropietario.Comuna == comuna && 
+                multipropietario.Manzana == manzana && 
+                multipropietario.Predio == predio));
             
-            List<int> listaNumerosInscripcion = new List<int>();
-            foreach (MultipropietarioSet multipropietarioSet in queryMultipropietario)
-            {
-                if (listaNumerosInscripcion.Contains((int)multipropietarioSet.NumeroInscripcion)){}
-                else
-                {
-                    listaNumerosInscripcion.Add((int)multipropietarioSet.NumeroInscripcion);
-                }
-            }
+            //List<int> listaNumerosInscripcion = new List<int>();
+            //foreach (MultipropietarioSet multipropietarioSet in queryMultipropietario)
+            //{
+            //    if (listaNumerosInscripcion.Contains((int)multipropietarioSet.NumeroInscripcion)){}
+            //    else
+            //    {
+            //        listaNumerosInscripcion.Add((int)multipropietarioSet.NumeroInscripcion);
+            //    }
+            //}
 
-            listaNumerosInscripcion.Sort();
+            //listaNumerosInscripcion.Sort();
 
-            listaNumerosInscripcion.Reverse();
+            //listaNumerosInscripcion.Reverse();
 
             List<MultipropietarioSet> multipropietariosFinales = new List<MultipropietarioSet>();
-            foreach(MultipropietarioSet multipropietarioSet in queryMultipropietario)
+            foreach (MultipropietarioSet multipropietario in queryMultipropietario)
             {
-                if (multipropietarioSet.NumeroInscripcion == listaNumerosInscripcion.First())
-                {
-                    multipropietariosFinales.Add(multipropietarioSet);
-                }
+                multipropietariosFinales.Add(multipropietario);
             }
+            //foreach(MultipropietarioSet multipropietarioSet in queryMultipropietario)
+            //{
+            //    if (multipropietarioSet.NumeroInscripcion == listaNumerosInscripcion.First())
+            //    {
+            //        multipropietariosFinales.Add(multipropietarioSet);
+            //    }
+            //}
 
             ViewBag.queryMultipropietario = multipropietariosFinales;
             return View();
