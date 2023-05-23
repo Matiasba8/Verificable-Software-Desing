@@ -64,16 +64,6 @@
           <Property Name="FormularioNumeroAtencion" Type="int" Nullable="false" />
           <Property Name="DerechosNoAcreditados" Type="bit" Nullable="false" />
         </EntityType>
-        <EntityType Name="Persona">
-          <Key>
-            <PropertyRef Name="RUT" />
-          </Key>
-          <Property Name="RUT" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="Nombre" Type="nvarchar" MaxLength="50" />
-          <Property Name="FechaNacimiento" Type="datetime" />
-          <Property Name="Email" Type="nchar" MaxLength="50" />
-          <Property Name="Dirección" Type="nchar" MaxLength="50" />
-        </EntityType>
         <Association Name="FK_Adquirentes_Formularios">
           <End Role="FormularioSet" Type="Self.FormularioSet" Multiplicity="1">
             <OnDelete Action="Cascade" />
@@ -108,7 +98,6 @@
           <EntitySet Name="EnajenanteSet" EntityType="Self.EnajenanteSet" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="FormularioSet" EntityType="Self.FormularioSet" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="MultipropietarioSet" EntityType="Self.MultipropietarioSet" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="Persona" EntityType="Self.Persona" Schema="dbo" store:Type="Tables" />
           <AssociationSet Name="FK_Adquirentes_Formularios" Association="Self.FK_Adquirentes_Formularios">
             <End Role="FormularioSet" EntitySet="FormularioSet" />
             <End Role="AdquirenteSet" EntitySet="AdquirenteSet" />
@@ -128,7 +117,6 @@
           <EntitySet Name="EnajenanteSet" EntityType="InscripcionesBrDbGrupo06Model.EnajenanteSet" />
           <EntitySet Name="FormularioSet" EntityType="InscripcionesBrDbGrupo06Model.FormularioSet" />
           <EntitySet Name="MultipropietarioSet" EntityType="InscripcionesBrDbGrupo06Model.MultipropietarioSet" />
-          <EntitySet Name="Persona" EntityType="InscripcionesBrDbGrupo06Model.Persona" />
           <AssociationSet Name="FK_Adquirentes_Formularios" Association="InscripcionesBrDbGrupo06Model.FK_Adquirentes_Formularios">
             <End Role="FormularioSet" EntitySet="FormularioSet" />
             <End Role="AdquirenteSet" EntitySet="AdquirenteSet" />
@@ -200,16 +188,6 @@
           <Property Name="Predio" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="FormularioNumeroAtencion" Type="Int32" Nullable="false" />
           <Property Name="DerechosNoAcreditados" Type="Boolean" Nullable="false" />
-        </EntityType>
-        <EntityType Name="Persona">
-          <Key>
-            <PropertyRef Name="RUT" />
-          </Key>
-          <Property Name="RUT" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Nombre" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="FechaNacimiento" Type="DateTime" Precision="3" />
-          <Property Name="Email" Type="String" MaxLength="50" FixedLength="true" Unicode="true" />
-          <Property Name="Dirección" Type="String" MaxLength="50" FixedLength="true" Unicode="true" />
         </EntityType>
         <Association Name="FK_Adquirentes_Formularios">
           <End Type="InscripcionesBrDbGrupo06Model.FormularioSet" Role="FormularioSet" Multiplicity="1">
@@ -306,17 +284,6 @@
                 <ScalarProperty Name="PorcentajeDerechos" ColumnName="PorcentajeDerechos" />
                 <ScalarProperty Name="RUT" ColumnName="RUT" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Persona">
-            <EntityTypeMapping TypeName="InscripcionesBrDbGrupo06Model.Persona">
-              <MappingFragment StoreEntitySet="Persona">
-                <ScalarProperty Name="Dirección" ColumnName="Dirección" />
-                <ScalarProperty Name="Email" ColumnName="Email" />
-                <ScalarProperty Name="FechaNacimiento" ColumnName="FechaNacimiento" />
-                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
-                <ScalarProperty Name="RUT" ColumnName="RUT" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

@@ -50,19 +50,19 @@ namespace UAndes.ICC5103._202301.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create(int NumeroAtencion, string rut, string porcentajeDerechos, string derechosNoAcreditados)
         {
-            decimal porcDerechos;
-            bool derNoAcreditados = false;
+            decimal porcentajeDerechosParse;
+            bool derechosNoAcreditadosParse = false;
 
             try
             {
-                porcDerechos = Decimal.Parse(porcentajeDerechos);
-                if (derechosNoAcreditados == "on") { derNoAcreditados = true; }
+                porcentajeDerechosParse = Decimal.Parse(porcentajeDerechos);
+                if (derechosNoAcreditados == "on") { derechosNoAcreditadosParse = true; }
 
                 EnajenanteSet enajenanteSet = new EnajenanteSet();
                 enajenanteSet.FormularioSetNumeroAtencion = NumeroAtencion;
                 enajenanteSet.RUT = rut;
-                enajenanteSet.PorcentajeDerechos = porcDerechos;
-                enajenanteSet.DerechosNoAcreditados = derNoAcreditados;
+                enajenanteSet.PorcentajeDerechos = porcentajeDerechosParse;
+                enajenanteSet.DerechosNoAcreditados = derechosNoAcreditadosParse;
 
                 if (ModelState.IsValid)
                 {

@@ -56,181 +56,77 @@ namespace UAndes.ICC5103._202301.Controllers
             decimal porcentajeDerechosParse;
             bool derechosNoAcreditadosParse = false;
 
+            //Se revisa si el input está en formato correcto, si no, no agrega al adquirente y recarga la página
             try
             {
-                //Se revisa si el input está en formato correcto y se crean los adquirentes y
-                //los multipropietarios.
                 porcentajeDerechosParse = Decimal.Parse(porcentajeDerechos);
                 if (derechosNoAcreditados == "on") { derechosNoAcreditadosParse = true; }
-
-                AdquirenteSet adquirenteSet = new AdquirenteSet();
-                adquirenteSet.FormularioSetNumeroAtencion = numeroAtencion;
-                adquirenteSet.RUT = rut;
-                if (derechosNoAcreditadosParse)
-                {
-                    porcentajeDerechosParse = 0;
-                    adquirenteSet.PorcentajeDerechos = 0;
-                }
-                else if (porcentajeDerechosParse > 0 && porcentajeDerechosParse <=100)
-                {
-                    adquirenteSet.PorcentajeDerechos = porcentajeDerechosParse;
-                }
-                else
-                {
-                    return RedirectToAction("Edit", "Formularios", new { id = numeroAtencion });
-                }
-                adquirenteSet.DerechosNoAcreditados = derechosNoAcreditadosParse;
-
-                
-                FormularioSet formularioSet = db.FormularioSet.Find(numeroAtencion);
-                if (porcentajeDerechosParse >= 0 && (formularioSet.PorcentajeDisponible - porcentajeDerechosParse >= 0))
-                {
-                    formularioSet.PorcentajeDisponible -= porcentajeDerechosParse;
-                }
-                else
-                {
-                    return RedirectToAction("Edit", "Formularios", new { id = numeroAtencion });
-                }
-
-                MultipropietarioSet multipropietarioSet = new MultipropietarioSet();
-                multipropietarioSet.RUT = rut;
-                multipropietarioSet.PorcentajeDerechos = porcentajeDerechosParse;
-                multipropietarioSet.Fojas = formularioSet.Fojas;
-                multipropietarioSet.NumeroInscripcion = formularioSet.NumeroInscripcion;
-                multipropietarioSet.FechaInscripcion = formularioSet.FechaInscripcion;
-                if (formularioSet.FechaInscripcion <= _2019)
-                {
-                    multipropietarioSet.AñoVigenciaInicial = _2019;
-                }
-                else
-                {
-                    multipropietarioSet.AñoVigenciaInicial = formularioSet.FechaInscripcion;
-                }
-
-                multipropietarioSet.AñoVigenciaFinal = null;
-                multipropietarioSet.Comuna = formularioSet.Comuna;
-                multipropietarioSet.Manzana = formularioSet.Manzana;
-                multipropietarioSet.Predio = formularioSet.Predio;
-                multipropietarioSet.FormularioNumeroAtencion = formularioSet.NumeroAtencion;
-                multipropietarioSet.DerechosNoAcreditados = derechosNoAcreditadosParse;
-
-
-                if (ModelState.IsValid)
-                {
-                    db.Entry(formularioSet).State = EntityState.Modified;
-                    db.AdquirenteSet.Add(adquirenteSet);
-                    db.MultipropietarioSet.Add(multipropietarioSet);
-                    db.SaveChanges();
-
-                    //CREACION Y AJUSTE DE MULTIPROPIETARIOS
-                    var multipropietariosPreviosQuery = 
-                        db.MultipropietarioSet.Where(multipropPreviosSet => 
-                                                     multipropPreviosSet.Comuna == formularioSet.Comuna &&
-                                                     multipropPreviosSet.Manzana == formularioSet.Manzana && 
-                                                     multipropPreviosSet.Predio == formularioSet.Predio);
-
-                    if (multipropietariosPreviosQuery.Any())
-                    {
-                        List<MultipropietarioSet> multipropietariosPrevios = multipropietariosPreviosQuery.ToList();
-
-                        Dictionary<int, List<MultipropietarioSet>> dictMultipropietariosOrdenados = new Dictionary<int, List<MultipropietarioSet>>();
-
-                        foreach (MultipropietarioSet multipropietarioSetTemp in multipropietariosPrevios)
-                        {
-                            if (dictMultipropietariosOrdenados.ContainsKey(multipropietarioSetTemp.AñoVigenciaInicial.Value.Year))
-                            {
-                                dictMultipropietariosOrdenados[multipropietarioSetTemp.AñoVigenciaInicial.Value.Year].Add(multipropietarioSetTemp);
-                            }
-                            else
-                            {
-                                dictMultipropietariosOrdenados.Add(multipropietarioSetTemp.AñoVigenciaInicial.Value.Year, new List<MultipropietarioSet>());
-                                dictMultipropietariosOrdenados[multipropietarioSetTemp.AñoVigenciaInicial.Value.Year].Add(multipropietarioSetTemp);
-                            }
-                        }
-
-                        List<int> listaAños = dictMultipropietariosOrdenados.Keys.ToList();
-                        listaAños.Sort();
-
-                        for (int i = 0; i < listaAños.Count; i++)
-                        {
-                            if (listaAños[i] != listaAños.Last())
-                            {
-                                foreach (MultipropietarioSet multipropietario in dictMultipropietariosOrdenados[listaAños[i]])
-                                {
-                                    multipropietario.AñoVigenciaFinal = new DateTime(listaAños[i + 1] - 1, 1, 1);
-                                    db.Entry(multipropietario).State = EntityState.Modified;
-                                }
-                            }
-                            else
-                            {
-                                List<int> listaNumeroInscripcion = new List<int>();
-                                foreach (MultipropietarioSet multipropietario in dictMultipropietariosOrdenados[listaAños[i]])
-                                {
-                                    listaNumeroInscripcion.Add((int)(multipropietario.NumeroInscripcion));
-                                }
-
-                                listaNumeroInscripcion.Sort();
-
-                                for (int j = 0; j < listaNumeroInscripcion.Count; j++)
-                                {
-                                    if (listaNumeroInscripcion[j] != listaNumeroInscripcion.Last())
-                                    {
-                                        foreach (MultipropietarioSet multipropietario in dictMultipropietariosOrdenados[listaAños[i]])
-                                        {
-                                            if (multipropietario.NumeroInscripcion == listaNumeroInscripcion[j])
-                                            {
-                                                multipropietario.AñoVigenciaFinal = multipropietario.AñoVigenciaInicial;
-                                                db.Entry(multipropietario).State = EntityState.Modified;
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-
-                    db.SaveChanges();
-
-                    //AJUSTE DE % DE NO ACREDITADOS
-                    var adquirentesNoAcreditados = db.AdquirenteSet.Where(adquiSet => adquiSet.DerechosNoAcreditados == true && adquiSet.FormularioSetNumeroAtencion == formularioSet.NumeroAtencion);
-                    if (adquirentesNoAcreditados.Any())
-                    {
-                        decimal porcentajeDisponible = (decimal)formularioSet.PorcentajeDisponible;
-                        if (porcentajeDisponible >= 0)
-                        {
-                            decimal porcentajePorRepartir = porcentajeDisponible / adquirentesNoAcreditados.Count();
-
-                            foreach (AdquirenteSet adquirenteSetUpdate in adquirentesNoAcreditados)
-                            {
-                                adquirenteSetUpdate.PorcentajeDerechos = porcentajePorRepartir;
-                                db.Entry(adquirenteSetUpdate).State = EntityState.Modified;
-                            }
-
-                            var multipropietariosNoAcreditados = db.MultipropietarioSet.Where(multipropSet => multipropSet.FormularioNumeroAtencion == formularioSet.NumeroAtencion);
-                            if (multipropietariosNoAcreditados.Any())
-                            {
-                                foreach (MultipropietarioSet multipropietarioSetUpdate in multipropietariosNoAcreditados)
-                                {
-                                    if (multipropietarioSetUpdate.DerechosNoAcreditados)
-                                    {
-                                        multipropietarioSetUpdate.PorcentajeDerechos = porcentajePorRepartir;
-                                        db.Entry(multipropietarioSetUpdate).State = EntityState.Modified;
-                                    }
-                                }
-                            }
-
-                        }
-                    }
-                    db.SaveChanges();
-
-                }
-
-                return RedirectToAction("Edit", "Formularios", new { id = adquirenteSet.FormularioSetNumeroAtencion });
             }
-            catch(FormatException)
+            catch (FormatException)
             {
                 return RedirectToAction("Edit", "Formularios", new { id = numeroAtencion });
             }
+
+            //Crea al adquirente
+            AdquirenteSet adquirenteSet = new AdquirenteSet();
+            adquirenteSet.FormularioSetNumeroAtencion = numeroAtencion;
+            adquirenteSet.RUT = rut;
+            if (derechosNoAcreditadosParse)
+            {
+                porcentajeDerechosParse = 0;
+                adquirenteSet.PorcentajeDerechos = 0;
+            }
+            else if (porcentajeDerechosParse > 0 && porcentajeDerechosParse <= 100)
+            {
+                adquirenteSet.PorcentajeDerechos = porcentajeDerechosParse;
+            }
+            else
+            {
+                return RedirectToAction("Edit", "Formularios", new { id = numeroAtencion });
+            }
+            adquirenteSet.DerechosNoAcreditados = derechosNoAcreditadosParse;
+
+            //Busca al formulario y revisa si el porcentaje disponible permite la creación de este adquirente
+            FormularioSet formularioSet = db.FormularioSet.Find(numeroAtencion);
+            if (porcentajeDerechosParse >= 0 && (formularioSet.PorcentajeDisponible - porcentajeDerechosParse >= 0))
+            {
+                formularioSet.PorcentajeDisponible -= porcentajeDerechosParse;
+            }
+            else
+            {
+                return RedirectToAction("Edit", "Formularios", new { id = numeroAtencion });
+            }
+
+            //Crea el objeto multipropietario que se usará
+            MultipropietarioSet multipropietarioSet = new MultipropietarioSet();
+            multipropietarioSet.RUT = rut;
+            multipropietarioSet.PorcentajeDerechos = porcentajeDerechosParse;
+            multipropietarioSet.Fojas = formularioSet.Fojas;
+            multipropietarioSet.NumeroInscripcion = formularioSet.NumeroInscripcion;
+            multipropietarioSet.FechaInscripcion = formularioSet.FechaInscripcion;
+            if (formularioSet.FechaInscripcion <= _2019)
+            {
+                multipropietarioSet.AñoVigenciaInicial = _2019;
+            }
+            else
+            {
+                multipropietarioSet.AñoVigenciaInicial = formularioSet.FechaInscripcion;
+            }
+            multipropietarioSet.AñoVigenciaFinal = null;
+            multipropietarioSet.Comuna = formularioSet.Comuna;
+            multipropietarioSet.Manzana = formularioSet.Manzana;
+            multipropietarioSet.Predio = formularioSet.Predio;
+            multipropietarioSet.FormularioNumeroAtencion = formularioSet.NumeroAtencion;
+            multipropietarioSet.DerechosNoAcreditados = derechosNoAcreditadosParse;
+
+            if (ModelState.IsValid)
+            {
+                db.Entry(formularioSet).State = EntityState.Modified;
+                db.AdquirenteSet.Add(adquirenteSet);
+                db.MultipropietarioSet.Add(multipropietarioSet);
+                db.SaveChanges();
+            }
+            return RedirectToAction("Edit", "Formularios", new { id = adquirenteSet.FormularioSetNumeroAtencion });
         }
 
         // GET: Adquirentes/Edit/5

@@ -10,7 +10,6 @@
         <EntityTypeShape EntityType="InscripcionesBrDbGrupo06Model.EnajenanteSet" Width="1.5" PointX="3" PointY="4" />
         <EntityTypeShape EntityType="InscripcionesBrDbGrupo06Model.FormularioSet" Width="1.5" PointX="0.75" PointY="2" />
         <EntityTypeShape EntityType="InscripcionesBrDbGrupo06Model.MultipropietarioSet" Width="1.5" PointX="5.75" PointY="3.75" />
-        <EntityTypeShape EntityType="InscripcionesBrDbGrupo06Model.Persona" Width="1.5" PointX="7.75" PointY="0.75" />
         <AssociationConnector Association="InscripcionesBrDbGrupo06Model.FK_Adquirentes_Formularios" />
         <AssociationConnector Association="InscripcionesBrDbGrupo06Model.FK_Enajenantes_Formularios" />
       </Diagram>

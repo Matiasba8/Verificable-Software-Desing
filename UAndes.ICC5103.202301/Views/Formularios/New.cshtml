@@ -5,15 +5,24 @@
 }
 
 <input type="hidden" id="formularioId" name="formId" value="@ViewBag.FormularioSet.NumeroAtencion" />
-<h2>Crear Formulario</h2>
 
+<h2>Crear Formulario</h2>
+<br></br>
 @using (Html.BeginForm("Edit", "Formularios", FormMethod.Post))
 {
     @Html.AntiForgeryToken()
 
     <div class="form-horizontal">
+        <h4>
+            INSTRUCCIONES: Primero, rellenar datos del formulario y hacer click en "Guardar Formulario".
+            Luego, ingresar enajenantes y adquirentes.
+            Finalmente, hacer click en "Publicar Formulario".
+        </h4>
+        <br></br>
         <h4>Formulario</h4>
         <hr />
+
+
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
         @Html.HiddenFor(model => model.NumeroAtencion)
@@ -88,64 +97,18 @@
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Create" class="btn btn-default" />
+                <input type="submit" value="Guardar Formulario" class="btn btn-default" />
             </div>
         </div>
     </div>
 }
+<br></br>
 
 <div id="second-form">
-
-    <div id="adquirientes">
-        <h4>
-            Adquirentes
-        </h4>
-        <table class="table">
-            <thead>
-                <tr>
-                    <th scope="col">RUT</th>
-                    <th scope="col">Porcentaje de Derechos</th>
-                    <th scope="col">Derechos No Acreditados</th>
-                </tr>
-            </thead>
-            <tbody>
-                @if (ViewBag.adquirentes != null)
-                {
-                    foreach (var adquirente in ViewBag.adquirentes)
-                    {
-                        <tr>
-                            <td>@adquirente.RUT</td>
-                            <td>@adquirente.PorcentajeDerechos</td>
-                            <td>@adquirente.DerechosNoAcreditados</td>
-                        </tr>
-                    }
-                }
-            </tbody>
-        </table>
-
-        @using (Html.BeginForm("Create", "Adquirentes", FormMethod.Post))
-        {
-            @Html.AntiForgeryToken()
-
-            <label for="rut">RUT:</label>
-            <input type="text" id="rut" name="rut" />
-
-            <label for="porcentajeDerechos">Porcentaje de Derechos:</label>
-            <input type="text" id="porcentajeDerechos" name="porcentajeDerechos" value="0" />
-
-            <label for="derechosNoAcreditados">Derechos No Acreditados:</label>
-            <input type="checkbox" id="derechosNoAcreditados" name="derechosNoAcreditados" />
-
-            @Html.HiddenFor(model => model.NumeroAtencion)
-
-            <button type="submit">Create</button>
-        }
-    </div>
-
     <div id="enajenantes" class="hide">
-        <h4>
+        <h2>
             Enajenantes
-        </h4>
+        </h2>
 
         <table class="table">
             <thead>
@@ -189,9 +152,64 @@
         }
     </div>
 
+    <br></br>
+    <div id="adquirientes">
+        <h2>
+            Adquirentes
+        </h2>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">RUT</th>
+                    <th scope="col">Porcentaje de Derechos</th>
+                    <th scope="col">Derechos No Acreditados</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (ViewBag.adquirentes != null)
+                {
+                    foreach (var adquirente in ViewBag.adquirentes)
+                    {
+                        <tr>
+                            <td>@adquirente.RUT</td>
+                            <td>@adquirente.PorcentajeDerechos</td>
+                            <td>@adquirente.DerechosNoAcreditados</td>
+                        </tr>
+                    }
+                }
+            </tbody>
+        </table>
+
+        @using (Html.BeginForm("Create", "Adquirentes", FormMethod.Post))
+        {
+            @Html.AntiForgeryToken()
+
+            <label for="rut">RUT:</label>
+            <input type="text" id="rut" name="rut" />
+
+            <label for="porcentajeDerechos">Porcentaje de Derechos:</label>
+            <input type="text" id="porcentajeDerechos" name="porcentajeDerechos" value="0" />
+
+            <label for="derechosNoAcreditados">Derechos No Acreditados:</label>
+            <input type="checkbox" id="derechosNoAcreditados" name="derechosNoAcreditados" />
+
+            @Html.HiddenFor(model => model.NumeroAtencion)
+
+            <button type="submit">Create</button>
+        }
+    </div>
+    <br></br>
+
+    @using (Html.BeginForm("CreateFromAdquirentesController", "Multipropietarios", FormMethod.Post))
+    {
+        @Html.AntiForgeryToken()
+
+        @Html.HiddenFor(model => model.NumeroAtencion)
+
+        <button type="submit">Publicar Formulario</button>
+    }
+
+    <br></br>
     <div>
-
-
-
-    @Html.ActionLink("Volver al Listado", "Index")
+        @Html.ActionLink("Volver al Listado", "Index")
     </div>
