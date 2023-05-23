@@ -426,6 +426,27 @@ namespace UAndes.ICC5103._202301.Controllers
 
                     porcentajeTotalEnajenantes += multipropietario.PorcentajeDerechos;
                 }
+                else if (multipropietario.AñoVigenciaFinal == null && !rutsEnajenantes.Contains(multipropietario.RUT))
+                {
+                    multipropietario.AñoVigenciaFinal = new DateTime(formularioSet.FechaInscripcion.Value.Year - 1, 1, 1);
+                    db.Entry(multipropietario).State = EntityState.Modified;
+
+                    MultipropietarioSet multipropietarioSet = new MultipropietarioSet();
+                    multipropietarioSet.RUT = multipropietario.RUT;
+                    multipropietarioSet.PorcentajeDerechos = multipropietario.PorcentajeDerechos;
+                    multipropietarioSet.Fojas = multipropietario.Fojas;
+                    multipropietarioSet.NumeroInscripcion = multipropietario.NumeroInscripcion;
+                    multipropietarioSet.FechaInscripcion = multipropietario.FechaInscripcion;
+                    multipropietarioSet.AñoVigenciaInicial = formularioSet.FechaInscripcion;
+                    multipropietarioSet.AñoVigenciaFinal = null;
+                    multipropietarioSet.Comuna = multipropietario.Comuna;
+                    multipropietarioSet.Manzana = multipropietario.Manzana;
+                    multipropietarioSet.Predio = multipropietario.Predio;
+                    multipropietarioSet.FormularioNumeroAtencion = multipropietario.FormularioNumeroAtencion;
+                    multipropietarioSet.DerechosNoAcreditados = multipropietario.DerechosNoAcreditados;
+
+                    db.MultipropietarioSet.Add(multipropietarioSet);
+                }
             }
             db.SaveChanges();
 
