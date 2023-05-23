@@ -85,33 +85,12 @@ namespace UAndes.ICC5103._202301.Controllers
                 multipropietario.Comuna == comuna && 
                 multipropietario.Manzana == manzana && 
                 multipropietario.Predio == predio));
-            
-            //List<int> listaNumerosInscripcion = new List<int>();
-            //foreach (MultipropietarioSet multipropietarioSet in queryMultipropietario)
-            //{
-            //    if (listaNumerosInscripcion.Contains((int)multipropietarioSet.NumeroInscripcion)){}
-            //    else
-            //    {
-            //        listaNumerosInscripcion.Add((int)multipropietarioSet.NumeroInscripcion);
-            //    }
-            //}
-
-            //listaNumerosInscripcion.Sort();
-
-            //listaNumerosInscripcion.Reverse();
 
             List<MultipropietarioSet> multipropietariosFinales = new List<MultipropietarioSet>();
             foreach (MultipropietarioSet multipropietario in queryMultipropietario)
             {
                 multipropietariosFinales.Add(multipropietario);
             }
-            //foreach(MultipropietarioSet multipropietarioSet in queryMultipropietario)
-            //{
-            //    if (multipropietarioSet.NumeroInscripcion == listaNumerosInscripcion.First())
-            //    {
-            //        multipropietariosFinales.Add(multipropietarioSet);
-            //    }
-            //}
 
             ViewBag.queryMultipropietario = multipropietariosFinales;
             return View();

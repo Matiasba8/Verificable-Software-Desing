@@ -55,47 +55,28 @@ namespace UAndes.ICC5103._202301.Controllers
         {
             decimal porcentajeDerechosParse;
             bool derechosNoAcreditadosParse = false;
-
             //Se revisa si el input está en formato correcto, si no, no agrega al adquirente y recarga la página
             try
             {
                 porcentajeDerechosParse = Decimal.Parse(porcentajeDerechos);
                 if (derechosNoAcreditados == "on") { derechosNoAcreditadosParse = true; }
             }
-            catch (FormatException)
-            {
-                return RedirectToAction("Edit", "Formularios", new { id = numeroAtencion });
-            }
+            catch (FormatException) { return RedirectToAction("Edit", "Formularios", new { id = numeroAtencion });}
 
             //Crea al adquirente
             AdquirenteSet adquirenteSet = new AdquirenteSet();
             adquirenteSet.FormularioSetNumeroAtencion = numeroAtencion;
             adquirenteSet.RUT = rut;
-            if (derechosNoAcreditadosParse)
-            {
-                porcentajeDerechosParse = 0;
-                adquirenteSet.PorcentajeDerechos = 0;
-            }
-            else if (porcentajeDerechosParse > 0 && porcentajeDerechosParse <= 100)
-            {
-                adquirenteSet.PorcentajeDerechos = porcentajeDerechosParse;
-            }
-            else
-            {
-                return RedirectToAction("Edit", "Formularios", new { id = numeroAtencion });
-            }
+            if (derechosNoAcreditadosParse) {porcentajeDerechosParse = 0;adquirenteSet.PorcentajeDerechos = 0;}
+            else if (porcentajeDerechosParse > 0 && porcentajeDerechosParse <= 100) {adquirenteSet.PorcentajeDerechos = porcentajeDerechosParse;}
+            else { return RedirectToAction("Edit", "Formularios", new { id = numeroAtencion });}
             adquirenteSet.DerechosNoAcreditados = derechosNoAcreditadosParse;
 
             //Busca al formulario y revisa si el porcentaje disponible permite la creación de este adquirente
             FormularioSet formularioSet = db.FormularioSet.Find(numeroAtencion);
             if (porcentajeDerechosParse >= 0 && (formularioSet.PorcentajeDisponible - porcentajeDerechosParse >= 0))
-            {
-                formularioSet.PorcentajeDisponible -= porcentajeDerechosParse;
-            }
-            else
-            {
-                return RedirectToAction("Edit", "Formularios", new { id = numeroAtencion });
-            }
+            { formularioSet.PorcentajeDisponible -= porcentajeDerechosParse; }
+            else { return RedirectToAction("Edit", "Formularios", new { id = numeroAtencion });}
 
             //Crea el objeto multipropietario que se usará
             MultipropietarioSet multipropietarioSet = new MultipropietarioSet();
@@ -104,14 +85,8 @@ namespace UAndes.ICC5103._202301.Controllers
             multipropietarioSet.Fojas = formularioSet.Fojas;
             multipropietarioSet.NumeroInscripcion = formularioSet.NumeroInscripcion;
             multipropietarioSet.FechaInscripcion = formularioSet.FechaInscripcion;
-            if (formularioSet.FechaInscripcion <= _2019)
-            {
-                multipropietarioSet.AñoVigenciaInicial = _2019;
-            }
-            else
-            {
-                multipropietarioSet.AñoVigenciaInicial = formularioSet.FechaInscripcion;
-            }
+            if (formularioSet.FechaInscripcion <= _2019) { multipropietarioSet.AñoVigenciaInicial = _2019;}
+            else {multipropietarioSet.AñoVigenciaInicial = formularioSet.FechaInscripcion;}
             multipropietarioSet.AñoVigenciaFinal = null;
             multipropietarioSet.Comuna = formularioSet.Comuna;
             multipropietarioSet.Manzana = formularioSet.Manzana;

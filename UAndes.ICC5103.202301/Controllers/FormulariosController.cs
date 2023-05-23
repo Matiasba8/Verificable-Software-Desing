@@ -119,8 +119,6 @@ namespace UAndes.ICC5103._202301.Controllers
             ViewBag.cnes_disponibles = cnes_disponibles;
             if (ModelState.IsValid)
             {
-
-             
                 var adquirentes = db.AdquirenteSet.Where(adquiSet => adquiSet.FormularioSetNumeroAtencion == formularioSet.NumeroAtencion);
                 var enajenantes = db.EnajenanteSet.Where(enajenanteSet => enajenanteSet.FormularioSetNumeroAtencion == formularioSet.NumeroAtencion);
 
