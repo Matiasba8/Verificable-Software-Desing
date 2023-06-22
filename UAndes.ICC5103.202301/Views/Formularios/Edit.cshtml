@@ -74,7 +74,7 @@
         <label>Fecha de Inscripcion</label>
         <div class="form-group">
             <div class="col-md-10">
-                @Html.EditorFor(model => model.FechaInscripcion, new { htmlAttributes = new { @class = "form-control", @type = "date" } })
+                @Html.EditorFor(model => model.FechaInscripcion, new { htmlAttributes = new { @class = "form-control", @type = "date", @max = "3000-01-01", @onfocus = "this.max=new Date().toISOString().split('T')[0]" } })
                 @Html.ValidationMessageFor(model => model.FechaInscripcion, "", new { @class = "text-danger" })
             </div>
         </div>
