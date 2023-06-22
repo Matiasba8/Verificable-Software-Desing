@@ -8,6 +8,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Script.Serialization;
+using System.Text.RegularExpressions;
 using UAndes.ICC5103._202301.Models;
 
 namespace UAndes.ICC5103._202301.Controllers
@@ -62,6 +63,11 @@ namespace UAndes.ICC5103._202301.Controllers
                 if (derechosNoAcreditados == "on") { derechosNoAcreditadosParse = true; }
             }
             catch (FormatException) { return RedirectToAction("Edit", "Formularios", new { id = numeroAtencion });}
+
+            if (!IsRUTValido(rut))
+            {
+                return RedirectToAction("Edit", "Formularios", new { id = numeroAtencion });
+            }
 
             //Crea al adquirente
             AdquirenteSet adquirenteSet = new AdquirenteSet();
@@ -170,6 +176,62 @@ namespace UAndes.ICC5103._202301.Controllers
                 db.Dispose();
             }
             base.Dispose(disposing);
+        }
+
+        private bool IsRUTValido(string rut)
+        {
+            string rutInput = rut;
+            rutInput = rutInput.Replace(".","").ToUpper();
+
+            //Expresion obtenida de https://gist.github.com/donpandix/045f865c3bf800893036
+            Regex expression = new Regex("^([0-9]+-[0-9K])$");
+            if (!expression.IsMatch(rutInput))
+            {
+                return false;
+            }
+            
+            rutInput = rutInput.Replace("-","");
+
+            List<string> rutCompleto = new List<string>();
+            foreach (char digito in rutInput)
+            {
+                rutCompleto.Insert(0, digito.ToString());
+            }
+            string verificadorInput = rutCompleto[0];
+            rutCompleto.RemoveAt(0);
+
+            int multiplier = 2;
+            int totalSum = 0;
+            foreach (string digito in rutCompleto)
+            {
+                int digitoInt = Int32.Parse(digito);
+
+                totalSum += digitoInt*multiplier;
+
+                multiplier++;
+                if(multiplier > 7)
+                {
+                    multiplier = 2;
+                }
+            }
+
+            int paso1 = totalSum / 11;
+            int paso2 = paso1 * 11;
+            int paso3 = totalSum - paso2;
+            int paso4 = 11 - paso3;
+
+            string verificadorCalculado = paso4.ToString();
+            if (verificadorCalculado == "10")
+            {
+                verificadorCalculado = "K";
+            }
+            else if (verificadorCalculado == "11")
+            {
+                verificadorCalculado = "0";
+            }
+            
+            if (verificadorCalculado == verificadorInput) { return true; }
+            else { return false; }
         }
     }
 }
