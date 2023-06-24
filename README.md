@@ -3,6 +3,8 @@
 Matías Bustos
 Diego Christie
 
+Nota: Al hacer el static analysis, surgen varios "problemas", que aparecen y desaparecen sin mucha razón. Tienden  a ser sobre nombres de variables y formas de instanciar.
+
 Instrucciones de uso:
 
 1.- Clonar el repositorio, usando el branch entrega4final.
