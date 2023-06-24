@@ -8,15 +8,12 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using UAndes.ICC5103._202301.Models;
-using Newtonsoft.Json;
-using Microsoft.CodeAnalysis.CSharp;
-using System.Collections.Specialized;
 
 namespace UAndes.ICC5103._202301.Controllers
 {
     public class MultipropietariosController : Controller
     {
-        DateTime fechaBase = new DateTime(2019, 1, 1);
+        readonly DateTime fechaBase = new DateTime(2019, 1, 1);
         private InscripcionesBrDbGrupo06Entities db = new InscripcionesBrDbGrupo06Entities();
 
         // GET: Multipropietarios
@@ -53,17 +50,12 @@ namespace UAndes.ICC5103._202301.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Search(string añoInput, string comuna, string manzana, string predio)
         {
-            int añoParsed;
-            bool success = int.TryParse(añoInput, out añoParsed);
-            Debug.WriteLine(añoParsed);
-
-            if (success)
+            if (int.TryParse(añoInput, out int añoParsed))
             {
                 DateTime año = new DateTime(añoParsed, 1, 1);
 
                 ViewBag.Comunas = db.Comunas;
                 SearchData queryData = new SearchData(año, comuna, manzana, predio);
-                string jsonConvertedData = JsonConvert.SerializeObject(queryData);
                 return RedirectToAction("SearchResult", "Multipropietarios", new { año = queryData.año, comuna = queryData.comuna, manzana = queryData.manzana, predio = queryData.predio });
             }
             else

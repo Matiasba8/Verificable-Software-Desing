@@ -7,7 +7,6 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
-using System.Diagnostics;
 using UAndes.ICC5103._202301.Models;
 
 namespace UAndes.ICC5103._202301.Controllers
