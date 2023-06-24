@@ -10,11 +10,13 @@ using System.Web.Mvc;
 using UAndes.ICC5103._202301.Models;
 using Newtonsoft.Json;
 using Microsoft.CodeAnalysis.CSharp;
+using System.Collections.Specialized;
 
 namespace UAndes.ICC5103._202301.Controllers
 {
     public class MultipropietariosController : Controller
     {
+        DateTime fechaBase = new DateTime(2019, 1, 1);
         private InscripcionesBrDbGrupo06Entities db = new InscripcionesBrDbGrupo06Entities();
 
         // GET: Multipropietarios
@@ -192,6 +194,14 @@ namespace UAndes.ICC5103._202301.Controllers
         public ActionResult CreateFromAdquirentesController(int numeroAtencion)
         {
             FormularioSet formularioSet = db.FormularioSet.Find(numeroAtencion);
+            var adquirentes =
+                        db.AdquirenteSet.Where(adquirentesSet =>
+                                               adquirentesSet.FormularioSetNumeroAtencion == formularioSet.NumeroAtencion);
+            var enajenantes =
+                db.EnajenanteSet.Where(enajenantesSet =>
+                                       enajenantesSet.FormularioSetNumeroAtencion == formularioSet.NumeroAtencion);
+
+            CreateMultipropsBase(formularioSet, adquirentes);
 
             switch (formularioSet.CNE)
             {
@@ -200,34 +210,38 @@ namespace UAndes.ICC5103._202301.Controllers
                     break;
 
                 case "Compraventa":
-                    var adquirentes =
-                        db.AdquirenteSet.Where(adquirentesSet =>
-                                               adquirentesSet.FormularioSetNumeroAtencion == formularioSet.NumeroAtencion);
-                    var enajenantes =
-                        db.EnajenanteSet.Where(enajenantesSet =>
-                                               enajenantesSet.FormularioSetNumeroAtencion == formularioSet.NumeroAtencion);
-
-                    int opcionesCompraventa = SelectOpcionCompraventa(formularioSet);
-
+                    OpcionesCompraventa opcionesCompraventa = SelectOpcionCompraventa(formularioSet);
                     //0 = Aun no se pueden crear multipropietarios
-                    //1 = Transferencia total
+                    //1 = Transferencia total con o sin enajenantes fantasma
                     //2 = Derechos
                     //3 = Dominios
+                    //4 = Derechos con enajenantes fantasma
+                    //5 = Dominions con enajenantes fantasma
                     switch (opcionesCompraventa)
                     {
-                        case 0:
+                        case OpcionesCompraventa.None:
                             break;
-                        case 1:
+                        case OpcionesCompraventa.TransTotal:
                             CompraventaTransferenciaTotal(enajenantes, adquirentes, formularioSet);
                             AjustePorcentajes(formularioSet);
                             break;
-                        case 2:
+                        case OpcionesCompraventa.Derechos:
                             CompraventaDerechos(enajenantes, adquirentes, formularioSet);
                             AjustePorcentajes(formularioSet);
                             break;
-                        case 3:
+                        case OpcionesCompraventa.Dominios:
                             CompraventaDominios(enajenantes, formularioSet);
                             AjustePorcentajes(formularioSet);
+                            AjusteDuplicados(formularioSet);
+                            break;
+                        case OpcionesCompraventa.DerechosFantasma:
+                            CompraventaDerechosFantasma(enajenantes, formularioSet);
+                            AjustePorcentajes(formularioSet);
+                            break;
+                        case OpcionesCompraventa.DominiosFantasma:
+                            CompraventaDominiosFantasma(enajenantes, formularioSet);
+                            AjustePorcentajes(formularioSet);
+                            AjusteDuplicados(formularioSet);
                             break;
                     }
                     break;
@@ -344,7 +358,7 @@ namespace UAndes.ICC5103._202301.Controllers
             db.SaveChanges();
         }
 
-        private int SelectOpcionCompraventa(FormularioSet formularioSet)
+        private OpcionesCompraventa SelectOpcionCompraventa(FormularioSet formularioSet)
         {
             var adquirentes =
                         db.AdquirenteSet.Where(adquirentesSet =>
@@ -353,6 +367,35 @@ namespace UAndes.ICC5103._202301.Controllers
                 db.AdquirenteSet.Where(enajenantesSet =>
                                        enajenantesSet.FormularioSetNumeroAtencion == formularioSet.NumeroAtencion);
 
+            var multipropsPasados =
+                db.MultipropietarioSet.Where(multipropsPasadosSet =>
+                                             multipropsPasadosSet.Manzana == formularioSet.Manzana &&
+                                             multipropsPasadosSet.Comuna == formularioSet.Comuna &&
+                                             multipropsPasadosSet.Predio == formularioSet.Predio &&
+                                             multipropsPasadosSet.AñoVigenciaFinal == null &&
+                                             multipropsPasadosSet.FormularioNumeroAtencion != formularioSet.NumeroAtencion);
+
+            var enajenanteFantasma = false;
+            foreach (var enajenante in enajenantes)
+            {
+                string rutEnajenante = enajenante.RUT;
+                bool isRutInMultiprop = false;
+                foreach (var multipropPasado in multipropsPasados)
+                {
+                    if (rutEnajenante == multipropPasado.RUT)
+                    {
+                        isRutInMultiprop = true;
+                        break;
+                    }
+                }
+
+                if (!isRutInMultiprop)
+                {
+                    enajenanteFantasma = true;
+                }
+            }
+            
+            
             decimal? porcentajeTotalAdquirentes = 0;
             foreach (var adquirente in adquirentes)
             {
@@ -361,20 +404,33 @@ namespace UAndes.ICC5103._202301.Controllers
 
             if (!enajenantes.Any() || !adquirentes.Any())
             {
-                return 0;
+                return OpcionesCompraventa.None;
             }
-            else if (enajenantes.Any() && porcentajeTotalAdquirentes == 100)
+            else if (enajenantes.Any() && porcentajeTotalAdquirentes == 100 && !enajenanteFantasma)
             {
-                return 1;
+                return OpcionesCompraventa.TransTotal;
             }
-            else if (enajenantes.Count() == 1 && adquirentes.Count() == 1)
+            else if (enajenantes.Count() == 1 && adquirentes.Count() == 1 && !enajenanteFantasma)
             {
-                return 2;
+                return OpcionesCompraventa.Derechos;
             }
-            else
+            else if (!enajenanteFantasma)
             {
-                return 3;
+                return OpcionesCompraventa.Dominios;
             }
+            else if (enajenantes.Any() && porcentajeTotalAdquirentes == 100 && enajenanteFantasma)
+            {
+                return OpcionesCompraventa.TransTotal;
+            }
+            else if (enajenantes.Count() == 1 && adquirentes.Count() == 1 && enajenanteFantasma)
+            {
+                return OpcionesCompraventa.DerechosFantasma;
+            }
+            else if (enajenanteFantasma)
+            {
+                return OpcionesCompraventa.DominiosFantasma;
+            }
+            else { return OpcionesCompraventa.None; }
         }
 
         private void CompraventaTransferenciaTotal(IQueryable<EnajenanteSet> enajenantes, IQueryable<AdquirenteSet> adquirentes, FormularioSet formularioSet)
@@ -450,7 +506,10 @@ namespace UAndes.ICC5103._202301.Controllers
                 foreach (var multipropietario in multipropietariosQueryAdquirentes)
                 {
                     decimal? porcentajeCorrespondiente = multipropietario.PorcentajeDerechos;
-                    multipropietario.PorcentajeDerechos = (porcentajeCorrespondiente * porcentajeTotalEnajenantes) / 100;
+                    if (porcentajeTotalEnajenantes != 0)
+                    {
+                        multipropietario.PorcentajeDerechos = (porcentajeCorrespondiente * porcentajeTotalEnajenantes) / 100;
+                    }
                     db.Entry(multipropietario).State = EntityState.Modified;
                 }
             }
@@ -547,6 +606,131 @@ namespace UAndes.ICC5103._202301.Controllers
             db.SaveChanges();
         }
 
+        private void CompraventaDerechosFantasma(IQueryable<EnajenanteSet> enajenantes, FormularioSet formularioSet)
+        {
+            DateTime _2019 = new DateTime(2019, 1, 1);
+            //Crea el objeto multipropietario que se usará
+            MultipropietarioSet multipropietarioSet = new MultipropietarioSet();
+            multipropietarioSet.RUT = enajenantes.First().RUT;
+            multipropietarioSet.PorcentajeDerechos = 0;
+            multipropietarioSet.Fojas = null;
+            multipropietarioSet.NumeroInscripcion = null;
+            multipropietarioSet.FechaInscripcion = null;
+            if (formularioSet.FechaInscripcion <= _2019) { multipropietarioSet.AñoVigenciaInicial = _2019; }
+            else { multipropietarioSet.AñoVigenciaInicial = formularioSet.FechaInscripcion; }
+            multipropietarioSet.AñoVigenciaFinal = null;
+            multipropietarioSet.Comuna = formularioSet.Comuna;
+            multipropietarioSet.Manzana = formularioSet.Manzana;
+            multipropietarioSet.Predio = formularioSet.Predio;
+            multipropietarioSet.FormularioNumeroAtencion = formularioSet.NumeroAtencion;
+            multipropietarioSet.DerechosNoAcreditados = enajenantes.First().DerechosNoAcreditados;
+
+            db.MultipropietarioSet.Add(multipropietarioSet);
+            db.SaveChanges();
+        }
+
+        private void CompraventaDominiosFantasma(IQueryable<EnajenanteSet> enajenantes, FormularioSet formularioSet)
+        {
+            var multipropsPasados =
+                db.MultipropietarioSet.Where(multipropsPasadosSet =>
+                                             multipropsPasadosSet.Manzana == formularioSet.Manzana &&
+                                             multipropsPasadosSet.Comuna == formularioSet.Comuna &&
+                                             multipropsPasadosSet.Predio == formularioSet.Predio &&
+                                             multipropsPasadosSet.AñoVigenciaFinal == null &&
+                                             multipropsPasadosSet.FormularioNumeroAtencion != formularioSet.NumeroAtencion);
+
+            List<string> enajenantesFantasmaRUTS = new List<string>();
+            foreach (var enajenante in enajenantes)
+            {
+                string rutEnajenante = enajenante.RUT;
+                bool isRutInMultiprop = false;
+                foreach (var multipropPasado in multipropsPasados)
+                {
+                    if (rutEnajenante == multipropPasado.RUT)
+                    {
+                        isRutInMultiprop = true;
+                        break;
+                    }
+                }
+
+                if (!isRutInMultiprop)
+                {
+                    enajenantesFantasmaRUTS.Add(rutEnajenante);
+                    //Crea el objeto multipropietario que se usará
+                    MultipropietarioSet multipropietarioSet = new MultipropietarioSet();
+                    multipropietarioSet.RUT = rutEnajenante;
+                    multipropietarioSet.PorcentajeDerechos = 0;
+                    multipropietarioSet.Fojas = null;
+                    multipropietarioSet.NumeroInscripcion = null;
+                    multipropietarioSet.FechaInscripcion = null;
+                    if (formularioSet.FechaInscripcion <= fechaBase) { multipropietarioSet.AñoVigenciaInicial = fechaBase; }
+                    else { multipropietarioSet.AñoVigenciaInicial = formularioSet.FechaInscripcion; }
+                    multipropietarioSet.AñoVigenciaFinal = null;
+                    multipropietarioSet.Comuna = formularioSet.Comuna;
+                    multipropietarioSet.Manzana = formularioSet.Manzana;
+                    multipropietarioSet.Predio = formularioSet.Predio;
+                    multipropietarioSet.FormularioNumeroAtencion = formularioSet.NumeroAtencion;
+                    multipropietarioSet.DerechosNoAcreditados = false;
+
+                    db.MultipropietarioSet.Add(multipropietarioSet);
+                }
+            }
+            db.SaveChanges();
+
+            Dictionary<string, decimal?> enajenantesRutsYPorcentajes = new Dictionary<string, decimal?>();
+
+            foreach (var enajenante in enajenantes)
+            {
+                if (!enajenantesFantasmaRUTS.Contains(enajenante.RUT))
+                {
+                    enajenantesRutsYPorcentajes.Add(enajenante.RUT, enajenante.PorcentajeDerechos);
+                }
+            }
+
+            foreach (KeyValuePair<string, decimal?> enajenante in enajenantesRutsYPorcentajes)
+            {
+                var multipropietariosQueryPrevios = db.MultipropietarioSet.Where(multipropPreviosSet =>
+                                     multipropPreviosSet.Comuna == formularioSet.Comuna &&
+                                     multipropPreviosSet.Manzana == formularioSet.Manzana &&
+                                     multipropPreviosSet.Predio == formularioSet.Predio &&
+                                     multipropPreviosSet.AñoVigenciaFinal == null &&
+                                     multipropPreviosSet.RUT == enajenante.Key &&
+                                     multipropPreviosSet.FormularioNumeroAtencion != formularioSet.NumeroAtencion);
+
+                foreach (var multipropietario in multipropietariosQueryPrevios)
+                {
+                    if (multipropietario.AñoVigenciaInicial.Value.Year < formularioSet.FechaInscripcion.Value.Year)
+                    {
+                        multipropietario.AñoVigenciaFinal = new DateTime(formularioSet.FechaInscripcion.Value.Year - 1, 1, 1);
+                    }
+                    else
+                    {
+                        multipropietario.AñoVigenciaFinal = multipropietario.AñoVigenciaInicial;
+                    }
+                    db.Entry(multipropietario).State = EntityState.Modified;
+
+                    MultipropietarioSet multipropietarioSet = new MultipropietarioSet();
+                    multipropietarioSet.RUT = multipropietario.RUT;
+                    multipropietarioSet.PorcentajeDerechos = multipropietario.PorcentajeDerechos - enajenantesRutsYPorcentajes[multipropietario.RUT];
+                    if (multipropietarioSet.PorcentajeDerechos < 0) { multipropietarioSet.PorcentajeDerechos = 0; }
+                    multipropietarioSet.Fojas = multipropietario.Fojas;
+                    multipropietarioSet.NumeroInscripcion = multipropietario.NumeroInscripcion;
+                    multipropietarioSet.FechaInscripcion = multipropietario.FechaInscripcion;
+                    multipropietarioSet.AñoVigenciaInicial = formularioSet.FechaInscripcion;
+                    multipropietarioSet.AñoVigenciaFinal = null;
+                    multipropietarioSet.Comuna = multipropietario.Comuna;
+                    multipropietarioSet.Manzana = multipropietario.Manzana;
+                    multipropietarioSet.Predio = multipropietario.Predio;
+                    multipropietarioSet.FormularioNumeroAtencion = multipropietario.FormularioNumeroAtencion;
+                    multipropietarioSet.DerechosNoAcreditados = multipropietario.DerechosNoAcreditados;
+
+                    db.MultipropietarioSet.Add(multipropietarioSet);
+                }
+
+            }
+            db.SaveChanges();
+        }
+
         private void AjustePorcentajes(FormularioSet formularioSet)
         {
             var multipropietariosQuery =
@@ -594,6 +778,103 @@ namespace UAndes.ICC5103._202301.Controllers
                 }
             }
             db.SaveChanges();
+        }
+
+        private void AjusteDuplicados(FormularioSet formularioSet)
+        {
+            var multipropietariosQuery =
+                db.MultipropietarioSet.Where(multipropsSet =>
+                                     multipropsSet.Comuna == formularioSet.Comuna &&
+                                     multipropsSet.Manzana == formularioSet.Manzana &&
+                                     multipropsSet.Predio == formularioSet.Predio &&
+                                     multipropsSet.AñoVigenciaFinal == null);
+
+            List<string> rutsRepetidos = new List<string>();
+            Dictionary<string, int> multipropsRutYRepeticiones = new Dictionary<string, int>();
+            foreach (MultipropietarioSet multipropietario in multipropietariosQuery)
+            {
+                if (multipropsRutYRepeticiones.ContainsKey(multipropietario.RUT))
+                {
+                    multipropsRutYRepeticiones[multipropietario.RUT] += 1;
+                    rutsRepetidos.Add(multipropietario.RUT);
+                }
+                else
+                {
+                    multipropsRutYRepeticiones[multipropietario.RUT] = 1;
+                }
+            }
+
+            if (!rutsRepetidos.Any())
+            {
+                return;
+            }
+
+            foreach (string rut in rutsRepetidos)
+            {
+                var multipropietariosRepetidosQuery =
+                                    db.MultipropietarioSet.Where(multipropsSet =>
+                                                         multipropsSet.Comuna == formularioSet.Comuna &&
+                                                         multipropsSet.Manzana == formularioSet.Manzana &&
+                                                         multipropsSet.Predio == formularioSet.Predio &&
+                                                         multipropsSet.RUT == rut &&
+                                                         multipropsSet.AñoVigenciaFinal == null);
+
+                List<MultipropietarioSet> multipropsRepetidos = new List<MultipropietarioSet>();
+                foreach (MultipropietarioSet multipropRepetido in multipropietariosRepetidosQuery)
+                {
+                    multipropsRepetidos.Add(multipropRepetido);
+                }
+
+                if (multipropsRepetidos[0].AñoVigenciaInicial < multipropsRepetidos[1].AñoVigenciaInicial)
+                {
+                    multipropsRepetidos[0].AñoVigenciaFinal = new DateTime(multipropsRepetidos[1].AñoVigenciaInicial.Value.Year - 1, 1, 1);
+                    multipropsRepetidos[1].PorcentajeDerechos += multipropsRepetidos[0].PorcentajeDerechos;
+                }
+                else
+                {
+                    multipropsRepetidos[1].AñoVigenciaFinal = new DateTime(multipropsRepetidos[0].AñoVigenciaInicial.Value.Year - 1, 1, 1);
+                    multipropsRepetidos[0].PorcentajeDerechos += multipropsRepetidos[1].PorcentajeDerechos;
+                }
+
+                db.Entry(multipropsRepetidos[0]).State = EntityState.Modified;
+                db.Entry(multipropsRepetidos[1]).State = EntityState.Modified;
+            }
+            db.SaveChanges();
+        }
+
+        private void CreateMultipropsBase(FormularioSet formularioSet, IQueryable<AdquirenteSet> adquirentes)
+        {
+            foreach (AdquirenteSet adquirente in adquirentes)
+            {
+                //Crea el objeto multipropietario que se usará
+                MultipropietarioSet multipropietarioSet = new MultipropietarioSet();
+                multipropietarioSet.RUT = adquirente.RUT;
+                multipropietarioSet.PorcentajeDerechos = adquirente.PorcentajeDerechos;
+                multipropietarioSet.Fojas = formularioSet.Fojas;
+                multipropietarioSet.NumeroInscripcion = formularioSet.NumeroInscripcion;
+                multipropietarioSet.FechaInscripcion = formularioSet.FechaInscripcion;
+                if (formularioSet.FechaInscripcion <= fechaBase) { multipropietarioSet.AñoVigenciaInicial = fechaBase; }
+                else { multipropietarioSet.AñoVigenciaInicial = formularioSet.FechaInscripcion; }
+                multipropietarioSet.AñoVigenciaFinal = null;
+                multipropietarioSet.Comuna = formularioSet.Comuna;
+                multipropietarioSet.Manzana = formularioSet.Manzana;
+                multipropietarioSet.Predio = formularioSet.Predio;
+                multipropietarioSet.FormularioNumeroAtencion = formularioSet.NumeroAtencion;
+                multipropietarioSet.DerechosNoAcreditados = adquirente.DerechosNoAcreditados;
+
+                db.MultipropietarioSet.Add(multipropietarioSet);
+            }
+            db.SaveChanges();
+        }
+
+        enum OpcionesCompraventa
+        {
+            None,
+            TransTotal,
+            Derechos,
+            Dominios,
+            DerechosFantasma,
+            DominiosFantasma
         }
     }
 }

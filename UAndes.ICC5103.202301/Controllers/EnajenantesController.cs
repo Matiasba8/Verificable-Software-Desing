@@ -154,43 +154,43 @@ namespace UAndes.ICC5103._202301.Controllers
         private bool IsRUTValido(string rut)
         {
             string rutInput = rut;
-            rutInput = rutInput.Replace(".","").ToUpper();
+            rutInput = rutInput.Replace(".", "").ToUpper();
 
             //Expresion obtenida de https://gist.github.com/donpandix/045f865c3bf800893036
-            Regex expression = new Regex("^([0-9]+-[0-9K])$");
-            if (!expression.IsMatch(rutInput))
+            Regex rutExpression = new Regex("^([0-9]+-[0-9K])$");
+            if (!rutExpression.IsMatch(rutInput))
             {
                 return false;
             }
-            
-            rutInput = rutInput.Replace("-","");
 
-            List<string> rutCompleto = new List<string>();
+            rutInput = rutInput.Replace("-", "");
+
+            List<string> rutCharsList = new List<string>();
             foreach (char digito in rutInput)
             {
-                rutCompleto.Insert(0, digito.ToString());
+                rutCharsList.Insert(0, digito.ToString());
             }
-            string verificadorInput = rutCompleto[0];
-            rutCompleto.RemoveAt(0);
+            string verificadorInput = rutCharsList[0];
+            rutCharsList.RemoveAt(0);
 
-            int multiplier = 2;
-            int totalSum = 0;
-            foreach (string digito in rutCompleto)
+            int multiplierRut = 2;
+            int totalSumCharacters = 0;
+            foreach (string digito in rutCharsList)
             {
                 int digitoInt = Int32.Parse(digito);
 
-                totalSum += digitoInt*multiplier;
+                totalSumCharacters += digitoInt * multiplierRut;
 
-                multiplier++;
-                if(multiplier > 7)
+                multiplierRut++;
+                if (multiplierRut > 7)
                 {
-                    multiplier = 2;
+                    multiplierRut = 2;
                 }
             }
 
-            int paso1 = totalSum / 11;
+            int paso1 = totalSumCharacters / 11;
             int paso2 = paso1 * 11;
-            int paso3 = totalSum - paso2;
+            int paso3 = totalSumCharacters - paso2;
             int paso4 = 11 - paso3;
 
             string verificadorCalculado = paso4.ToString();
@@ -202,7 +202,7 @@ namespace UAndes.ICC5103._202301.Controllers
             {
                 verificadorCalculado = "0";
             }
-            
+
             if (verificadorCalculado == verificadorInput) { return true; }
             else { return false; }
         }
