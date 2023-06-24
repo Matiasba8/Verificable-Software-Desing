@@ -9,6 +9,7 @@ using System.Web;
 using System.Web.Mvc;
 using System.Diagnostics;
 using UAndes.ICC5103._202301.Models;
+using System.Data.Entity.Infrastructure;
 
 namespace UAndes.ICC5103._202301.Controllers
 {
@@ -119,6 +120,7 @@ namespace UAndes.ICC5103._202301.Controllers
             ViewBag.cnes_disponibles = cnes_disponibles;
             if (ModelState.IsValid)
             {
+                Console.WriteLine("In valid Mode");
                 var adquirentes = db.AdquirenteSet.Where(adquiSet => adquiSet.FormularioSetNumeroAtencion == formularioSet.NumeroAtencion);
                 var enajenantes = db.EnajenanteSet.Where(enajenanteSet => enajenanteSet.FormularioSetNumeroAtencion == formularioSet.NumeroAtencion);
 
@@ -132,6 +134,39 @@ namespace UAndes.ICC5103._202301.Controllers
                 db.SaveChanges();
                 //return RedirectToAction("Index");
             }
+            return View(formularioSet);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Create([Bind(Include = "NumeroAtencion,CNE,Comuna,Manzana,Predio,Fojas,FechaInscripcion,NumeroInscripcion")] FormularioSet formularioSet)
+        {
+            Console.WriteLine("In Formulario Create");
+            ViewBag.cnes_disponibles = cnes_disponibles;
+            if (ModelState.IsValid)
+            {
+                db.FormularioSet.Add(formularioSet);
+
+                bool saveFailed;
+                do
+                {
+                    saveFailed = false;
+
+                    try
+                    {
+                        db.SaveChanges();
+                    }
+                    catch (DbUpdateConcurrencyException exception)
+                    {
+                        saveFailed = true;
+
+                        // Update the values of the entity that failed to save from the store
+                        exception.Entries.Single().Reload();
+                    }
+
+                } while (saveFailed);
+            }
+
             return View(formularioSet);
         }
 

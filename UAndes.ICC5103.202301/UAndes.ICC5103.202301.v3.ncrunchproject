@@ -1,0 +1,11 @@
+﻿<ProjectConfiguration>
+  <Settings>
+    <HiddenComponentWarnings />
+    <IgnoredTests>
+      <NamedTestSelector>
+        <TestName>UAndes.Tests.Tests.IsValidControl1P2_ValidMultiprop_ReturnCorrectMultipropList</TestName>
+      </NamedTestSelector>
+      <AllTestsSelector />
+    </IgnoredTests>
+  </Settings>
+</ProjectConfiguration>

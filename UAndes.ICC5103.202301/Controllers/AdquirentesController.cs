@@ -1,10 +1,12 @@
-﻿using System;
+﻿using NUnit.Framework.Constraints;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
 using System.Diagnostics;
 using System.Linq;
 using System.Net;
+using System.Runtime.Remoting.Messaging;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Script.Serialization;
@@ -15,7 +17,14 @@ namespace UAndes.ICC5103._202301.Controllers
 {
     public class AdquirentesController : Controller
     {
+<<<<<<< Updated upstream
         private InscripcionesBrDbGrupo06Entities db = new InscripcionesBrDbGrupo06Entities();
+=======
+        private DateTime _2019 = new DateTime(2019, 1, 1);
+        public InscripcionesBrDbGrupo06Entities db = new InscripcionesBrDbGrupo06Entities();
+
+        
+>>>>>>> Stashed changes
 
         // GET: Adquirentes
         public ActionResult Index()
@@ -39,7 +48,7 @@ namespace UAndes.ICC5103._202301.Controllers
             return View(adquirenteSet);
         }
 
-        // GET: Adquirentes/Create
+        // GET: Adquirentes/Create 
         public ActionResult Create()
         {
             ViewBag.FormularioSetNumeroAtencion = new SelectList(db.FormularioSet, "NumeroAtencion", "CNE");
@@ -82,7 +91,7 @@ namespace UAndes.ICC5103._202301.Controllers
 
             if (ModelState.IsValid)
             {
-                db.Entry(formularioSet).State = EntityState.Modified;
+                db.Entry(formularioSet).State = EntityState.Added;
                 db.AdquirenteSet.Add(adquirenteSet);
                 db.SaveChanges();
             }

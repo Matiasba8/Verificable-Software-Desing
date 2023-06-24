@@ -98,6 +98,11 @@ namespace UAndes.ICC5103._202301.Controllers
             return View();
         }
 
+        // GET: Multipropietarios/Create
+        public ActionResult GetMultipropietarios()
+        {
+            return View(db.MultipropietarioSet.ToList());
+        }
 
         // GET: Multipropietarios/Create
         public ActionResult Create()
