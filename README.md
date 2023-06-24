@@ -5,7 +5,7 @@ Diego Christie
 
 Instrucciones de uso:
 
-1.- Clonar el repositorio.
+1.- Clonar el repositorio, usando el branch entrega4final.
 
 2.- En la solución, dentro de la carpeta "Database", abrir el archivo de texto InitialQuery. Copiar todo el texto y crear una nueva query en SSMS, pegar el texto en esa query y ejecutar. Esto creará la base de datos que se usa para el proyecto.
 
